@@ -18,6 +18,8 @@ WtCollection = function(collectionName) {
 
   if (Meteor.isServer) {
     Meteor.publish(collectionName, function() {
+      if (!this.userId) return null;
+      // TODO: filter by ownerId or by by admin level
       return wtCollection.find();
     });
 
