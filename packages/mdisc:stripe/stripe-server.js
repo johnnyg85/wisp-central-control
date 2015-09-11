@@ -7,6 +7,10 @@ Meteor.publish('stripeplans', function() {
     return MdStripeMeteor.plans.find();
 });
 
+Meteor.publish('subscriptions', function() {
+    return MdStripeMeteor.subscriptions.find({userId: this.userId});
+});
+
 StripeMeteor.createCustomer = function (stripeToken, planid, email, callback) {
     Stripe.customers.create({
         source: stripeToken,

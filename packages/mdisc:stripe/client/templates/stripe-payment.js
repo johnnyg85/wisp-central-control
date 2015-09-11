@@ -3,6 +3,17 @@ Template.mdStripePayment.helpers({
         return MdStripeMeteor.plans.find({}, {sort: {amount: 1}});
     },
     
+    hasSubscription: function() {
+        if (MdStripeMeteor.plans.find({userId: Meteor.userId()})) {
+            return true;
+        }
+        return false;
+    },
+    
+    subscriptions: function() {
+        return MdStripeMeteor.plans.find({userId: Meteor.userId()});
+    },
+    
     formatAmount: function (amount) {
         return "$"+(amount/100);
     }
