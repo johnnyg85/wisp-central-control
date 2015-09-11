@@ -22,16 +22,24 @@ if (Meteor.isServer) {
   });
 
   Meteor.methods({
-    addDownloadArchiveJob: function (archiveId) {
+    downloadArchive: function (archiveId) {
       var job = new Job(MdJobs, 'downloadArchive', 
         {
-          userId: this.userId,
           archiveId: archiveId
         }
       );
       job.priority('normal').save();
     }
   });
+
+  MdJobs.initAutoCloudArchive = function (archiveId) {
+      var job = new Job(MdJobs, 'initAutoCloudArchive', 
+        {
+          archiveId: archiveId
+        }
+      );
+      job.priority('normal').save();    
+  }
 }
 
 if (Meteor.isClient) {

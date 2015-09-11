@@ -12,7 +12,9 @@ Template.mdCloudGoogleAuthorizeButtonsBig.events({
       if (credentialToken && credentialSecret) {
         Meteor.call("addCredential", 'Google Photos', credentialToken, credentialSecret);
         Meteor.call('updateRecentPhotos', 'Google Photos');
+        var archiveId = Meteor.call('openAutoCloudArchive', 'Google Photos');
         Session.set('googleConnecting', true);
+        Session.set('openArchiveId', archiveId);
         Meteor.setTimeout(function () {
           Session.set('googleConnecting', false);
           Session.set('googleConnected', true);

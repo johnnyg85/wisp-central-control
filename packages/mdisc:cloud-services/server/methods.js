@@ -20,12 +20,13 @@ Meteor.methods({
           var timeLeft = expDate - now;
           if (timeLeft < 60000) {
             // expired or less than a minute remaining
-            credential = MdCloudServices.renewCredential(credential);              
+            //credential = MdCloudServices.renewCredential(credential);              
           }
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
-            gPhotos.setAccessToken(accessToken);
-            gPhotos.getRecent(Meteor.bindEnvironment(function(err, res) {
+            var client = new gPhotos(accessToken);
+            //client.setAccessToken(accessToken);
+            client.getRecent(Meteor.bindEnvironment(function(err, res) {
               var len = res.feed.entry.length;
               var urls = [];
               for (var x = 0; x < len; x++) {

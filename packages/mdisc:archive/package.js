@@ -22,6 +22,7 @@ Package.onUse(function(api) {
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:growl',
+    'mdisc:jobs'
   ]);
 
   api.addFiles([
@@ -32,6 +33,7 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'lib/collection.js',
+    'lib/methods.js',
     'lib/router.js'
     ], ['server','client']);
 
