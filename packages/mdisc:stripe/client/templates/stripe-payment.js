@@ -1,6 +1,6 @@
 Template.mdStripePayment.helpers({
     hasSubscription: function() {
-        if (MdStripeMeteor.subscriptions.find({userId: Meteor.userId()})) {
+        if (MdStripeMeteor.subscriptions.findOne({userId: Meteor.userId()})) {
             return true;
         }
         return false;
