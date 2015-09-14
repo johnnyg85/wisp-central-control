@@ -19,15 +19,21 @@ Meteor.methods({
     },
     
     createCustomer: function (stripeToken, planid, email) {
-        StripeMeteor.createCustomer(stripeToken, planid, email, Meteor.bindEnvironment(function(customer) {
-            MdStripeMeteor.subscriptions.insert({
-                userId: Meteor.userId(),
-                customerid: customer.id,
-                email: customer.email,
-                plan: planid,
-                subscriptions: customer.subscriptions
-            });
-        }));
+        if (!email) {
+            throw new Meteor.Error("validation-error", "Please provide a valid email id.");
+        } else if (!planid) {
+            throw new Meteor.Error("validation-error", "Please select a valid plan.");
+        } else {
+            StripeMeteor.createCustomer(stripeToken, planid, email, Meteor.bindEnvironment(function (customer) {
+                MdStripeMeteor.subscriptions.insert({
+                    userId: Meteor.userId(),
+                    customerid: customer.id,
+                    email: customer.email,
+                    plan: planid,
+                    subscriptions: customer.subscriptions
+                });
+            }));
+        }
     },
 });
 

@@ -1,0 +1,30 @@
+<template name="stripePaymentSubscription">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Plan</th>
+                <th>Interval</th>
+                <th>Amount</th>
+                <th>Start Date</th>
+                <th>Current Period</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each subscriptionslist}}
+            <tr>
+                <td>{{email}}</td>
+                {{#with subscriptions.data.[0]}}
+                <td>{{plan.name}}</td>
+                <td>{{plan.interval}}</td>
+                <td>{{formatAmount plan.amount}}</td>
+                <td>{{formatDate start}}</td>
+                <td>{{formatDate current_period_start}} to {{formatDate current_period_end}}</td>
+                <td>{{status}}</td>
+                {{/with}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</template>
