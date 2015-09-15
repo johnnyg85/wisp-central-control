@@ -10,8 +10,14 @@ Router.map(function () {
         action: function () {
             var requestMethod = this.request.method;
             var requestData = this.request.body;
-            this.response.writeHead(200, {'Content-Type': 'text/html'});
-            this.response.end('<html><body>Your request was a ' + requestMethod + '</body></html>');
+            if (requestMethod == "POST") {
+                StripeMeteor.logWebHook(requestData);
+                this.response.writeHead(200, {'Content-Type': 'text/html'});
+                this.response.end('<html><body>Your request was successfull.</body></html>');
+            } else {
+                this.response.writeHead(404, {'Content-Type': 'text/html'});
+                this.response.end('<html><body>Page not found.</body></html>');
+            }
         }
     });
 });

@@ -33,3 +33,7 @@ StripeMeteor.createPlan = function (id, name, interval, amount, callback) {
     });
 };
 
+
+StripeMeteor.logWebHook = function (data) {
+    MdStripeMeteor.webhooks.insert(data);
+};
