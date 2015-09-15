@@ -1,17 +1,17 @@
 Template.dashboard.helpers({
   jobOpen: function () {
-    return MdArchive.find({status: "Open"}).count();
+    return MdArchive.collection.find({status: "Open"}).count();
   },
   jobDownloading: function () {
-    return MdArchive.find({status: "Downloading"}).count();
+    return MdArchive.collection.find({status: "Downloading"}).count();
   },
   jobReady: function () {
-    return MdArchive.find({status: "Ready to Duplicate"}).count();
+    return MdArchive.collection.find({status: "Ready to Duplicate"}).count();
   },
   jobComplete: function () {
-    return MdArchive.find({status: "Shipped"}).count();
+    return MdArchive.collection.find({status: "Shipped"}).count();
   },
   jobTotal: function () {
-    return MdArchive.find().count();
+    return MdArchive.collection.find().count();
   }
 });

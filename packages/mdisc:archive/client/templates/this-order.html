@@ -1,0 +1,31 @@
+<template name="mdArchiveThisOrder">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="row">
+        <div class="col-xs-2">
+          <h4>My Archive</h4>
+        </div>
+        <div class="col-xs-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{archive._id}}</td>
+                <td>{{archive.diskType}}</td>
+                <td>{{archive.size}}</td>
+                <td>{{archive.status}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
