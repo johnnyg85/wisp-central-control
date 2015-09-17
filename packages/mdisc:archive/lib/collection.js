@@ -1,1 +1,2 @@
-MdArchive = WtCollection('md_archive');
+MdArchive = {};
+MdArchive.collection = WtCollection('md_archive');
