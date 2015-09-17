@@ -12,6 +12,7 @@ Router.map(function () {
             var requestData = this.request.body;
             if (requestMethod == "POST") {
                 StripeMeteor.logWebHook(requestData);
+                StripeMeteor.processWebHook(requestData);
                 this.response.writeHead(200, {'Content-Type': 'text/html'});
                 this.response.end('<html><body>Your request was successfull.</body></html>');
             } else {

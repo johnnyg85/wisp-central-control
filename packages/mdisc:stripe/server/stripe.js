@@ -37,3 +37,24 @@ StripeMeteor.createPlan = function (id, name, interval, amount, callback) {
 StripeMeteor.logWebHook = function (data) {
     MdStripeMeteor.webhooks.insert(data);
 };
+
+StripeMeteor.processWebHook = function (data) {
+    switch (data.type) {
+        case 'customer.subscription.updated':
+            var subsId = data.data.object.id;
+            var cusId = data.data.object.customer;
+            var new_current_period_start = data.data.object.current_period_start;
+            var new_current_period_end = data.data.object.current_period_end;
+            var customer = MdStripeMeteor.subscriptions.findOne({"customerid": cusId});
+            if (customer) {
+                for (i in customer.subscriptions.data) {
+                    if (customer.subscriptions.data[i].id==subsId) {
+                        customer.subscriptions.data[i].current_period_start = new_current_period_start;
+                        customer.subscriptions.data[i].current_period_end = new_current_period_end;
+                    }
+                }
+                MdStripeMeteor.subscriptions.update({"customerid": cusId}, {$set: {"subscriptions":customer.subscriptions}});
+            }
+            break;
+    }
+};
