@@ -1,5 +1,5 @@
 <template name="mdStripePayment">
-    {{#if hasSubscription}}
+    {{#if stripeCustomer}}
         {{>stripePaymentSubscription}}
     {{else}}
         {{>stripePaymentForm}}

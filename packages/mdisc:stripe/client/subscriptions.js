@@ -5,4 +5,4 @@ Meteor.startup(function () {
 });
 
 Meteor.subscribe('stripeplans');
-Meteor.subscribe('subscriptions');
+Meteor.subscribe('stripecustomers');

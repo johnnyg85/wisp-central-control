@@ -33,6 +33,14 @@ StripeMeteor.createPlan = function (id, name, interval, amount, callback) {
     });
 };
 
+StripeMeteor.cancelSubscription = function(customerId, subscriptionId, callback) {
+    Stripe.customers.cancelSubscription(customerId, subscriptionId, callback);
+};
+
+StripeMeteor.changeSubscriptionPlan = function(customerId, subscriptionId, newPlan, callback) {
+    Stripe.customers.updateSubscription(customerId, subscriptionId, { plan: newPlan}, callback);
+};
+
 
 StripeMeteor.logWebHook = function (data) {
     MdStripeMeteor.webhooks.insert(data);
@@ -45,7 +53,7 @@ StripeMeteor.processWebHook = function (data) {
             var cusId = data.data.object.customer;
             var new_current_period_start = data.data.object.current_period_start;
             var new_current_period_end = data.data.object.current_period_end;
-            var customer = MdStripeMeteor.subscriptions.findOne({"customerid": cusId});
+            var customer = MdStripeMeteor.customers.findOne({"customerid": cusId});
             if (customer) {
                 for (i in customer.subscriptions.data) {
                     if (customer.subscriptions.data[i].id==subsId) {
@@ -53,8 +61,15 @@ StripeMeteor.processWebHook = function (data) {
                         customer.subscriptions.data[i].current_period_end = new_current_period_end;
                     }
                 }
-                MdStripeMeteor.subscriptions.update({"customerid": cusId}, {$set: {"subscriptions":customer.subscriptions}});
+                MdStripeMeteor.customers.update({"customerid": cusId}, {$set: {"subscriptions":customer.subscriptions}});
             }
             break;
     }
+};
+
+StripeMeteor.checkCustomerUserId = function(userId, customerId) {
+    if (MdStripeMeteor.customers.findOne({userId: userId, customerid: customerId})) {
+        return true;
+    }
+    return false;
 };

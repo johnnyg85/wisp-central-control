@@ -9,22 +9,26 @@
                 <th>Start Date</th>
                 <th>Current Period</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {{#each subscriptionslist}}
-            <tr>
-                <td>{{email}}</td>
-                {{#with subscriptions.data.[0]}}
-                <td>{{plan.name}}</td>
-                <td>{{plan.interval}}</td>
-                <td>{{formatAmount plan.amount}}</td>
-                <td>{{formatDate start}}</td>
-                <td>{{formatDate current_period_start}} to {{formatDate current_period_end}}</td>
-                <td>{{status}}</td>
-                {{/with}}
-            </tr>
-            {{/each}}
+            {{#with stripecustomer}}
+                {{#each subscriptions.data}}
+                <tr>
+                    <td>{{../email}}</td>
+                    <td>{{plan.name}}</td>
+                    <td>{{plan.interval}}</td>
+                    <td>{{formatAmount plan.amount}}</td>
+                    <td>{{formatDate start}}</td>
+                    <td>{{formatDate current_period_start}} to {{formatDate current_period_end}}</td>
+                    <td>{{status}}</td>
+                    {{#unless isCanceled status}}
+                    <td><button class="btn btn-xs btn-danger cancel-btn">Cancel</button></td>
+                    {{/unless}}
+                </tr>
+                {{/each}}
+            {{/with}}
         </tbody>
     </table>
 </template>
