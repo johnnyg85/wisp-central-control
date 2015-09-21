@@ -49,6 +49,7 @@ mdisc:cloud-service-dropbox@0.0.1
 mdisc:cloud-service-google-photo@0.0.1
 mdisc:cloud-services@0.0.1
 mdisc:jobs@0.0.1
+mdisc:stripe@0.0.1
 meteor@1.1.6
 meteor-platform@1.2.2
 meteorhacks:async@1.0.0

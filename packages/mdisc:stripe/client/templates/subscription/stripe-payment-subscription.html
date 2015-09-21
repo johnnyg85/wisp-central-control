@@ -1,0 +1,34 @@
+<template name="stripePaymentSubscription">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Plan</th>
+                <th>Interval</th>
+                <th>Amount</th>
+                <th>Start Date</th>
+                <th>Current Period</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#with stripecustomer}}
+                {{#each subscriptions.data}}
+                <tr>
+                    <td>{{../email}}</td>
+                    <td>{{plan.name}}</td>
+                    <td>{{plan.interval}}</td>
+                    <td>{{formatAmount plan.amount}}</td>
+                    <td>{{formatDate start}}</td>
+                    <td>{{formatDate current_period_start}} to {{formatDate current_period_end}}</td>
+                    <td>{{status}}</td>
+                    {{#unless isCanceled status}}
+                    <td><button class="btn btn-xs btn-danger cancel-btn">Cancel</button></td>
+                    {{/unless}}
+                </tr>
+                {{/each}}
+            {{/with}}
+        </tbody>
+    </table>
+</template>
