@@ -1,6 +1,6 @@
-Router.route('/payment/', {
-  name: 'mdStripePayment', 
-  template: 'mdStripePayment'
+Router.route('/subscription/', {
+  name: 'mdStripeSubscriptionPayment', 
+  template: 'mdStripeSubscriptionPayment'
 });
 
 Router.map(function () {
