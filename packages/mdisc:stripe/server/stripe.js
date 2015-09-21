@@ -3,6 +3,15 @@ StripeMeteor = {};
 StripeAPI = Npm.require('stripe');
 var Stripe = StripeAPI(Meteor.settings.stripe.secretKey);
 
+StripeMeteor.charge = function (stripeToken, amount, description, callback) {
+    Stripe.charges.create({
+        amount: amount,
+        currency: "usd",
+        source: stripeToken,
+        description: description
+    }, callback);
+};
+
 StripeMeteor.createCustomer = function (stripeToken, planid, email, callback) {
     Stripe.customers.create({
         source: stripeToken,
@@ -72,4 +81,8 @@ StripeMeteor.checkCustomerUserId = function(userId, customerId) {
         return true;
     }
     return false;
+};
+
+StripeMeteor.successfulOneTimePayment = function(charge) {
+    console.log("Payment Successful");
 };

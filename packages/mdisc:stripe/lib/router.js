@@ -3,6 +3,11 @@ Router.route('/subscription/', {
   template: 'mdStripeSubscriptionPayment'
 });
 
+Router.route('/payment/', {
+  name: 'mdStripePayment', 
+  template: 'mdStripePayment'
+});
+
 Router.map(function () {
     this.route('stripeWebHook', {
         path: '/stripe_webhook',

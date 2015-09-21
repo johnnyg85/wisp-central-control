@@ -21,12 +21,14 @@ Package.onUse(function (api) {
     api.addFiles([
         'client/header.html',
         'client/subscriptions.js',
-        'client/templates/stripe-payment.html',
-        'client/templates/stripe-payment.js',
-        'client/templates/stripe-payment-form.html',
-        'client/templates/stripe-payment-form.js',
-        'client/templates/stripe-payment-subscription.html',
-        'client/templates/stripe-payment-subscription.js'
+        'client/templates/subscription/stripe-payment.html',
+        'client/templates/subscription/stripe-payment.js',
+        'client/templates/subscription/stripe-payment-form.html',
+        'client/templates/subscription/stripe-payment-form.js',
+        'client/templates/subscription/stripe-payment-subscription.html',
+        'client/templates/subscription/stripe-payment-subscription.js',
+        'client/templates/onetimepayment/stripe-payment.html',
+        'client/templates/onetimepayment/stripe-payment.js'
     ], 'client');
 
     api.addFiles([

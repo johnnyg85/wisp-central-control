@@ -58,6 +58,26 @@ Meteor.methods({
                 }
             }));
         }
+    },
+    
+    oneTimePayment: function (options) {
+        var amount = 1500; //Hardcoded amount value in cents.
+        var description = "Archive tools payment"; //Description that appears along with transaction in Stripe interface
+        
+        if (!options.email) {
+            throw new Meteor.Error("validation-error", "Please provide a valid email id.");
+        } else if (!options.address || !options.city || !options.name || !options.state || !options.zip) {
+            throw new Meteor.Error("validation-error", "Please fill in all the details.");
+        } else {
+            StripeMeteor.charge(options.token, amount, description, Meteor.bindEnvironment(function (err, charge) {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    //Payment Successful
+                    StripeMeteor.successfulOneTimePayment(charge, options);
+                }
+            }));
+        }
     }
     
 });
