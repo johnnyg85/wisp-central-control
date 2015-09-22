@@ -60,7 +60,15 @@ var stripeResponseHandler = function StripeResponseHandler(status, response) {
             } else {
                 $form.find('.payment-errors').text('');
                 $form.find('.payment-errors').css("display", "none");
-                alert('Payment complete.');
+                //alert('Payment complete.');
+
+                // TODO: Make sure that the server has validated the payment as well.  So that people can fake an order.
+                // Order the Archive
+                var archiveId = Session.get('openArchiveId');
+                MdArchive.collection.update({_id: archiveId}, {$set: {status: 'Ordered'}});
+                Meteor.call('downloadArchive', archiveId);
+                // Jump to this-order
+                Router.go('mdArchiveThisOrder');
             }
         });
     }
