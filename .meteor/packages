@@ -21,3 +21,5 @@ mdisc:archive
 mdisc:cloud-services
 mdisc:accounts
 mdisc:stripe
+mdisc:shipping
+mrt:qr-scanner
