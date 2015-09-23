@@ -1,6 +1,8 @@
 StripeMeteor = {};
 
 StripeAPI = Npm.require('stripe');
+Future = Npm.require('fibers/future');
+
 var Stripe = StripeAPI(Meteor.settings.stripe.secretKey);
 
 StripeMeteor.charge = function (stripeToken, amount, description, callback) {
