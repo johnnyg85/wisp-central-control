@@ -69,7 +69,7 @@ mongo@1.1.0
 mongo-livedata@1.0.8
 mrt:jquery-mousewheel@0.1.0
 mrt:later@1.6.1
-mrt:qr-scanner@0.2.0
+mrt:qr-scanner@0.1.2
 npm-bcrypt@0.7.8_2
 oauth@1.1.4
 oauth2@1.1.3
