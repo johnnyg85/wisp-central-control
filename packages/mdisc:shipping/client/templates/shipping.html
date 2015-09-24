@@ -1,3 +1,10 @@
 <template name="mdShipping">
-    {{> qrScanner w=1024 h=768}}
+    <div class="scanArea" style="width:320px;">
+        {{> qrScanner w=1024 h=768}}
+    </div>
+    <br><br>
+    <h3>Last Scanned</h3>
+    <div class="lastScanned">
+        
+    </div>
 </template>

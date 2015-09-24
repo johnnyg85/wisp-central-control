@@ -22,15 +22,18 @@ Package.onUse(function (api) {
     
     api.addFiles([
         'client/menu.js',
+        'client/subscriptions.js',
         'client/templates/shipping.html',
         'client/templates/shipping.js'
     ], 'client');
 
     api.addFiles([
-        'server/methods.js'
+        'server/methods.js',
+        'server/publish.js'
     ], 'server');
     
     api.addFiles([
-        'lib/router.js'
+        'lib/router.js',
+        'lib/collections.js'
     ], ['server', 'client']);
 });
