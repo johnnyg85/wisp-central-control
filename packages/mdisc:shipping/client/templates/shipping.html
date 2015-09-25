@@ -1,10 +1,40 @@
 <template name="mdShipping">
-    <div class="scanArea" style="width:320px;">
-        {{> qrScanner w=1024 h=768}}
+    <div class="scanSection" style="width: 50%;float: left;">
+        <div class="scanArea" style="width:320px;">
+            {{> qrScanner w=1024 h=768}}
+        </div>
     </div>
-    <br><br>
-    <h3>Last Scanned</h3>
-    <div class="lastScanned">
-        
+    <div class="lastScanned" style="width: 50%;float: left;">
+        <h3>Last Scanned</h3>
+        {{#with lastScanned}}
+            Type : {{archive.type}}<br>
+            Service : {{archive.service}}<br>
+            Status : {{archive.status}}<br>
+            Disk Index : {{disc}}<br>
+        {{/with}}
+    </div>
+    <div class="archiveList" style="width: 100%; float: left;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Scanned</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each getArchives}}
+                <tr>
+                    <td>{{type}}</td>
+                    <td>{{service}}</td>
+                    <td>{{status}}</td>
+                    <td></td>
+                    <td><button disabled="disabled">Print Shipping Label</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
 </template>

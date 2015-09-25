@@ -1,3 +1,3 @@
-Meteor.publish('mdarchives', function() {
-    return MdShippingPage.archives.find({"status": {$ne:"Shipped"}});
+Meteor.publish('mdarchives_shipping', function() {
+    return MdArchive.collection.find({"status": {$ne:"Shipped"}});
 });

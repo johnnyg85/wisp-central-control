@@ -1,1 +1,1 @@
-Meteor.subscribe('mdarchives');
+Meteor.subscribe('mdarchives_shipping');

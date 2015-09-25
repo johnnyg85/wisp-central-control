@@ -15,10 +15,11 @@ Package.onUse(function (api) {
         'mongo',
         'wisptools:collection',
         'wisptools:menu',
+        'mdisc:archive',
         'mrt:qr-scanner'
     ]);
     
-    api.export('');
+    //api.export('');
     
     api.addFiles([
         'client/menu.js',
