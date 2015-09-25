@@ -12,7 +12,34 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
-  api.addFiles('mandrill.js');
+
+  api.use([
+    'templating',
+    'iron:router@1.0.9',
+    'wylio:mandrill@1.0.1',
+    'mdisc:accounts',
+    'wisptools:menu'
+  ]);    
+
+  // Client Files
+  api.addFiles([
+    'client/templates/test.html',
+    'client/templates/test.js',
+    'client/menu.js'
+  ],['client']);
+
+  // Client and Server Files
+  api.addFiles([
+    'lib/routes.js'
+  ],['client','server']);
+
+  // Server Files
+  api.addFiles([
+    'server/mandrill.js',
+    'server/methods.js'
+  ],['server']);
+
+
 });
 
 Package.onTest(function(api) {

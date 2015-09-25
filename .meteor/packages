@@ -21,3 +21,4 @@ mdisc:archive
 mdisc:cloud-services
 mdisc:accounts
 mdisc:stripe
+mdisc:mandrill

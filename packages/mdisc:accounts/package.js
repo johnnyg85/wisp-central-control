@@ -36,7 +36,8 @@ Package.onUse(function(api) {
 
   //Server Only Files
   api.addFiles([
-    'server/config/service_configuration.js'
+    'server/config/service_configuration.js',
+    'server/functions.js'
     //,'server/config/accounts_meld.js'
     ], ['server']);
 
@@ -47,6 +48,7 @@ Package.onUse(function(api) {
     ], ['client']);
 
   api.export('Accounts');
+  api.export('MdAccounts', 'server');
 });
 
 Package.onTest(function(api) {
