@@ -1,20 +1,27 @@
 <template name="mdShipping">
-    <div class="scanSection" style="width: 50%;float: left;">
-        <div class="scanArea" style="width:320px;">
-            {{> qrScanner w=1024 h=768}}
+    <div class="col-md-4">
+        <div class="panel panel-default scanSection">
+            <div class="panel-heading">QR Scanner</div>
+            <div class="panel-body scanArea" style="min-height: 275px;">
+                {{> qrScanner w=1024 h=768}}
+            </div>
         </div>
     </div>
-    <div class="lastScanned" style="width: 50%;float: left;">
-        <h3>Last Scanned</h3>
-        {{#with lastScanned}}
-            Type : {{archive.type}}<br>
-            Service : {{archive.service}}<br>
-            Status : {{archive.status}}<br>
-            Disk Index : {{disc}}<br>
-        {{/with}}
+    <div class="col-md-8">
+        <div class="panel panel-default lastScanned">
+            <div class="panel-heading">Last Scanned</div>
+            <div class="panel-body" style="min-height: 275px;">
+                {{#with lastScanned}}
+                    Type : {{archive.type}}<br>
+                    Service : {{archive.service}}<br>
+                    Status : {{archive.status}}<br>
+                    Disk Index : {{disc}}<br>
+                {{/with}}
+            </div>
+        </div>
     </div>
-    <div class="archiveList" style="width: 100%; float: left;">
-        <table class="table table-bordered">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Type</th>
@@ -25,15 +32,19 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each getArchives}}
                 <tr>
-                    <td>{{type}}</td>
-                    <td>{{service}}</td>
-                    <td>{{status}}</td>
-                    <td></td>
+                    <td>Sample Type</td>
+                    <td>Sample Service</td>
+                    <td>Sample Status</td>
+                    <td>
+                        Disk 2 of 4<br><br>
+                        Disk 1 : (time)<br>
+                        Disk 2 : (time)<br>
+                        Disk 3 : pending..<br>
+                        Disk 4 : pending..<br>
+                    </td>
                     <td><button disabled="disabled">Print Shipping Label</button></td>
                 </tr>
-                {{/each}}
             </tbody>
         </table>
     </div>
