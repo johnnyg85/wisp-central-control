@@ -32,19 +32,22 @@
                 </tr>
             </thead>
             <tbody>
+                {{#each scannedArchives}}
                 <tr>
-                    <td>Sample Type</td>
-                    <td>Sample Service</td>
-                    <td>Sample Status</td>
+                    <td>{{archive.type}}</td>
+                    <td>{{archive.service}}</td>
+                    <td>{{archive.status}}</td>
                     <td>
-                        Disk 2 of 4<br><br>
-                        Disk 1 : (time)<br>
-                        Disk 2 : (time)<br>
-                        Disk 3 : pending..<br>
-                        Disk 4 : pending..<br>
+                        Disk {{jsCount disks}} of {{archive.disks}}<br><br>
+                        {{#if diskCountKnown archive.disks}}
+                            {{#each scannedDisks archive.disks disks}}
+                                Disk {{index}} : {{#if status}}Scanned{{else}}Pending...{{/if}}<br>
+                            {{/each}}
+                        {{/if}}
                     </td>
                     <td><button disabled="disabled">Print Shipping Label</button></td>
                 </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
