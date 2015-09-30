@@ -14,23 +14,47 @@ Template.mdShipping.helpers({
     diskCountKnown: function(disks) {
         return disks !== 'Unknown';
     },
-    scannedDisks: function(count, disks) {
+    scannedDisks: function(count, scanned) {
         var res = new Array();
         for (var i=0;i<count;i++) {
-            res.push({index: i+1, status:disks.indexOf(i.toString())<0?0:1});
+            var index = i+1;
+            var status = 0;
+            var time;
+            for (j in scanned) {
+                if (scanned[j].diskIndex == i) {
+                    status = 1;
+                    time = scanned[j].time;
+                }
+            }
+            res.push({index: index, status: status, time: time});
         }
         return res;
     },
     scanCompleted: function(count, disks) {
         return count === disks.length;
+    },
+    formatDate: function (timestamp) {
+        var d = new Date(timestamp);
+        return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
     }
 });
 
 Template.mdShipping.events({
     'click .print_shipping_label': function() {
         var label_url = "http://assets.geteasypost.com/postage_labels/labels/0jvZJy.png";
-        Meteor.call("setArchiveStatus", "Shipped", this.archive._id);
-        Meteor.call("setShippingLabel", label_url, this.archive._id);
+        Meteor.call("setArchiveStatus", "Shipped", this._id);
+        Meteor.call("setShippingLabel", label_url, this._id);
+        
+        var scannedArchives = Session.get('scannedArchives');
+        if (scannedArchives) {
+            for (i in scannedArchives) {
+                if (scannedArchives[i] && scannedArchives[i]._id == this._id) {
+                    scannedArchives[i].status = "Shipped";
+                    Session.set('scannedArchives', scannedArchives);
+                    break;
+                }
+            }
+        }
     }
 });
 
@@ -66,19 +90,14 @@ qrScanner.on('scan', function(err, result) {
                             scannedArchives = new Array();
                         }
                         for (i in scannedArchives) {
-                            if (scannedArchives[i].archive && scannedArchives[i].archive._id == res._id) {
+                            if (scannedArchives[i] && scannedArchives[i]._id == res._id) {
                                 found = 1;
-                                if (scannedArchives[i].disks.indexOf(qrdata.n)<0) {
-                                    scannedArchives[i].disks.push(qrdata.n);
-                                }
+                                scannedArchives[i] = res;
                                 break;
                             }
                         }
                         if (!found) {
-                            scannedArchives.push({
-                                archive: res,
-                                disks: [qrdata.n]
-                            });
+                            scannedArchives.push(res);
                         }
                         Session.set('scannedArchives', scannedArchives);
                     }

@@ -34,14 +34,14 @@
             <tbody>
                 {{#each scannedArchives}}
                 <tr>
-                    <td>{{archive.type}}</td>
-                    <td>{{archive.service}}</td>
-                    <td>{{archive.status}}</td>
+                    <td>{{type}}</td>
+                    <td>{{service}}</td>
+                    <td>{{status}}</td>
                     <td>
-                        Disk {{jsCount disks}} of {{archive.disks}}<br><br>
-                        {{#if diskCountKnown archive.disks}}
-                            {{#each scannedDisks archive.disks disks}}
-                            Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned{{else}}Pending...{{/if}}</span><br>
+                        Disk {{jsCount scanned}} of {{disks}}<br><br>
+                        {{#if diskCountKnown disks}}
+                            {{#each scannedDisks disks scanned}}
+                            Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned ({{formatDate time}}){{else}}Pending...{{/if}}</span><br>
                             {{/each}}
                         {{/if}}
                     </td>
