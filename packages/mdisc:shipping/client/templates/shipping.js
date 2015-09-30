@@ -20,6 +20,17 @@ Template.mdShipping.helpers({
             res.push({index: i+1, status:disks.indexOf(i.toString())<0?0:1});
         }
         return res;
+    },
+    scanCompleted: function(count, disks) {
+        return count === disks.length;
+    }
+});
+
+Template.mdShipping.events({
+    'click .print_shipping_label': function() {
+        var label_url = "http://assets.geteasypost.com/postage_labels/labels/0jvZJy.png";
+        Meteor.call("setArchiveStatus", "Shipped", this.archive._id);
+        Meteor.call("setShippingLabel", label_url, this.archive._id);
     }
 });
 
@@ -35,6 +46,19 @@ qrScanner.on('scan', function(err, result) {
                 Meteor.call("getArchiveById", qrdata.id, function(err, res) {
                     if (!err) {
                         Session.set('lastScanned', {archive: res, disc: qrdata.n});
+                        
+                        var already_scanned = 0;
+                        if (res.scanned && res.scanned.length>0) {
+                            for (i in res.scanned) {
+                                if (res.scanned[i].diskIndex == qrdata.n) {
+                                    already_scanned = 1;
+                                    alert('This disk was scanned earlier.');
+                                }
+                            }
+                        }
+                        if (!already_scanned) {
+                            Meteor.call("appendToArchiveScanned", qrdata.id, qrdata.n);
+                        }
                         
                         var scannedArchives = Session.get('scannedArchives');
                         var found = 0;
@@ -57,20 +81,7 @@ qrScanner.on('scan', function(err, result) {
                             });
                         }
                         Session.set('scannedArchives', scannedArchives);
-                        /*if (!scannedArchives.res_id) {
-                            scannedArchives.res_id = new Array();
-                        }
-                        scannedArchives.res_id['archive'] = res;
-                        if (!scannedArchives.res_id['disks']) {
-                            scannedArchives.res_id['disks'] = new Array();
-                        }
-                        scannedArchives.res_id['disks'].push(qrdata.n);
-                        console.log(scannedArchives);
-                        */
                     }
-                });
-                Meteor.call("appendToArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
-                    
                 });
             }
         }

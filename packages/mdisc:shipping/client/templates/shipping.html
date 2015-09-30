@@ -41,11 +41,15 @@
                         Disk {{jsCount disks}} of {{archive.disks}}<br><br>
                         {{#if diskCountKnown archive.disks}}
                             {{#each scannedDisks archive.disks disks}}
-                                Disk {{index}} : {{#if status}}Scanned{{else}}Pending...{{/if}}<br>
+                            Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned{{else}}Pending...{{/if}}</span><br>
                             {{/each}}
                         {{/if}}
                     </td>
-                    <td><button disabled="disabled">Print Shipping Label</button></td>
+                    <td>
+                        <button class="print_shipping_label" disabled="{{#unless scanCompleted archive.disks disks}}disabled{{/unless}}">Print Shipping Label</button>
+                        <br><br>
+                        <a href="{{archive.shippingLabel}}" target="_blank">Shipping Label</a>
+                    </td>
                 </tr>
                 {{/each}}
             </tbody>

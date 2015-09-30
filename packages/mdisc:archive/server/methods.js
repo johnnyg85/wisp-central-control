@@ -17,5 +17,8 @@ Meteor.methods({
   },
   appendToArchiveScanned: function (archiveId, diskIndex) {
     MdArchive.collection.update({_id: archiveId}, {$push: {scanned: {diskIndex: diskIndex, time: new Date()}}});
+  },
+  setShippingLabel: function (url, archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$set: {shippingLabel: url}});
   }
 });
