@@ -32,26 +32,30 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each scannedArchives}}
+                {{#with lastScanned}}
                 <tr>
-                    <td>{{type}}</td>
-                    <td>{{service}}</td>
-                    <td>{{status}}</td>
+                    <td>{{archive.type}}</td>
+                    <td>{{archive.service}}</td>
+                    <td>{{archive.status}}</td>
                     <td>
-                        Disk {{jsCount scanned}} of {{disks}}<br><br>
-                        {{#if diskCountKnown disks}}
-                            {{#each scannedDisks disks scanned}}
-                            Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned ({{formatDate time}}){{else}}Pending...{{/if}}</span><br>
+                        Disk {{scannedDiskCount}} of {{archive.disks}}<br><br>
+                        {{#if diskCountKnown archive.disks}}
+                            {{#each scannedDisks archive.disks}}
+                            Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned{{else}}Pending...{{/if}}</span><br>
                             {{/each}}
                         {{/if}}
                     </td>
                     <td>
-                        <button class="print_shipping_label" disabled="{{#unless scanCompleted archive.disks disks}}disabled{{/unless}}">Print Shipping Label</button>
+                        <button class="btn print_shipping_label {{#if scanCompleted archive.disks}}btn-success{{else}}btn-default{{/if}}" disabled="{{#unless scanCompleted archive.disks}}disabled{{/unless}}">Print Shipping Label</button>
                         <br><br>
-                        <a href="{{archive.shippingLabel}}" target="_blank">Shipping Label</a>
+                        {{#if scanCompleted archive.disks}}
+                            {{#if archive.shippingLabel}}
+                                <a href="{{archive.shippingLabel}}" target="_blank">Shipping Label</a>
+                            {{/if}}
+                        {{/if}}
                     </td>
                 </tr>
-                {{/each}}
+                {{/with}}
             </tbody>
         </table>
     </div>
