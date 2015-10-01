@@ -15,4 +15,11 @@ Meteor.methods({
   setArchiveDiskType: function (type, archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$set: {diskType: type}});
   },
+  appendToArchiveScanned: function (archiveId, diskIndex) {
+    MdArchive.collection.update({_id: archiveId}, {$push: {scanned: {diskIndex: diskIndex, time: new Date()}}});
+    return MdArchive.collection.findOne({_id: archiveId});
+  },
+  setShippingLabel: function (url, archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$set: {shippingLabel: url}});
+  }
 });
