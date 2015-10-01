@@ -1,0 +1,39 @@
+<template name="wtRolesUser">
+
+ 
+   <div class="row">
+  <!--    <div class="col-md-10"><h3>List of customers</h3></div> -->
+    </div>
+    <table id="wtRolesUserTable" class="table table-striped table-bordered"  >
+      <tbody>
+        <tr>
+          <th>Email</th>
+          <th>Role</th>
+	</tr>
+        {{#each userList}}
+          <tr>
+            <td>{{#each emails}}
+                    {{address}}
+                    {{/each}}
+                    
+                    {{services.google.email}}
+            
+            </td>
+            <td>
+             {{>wtRolesUsersSelect}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+</template>
+
+<template name="wtRolesUsersSelect">
+  <select class="form-control type-sel" width="auto">
+   
+    {{#each typeList}}
+      <option value={{roles}} {{selected name userType.roles}}>{{name}}</option>
+    {{/each}}
+  </select>
+</template>
