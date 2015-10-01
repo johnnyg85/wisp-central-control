@@ -1,11 +1,15 @@
 WtMenu =  {
   dropdown: [],
   primary: [],
-  addDropdown: function(name, icon, displayOrder) {
-
+  addDropdown: function(name, icon, displayOrder, roles) {
+    if (!roles) {
+      roles = [];
+    }
     var i = this.indexFor(name);
     this.dropdown[i].dropdownIcon = icon;
     this.dropdown[i].displayOrder = displayOrder;
+    this.dropdown[i].roles = roles;
+
     
   },
   indexFor: function(dropdownName) {
@@ -25,12 +29,16 @@ WtMenu =  {
       this.dropdown[i].dropdownName = dropdownName;
       this.dropdown[i].dropdownIcon = '';
       this.dropdown[i].displayOrder = 0;
+      this.dropdown[i].roles = [];
       this.dropdown[i].items = [];
     }
 
     return index;
   },
-  addDropdownItem: function(dropdownName, name, route, icon, displayOrder) {
+  addDropdownItem: function(dropdownName, name, route, icon, displayOrder, roles) {
+    if (!roles) {
+      roles = [];
+    }
 
     var i = this.indexFor(dropdownName);
     var n = this.dropdown[i].items.length;
@@ -40,12 +48,17 @@ WtMenu =  {
     this.dropdown[i].items[n].itemRoute = route;
     this.dropdown[i].items[n].itemIcon = icon;
     this.dropdown[i].items[n].displayOrder = displayOrder;
+    this.dropdown[i].items[n].roles = roles;
   },
-  addPrimary: function(name, route, icon, displayOrder) {
+  addPrimary: function(name, route, icon, displayOrder, roles) {
+    if (!roles) {
+      roles = [];
+    }
     var p = {};
     p.name = name;
     p.route = route;
     p.icon = icon;
+    p.roles = roles;
     this.primary.push(p);
   }
 };

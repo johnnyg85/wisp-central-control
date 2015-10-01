@@ -7,7 +7,8 @@ if (Meteor.isServer) {
   WtPowercode.pool  = mysql.createPool({
     host      : Meteor.settings.powercode.dbHost,
     user      : Meteor.settings.powercode.dbUser,
-    password  : Meteor.settings.powercode.dbPass
+    password  : Meteor.settings.powercode.dbPass,
+    insecureAuth: true
   });
 
   // MySQL DB query wrapper

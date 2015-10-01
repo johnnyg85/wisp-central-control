@@ -118,11 +118,14 @@ Meteor.methods({
 
 Meteor.methods({
   wtPowercodeGetServicesSoldBySalesPersonAll: function(startDate, endDate) {
-    if (Meteor.userId() == null) return null;
+   if (Meteor.userId() == null && this.connection != null) return null;
 
-    startDate = new Date(startDate);
+      startDate = new Date(startDate);
     endDate = new Date(endDate);
     endDate.setDate(endDate.getDate()+1);
+
+   // var startDateFormat = WtDateFormat(startDate, 'isoDate');
+  //  var endDateFormat = WtDateFormat(endDate, 'isoDate');
 
     var fut = new Future();
     var db_name = Meteor.settings.powercode.dbName;
@@ -148,7 +151,7 @@ Meteor.methods({
                 "d.Time < '" + WtDateFormat(endDate, 'isoDate') + "' " +
               "ORDER BY " +
                 "csp.Username, c.CustomerID, d.Time";
-    runQuery(sql, fut);
+     runQuery(sql, fut);
 
     return fut.wait();
   }
@@ -156,7 +159,7 @@ Meteor.methods({
 
 Meteor.methods({
   wtPowercodePaidUpBalance: function(customerId, date) {
-    if (Meteor.userId() == null) return null;
+    if (Meteor.userId() == null && this.connection != null) return null;
 
     var date;
     if (! date) {
@@ -211,6 +214,7 @@ Meteor.methods({
           'cust.FirstName, ' +
           'cust.LastName, ' +
           'cust.CompanyName, ' +
+          'a.Address1, ' +
           'a.City, ' +
           'a.State, ' +
           'substr(a.ZipCode, 1, 5) as Zip, ' +
@@ -262,6 +266,7 @@ Meteor.methods({
           'cust.FirstName, ' +
           'cust.LastName, ' +
           'cust.CompanyName, ' +
+          'a.Address1, ' +
           'a.City, ' +
           'a.State, ' +
           'substr(a.ZipCode, 1, 5) as Zip, ' +
@@ -313,6 +318,7 @@ Meteor.methods({
           'cust.FirstName, ' +
           'cust.LastName, ' +
           'cust.CompanyName, ' +
+          'a.Address1, ' +
           'a.City, ' +
           'a.State, ' +
           'substr(a.ZipCode, 1, 5) as Zip, ' +

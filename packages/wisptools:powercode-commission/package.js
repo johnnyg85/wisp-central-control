@@ -22,6 +22,7 @@ Package.onUse(function(api) {
     'iron:router@1.0.7',
     'rajit:bootstrap3-datepicker@1.4.1',
     'numeral:numeral@1.5.3',
+    'percolate:synced-cron@1.2.1',
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:powercode',
@@ -53,6 +54,10 @@ Package.onUse(function(api) {
     'client/templates/users.html',
     'client/templates/users.js'
     ], 'client');
+
+ api.addFiles([
+    'server/cron.js'
+    ], ['server']);
 
   api.export('WtPowercodeCommission');
 

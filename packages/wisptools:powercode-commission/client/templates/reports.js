@@ -6,19 +6,13 @@ Template.wtPowercodeCommissionReports.created = function () {
   self.reportData = new ReactiveVar([]);
   self.running = new ReactiveVar(false);
   self.percentDone = new ReactiveVar(0);
-
-  var defaultEnd = new Date(); // temp use for setting start date
-  var defaultStart = new Date(defaultEnd.getFullYear(), defaultEnd.getMonth() - 1, 1); // set to first of previous month
-  defaultEnd.setDate(1); // move to the first of current month
-  defaultEnd.setHours(-1); // back the hour off to the previos day, or the last day of the previos month
-
-  self.startDate = new ReactiveVar(WtDateFormat(defaultStart, "shortDate"));
-  self.endDate = new ReactiveVar(WtDateFormat(defaultEnd, "shortDate"));
+ 
+   
 }
 
 Template.wtPowercodeCommissionReports.rendered=function() {
-    $('#commStartDate').datepicker();
-    $('#commEndDate').datepicker();
+  //  $('#commStartDate').datepicker();
+  //  $('#commEndDate').datepicker();
 }
 
 Template.wtPowercodeCommissionReports.helpers({
@@ -34,115 +28,148 @@ Template.wtPowercodeCommissionReports.helpers({
   haveData: function () {
     return Template.instance().reportData.get().length === 0 ? true : false;
   },
-  startDate: function () {
-    return Template.instance().startDate.get();
-  },
-  endDate: function () {
-    return Template.instance().endDate.get();
-  },
-  percentDone: function () {
+    percentDone: function () {
     return Template.instance().percentDone.get();
   }
 });
 
+
+
 Template.wtPowercodeCommissionReports.events({
   "submit .run-comm-report": function (event) {
-
     event.preventDefault();
     event.stopPropagation();
+    
+    var given = event.target.commStartDate.value;
     var self = Template.instance();
+    if(given!="None")
+    {
+    given=given.split(" ");
+    switch(given[1])
+    {
+        case 'Jan' : given[1]="01";
+        break;
+        case 'Feb' : given[1]="02";
+        break;
+        case 'Mar' : given[1]="03";
+        break;
+        case 'Apr' : given[1]="04";
+        break;
+        case 'May' : given[1]="05";
+        break;
+        case 'Jun' : given[1]="06";
+        break;
+        case 'Jul' : given[1]="07";
+        break;
+        case 'Aug' : given[1]="08";
+        break;
+        case 'Sep' : given[1]="09";
+        break;
+        case 'Oct' : given[1]="10";
+        break;
+        case 'Nov' : given[1]="11";
+        break;
+        case 'Dec' : given[1]="12";
+        break;
+    }  
+    given[2]="01";
+    given=given.join("-");
+    var end=given.split("-");
+    end[2]="31";
+    end=end.join("-");
+    
     self.running.set(true);
-    self.percentDone.set(15);
-    self.startDate.set(event.target.commStartDate.value);
-    self.endDate.set(event.target.commEndDate.value);
+    self.percentDone.set(35);
+    var workingData=  WtPowercodeCommission.collection.report.find({"Date" : {$gte :given,$lt:end},"isPaidUp":"Yes"});
+    self.reportData.set(workingData);
+    self.running.set(false);
+ }
+else
+{
+workingData=[];
+self.reportData.set(workingData);
+    self.running.set(false);
+} 
 
-    Meteor.call('wtPowercodeGetServicesSoldBySalesPersonAll', self.startDate.get(), self.endDate.get(), function (err, res) {
-      var curSalesPerson;
-      var curCommissionTypeId;
-      var mRes; // for db results
-      var rowCount = res.length;
-      var workingData = [];
-      var workingIndex = 0;
-      var balances = {};
-
-      // Get commission rates and convert into quickly accessable format
-      var services = {};
-      mRes = WtPowercodeCommission.collection.service.find().fetch();
-      var len = mRes.length;
-      for (var i = 0; i < len; i++) {
-
-        var serId = mRes[i].serviceId;
-        services[serId] = {};
-
-        var lenInner = mRes[i].commissions.length;
-        for (var ii = 0; ii < lenInner; ii++) {
-          var commission = {};
-          commission.amount = mRes[i].commissions[ii].amount;
-          commission.type = mRes[i].commissions[ii].type;
-          services[serId][mRes[i].commissions[ii].typeId] = commission;
-        }
-
-      }
-
-      for (var i = 0; i < rowCount; i++) {
-
-        // Update the user commission group as it changes.
-        if (curSalesPerson != res[i].SalesPerson) {
-          curSalesPerson = res[i].SalesPerson;
-          mRes = WtPowercodeCommission.collection.user.findOne({'webUsername': curSalesPerson});
-          if (! mRes) {
-            curCommissionTypeId = null;
-          } else {
-            curCommissionTypeId = mRes.commissionTypeId;
-          }
-        }
+ }
+});
 
 
-        // Do we have a commission to give?
-        if (! services[res[i].ServiceID] ) { continue; }
-        if (! services[res[i].ServiceID][curCommissionTypeId] ) { continue; }
-        if (Number(services[res[i].ServiceID][curCommissionTypeId].amount) == 0) { continue; }
 
-        if (! balances[res[i].CustomerID]) balances[res[i].CustomerID] = {};
-        if (! balances[res[i].CustomerID][res[i].Date]) balances[res[i].CustomerID][res[i].Date] = [];
-        balances[res[i].CustomerID][res[i].Date].push(workingIndex);
-        res[i].isPaidUp = "UNK";
-        if (services[res[i].ServiceID][curCommissionTypeId].type == '%') {
-          res[i].commission = numeral(Number(res[i].Amount) * (Number(services[res[i].ServiceID][curCommissionTypeId].amount) / 100.00)).format('$0,0.00');
-        } else {
-          res[i].commission = numeral(Number(services[res[i].ServiceID][curCommissionTypeId].amount)).format('$0,0.00');
-        }
-        res[i].Amount = numeral(res[i].Amount).format('$0,0.00');
 
-        workingData.push(res[i]);
-        workingIndex++;
-      }
+Template.wtPowercodeCommissionReportSelect.helpers({
 
-      self.percentDone.set(75);
-      self.reportData.set(workingData);
-
-      _.each(balances, function(dates, customerId) {
-        _.each(dates, function(indexs, date) {
-          Meteor.call('wtPowercodePaidUpBalance', customerId, date, function (err, res) {
-            if (err) return;
-            var paid;
-            if (Number(res[0].balance) <= 0) {
-              paid = "Yes";
-            } else {
-              paid = "No";
+  typeList: function () {
+	var reportDates=[];
+        var rdate;
+        var temp;
+        var k=0;
+        var r=0;
+        
+        var myArray= WtPowercodeCommission.collection.report.find({},{sort:{Date:1}}).fetch();
+        var distinctArray= _.unique(myArray, false, function(d) {return d.Date});
+	var distinctvalues=_.pluck(distinctArray,'Date');
+	for(var i=0;i<distinctvalues.length;i++)
+        {
+            temp=distinctvalues[i].split("-");
+            temp.pop();
+            switch(temp[1])
+            {
+                case '01' : temp[1]="Jan";
+                break;
+                case '02' : temp[1]="Feb";
+                break;
+                case '03' : temp[1]="Mar";
+                break;
+                case '04' : temp[1]="Apr";
+                break;
+                case '05' : temp[1]="May";
+                break;
+                case '06' : temp[1]="Jun";
+                break;
+                case '07' : temp[1]="Jul";
+                break;
+                case '08' : temp[1]="Aug";
+                break;
+                case '09' : temp[1]="Sep";
+                break;
+                case '10' : temp[1]="Oct";
+                break;
+                case '11' : temp[1]="Nov";
+                break;
+                case '12' : temp[1]="Dec";
+                break;
             }
-            var len = indexs.length;
-            for (var i = 0; i < len; i++) {
-              workingData[indexs[i]].isPaidUp = paid;
+        rdate=temp.join(" ");
+        if(i==0)
+        {
+            reportDates[k]=temp.join(" ");
+            continue;
+        }
+        else
+        {
+            k=reportDates.length;
+            while(r<=k)
+            {   
+             if(reportDates[r]==rdate)
+              {	
+                break;
+              }
+            if(r==k)
+            {
+                reportDates[r]=rdate;
+                break;
             }
-            self.reportData.set(workingData); // Update the data         
-          });
-        });
-      });
+            r++;
+            }       
+        }
+  
+        }
 
+     return reportDates;
 
-      self.running.set(false);
-    });
-
+  },
+  selected: function (a, b) {
+    return a == b ? 'selected' : '';
   }
 });

@@ -15,8 +15,8 @@ Package.onUse(function(api) {
   api.use([
     'meteor',
     'mongo',
-    'meteorhacks:subs-manager@1.3.0',
-    'matb33:collection-hooks@0.7.13'
+    'meteorhacks:subs-manager@1.6.2',
+    'matb33:collection-hooks@0.8.1'
   ]);
   
   api.addFiles('wisptools:collection.js');

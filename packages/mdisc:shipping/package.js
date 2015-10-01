@@ -16,7 +16,7 @@ Package.onUse(function (api) {
         'wisptools:collection',
         'wisptools:menu',
         'mdisc:archive',
-        'mrt:qr-scanner'
+        'mrt:qr-scanner@0.2.0'
     ]);
     
     //api.export('');
