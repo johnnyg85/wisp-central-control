@@ -6,6 +6,8 @@ Package.describe({
     documentation: 'README.md'
 });
 
+Npm.depends({"quagga": "0.7.0"});
+
 Package.onUse(function (api) {
     api.versionsFrom('1.1.0.3');
     
@@ -25,7 +27,9 @@ Package.onUse(function (api) {
         'client/menu.js',
         'client/subscriptions.js',
         'client/templates/shipping.html',
-        'client/templates/shipping.js'
+        'client/templates/shipping.js',
+        'client/templates/shipping_scan.html',
+        'client/templates/shipping_scan.js'
     ], 'client');
 
     api.addFiles([
