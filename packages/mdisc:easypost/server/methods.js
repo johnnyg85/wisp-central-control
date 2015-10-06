@@ -4,7 +4,30 @@ Future = Npm.require('fibers/future');
 // verify address
 Meteor.methods({
 
-    mdEasypostVerifyAddress: function(fromAddress) {
+mdEasypostVerifyAddress: function(fromAddress) {
+console.log("hi");
+var future = new Future();
+easypost.Address.create(fromAddress, function(err, fromAddress) {
+fromAddress.verify(function(err, response) {
+var verifiedAddress;
+if (err) {
+console.log('Address is invalid.');
+future.return( {error:'Address is invalid'} );
+} else if (response.message !== undefined && response.message
+!== null) {
+console.log('Address is valid but has an issue: ',
+response.message);
+verifiedAddress = response.address;
+} else {
+verifiedAddress = response;
+console.log(verifiedAddress);
+}
+future.return(verifiedAddress);
+});
+});
+return future.wait();
+},
+  /*  mdEasypostVerifyAddress: function(fromAddress) {
         console.log("hi");
         var myFuture1 = new Future();
         easypost.Address.create(fromAddress, function(err, fromAddress) {
@@ -26,7 +49,7 @@ Meteor.methods({
         return myFuture1.wait();
            
 
-},
+},*/
 // set parcel
 
 mdEasypostSetParsel:function(){
