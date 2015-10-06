@@ -1,4 +1,5 @@
-Router.route('/shippment-label/', {
+Router.route('/shipment-label/', {
   name: 'mdEasyPost', 
   template: 'mdEasyPost'
 });
+
