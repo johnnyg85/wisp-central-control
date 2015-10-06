@@ -2,7 +2,7 @@
 Template.mdEasyPost.helpers({
    
 label: function() {
-        var fromAddress = {
+        var toAddress = {
             name: "Spencer Lambert",
             street1: "810 S OAK DR",
             city: "WOODLAND HILLS",
@@ -11,7 +11,7 @@ label: function() {
             country: "US"
             };
 
-        var toAddress = {
+        var fromAddress = {
             name: "MDisc",
             street1: "915 S 500 E",
             city: "AMERICAN FORK",
@@ -25,15 +25,23 @@ label: function() {
         
             };  
         
-        Meteor.call('mdEasypostVerifyAddress',fromAddress,function(err,res)
+       /* Meteor.call('mdEasypostVerifyAddress',fromAddress,function(err,res)
         {
             console.log(err, res);
             if(err)
                 console.log(err);
             else
-                console.log("hello");
+                console.log(res);
         } );
-      
+      */
+        Meteor.call('mdEasypostCreateShipment',toAddress,fromAddress,parcel,function(err,res)
+        {
+            console.log(err, res);
+            if(err)
+                console.log(err);
+            else
+                console.log(res);
+        } );
     }
         
 });
