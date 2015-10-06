@@ -29,7 +29,9 @@ Package.onUse(function (api) {
         'client/templates/shipping.html',
         'client/templates/shipping.js',
         'client/templates/shipping_scan.html',
-        'client/templates/shipping_scan.js'
+        'client/templates/quagga.min.js',
+        'client/templates/shipping_scan.js',
+        'client/stylesheets/quagga.css'
     ], 'client');
 
     api.addFiles([

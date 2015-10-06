@@ -1,0 +1,18 @@
+#interactive.viewport {
+  width: 320px;
+  height: 240px;
+}
+
+#interactive.viewport canvas, video {
+  float: left;
+  width: 320px;
+  height: 240px;
+}
+
+#interactive.viewport canvas.drawingBuffer, video.drawingBuffer {
+  margin-left: -320px;
+}
+
+#container {
+  width: 320px;
+}
