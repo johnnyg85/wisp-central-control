@@ -30,7 +30,8 @@ Package.onUse(function(api) {
     
    api.addFiles([
     'client/templates/easypost.html',
-    'client/templates/easypost.js'
+    'client/templates/easypost.js',
+     'client/menu.js'
      ], ['client']);  
     
        api.addFiles([
