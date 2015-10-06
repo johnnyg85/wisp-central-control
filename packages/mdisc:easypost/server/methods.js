@@ -11,8 +11,7 @@ Meteor.methods({
                 if (err) {
                     console.log('Address is invalid.');
                     future.return({error: 'Address is invalid'});
-                } else if (response.message !== undefined && response.message
-                        !== null) {
+                } else if (response.message !== undefined && response.message!== null) {
                     console.log('Address is valid but has an issue: ',
                             response.message);
                     verifiedAddress = response.address;
@@ -36,16 +35,15 @@ Meteor.methods({
         });
     },
     // create shipment
-    mdEasypostCreateShipment: function(toAddress, fromAddress, parcel)
-    {
+    mdEasypostCreateShipment: function(toAddress, fromAddress, parcel) {
         var future = new Future();
         easypost.Shipment.create({
             to_address: toAddress,
             from_address: fromAddress,
             parcel: parcel
         }, function(err, shipment) {
-        // shipment.lowestRate filters by carrier name and service name, and accepts negative filters 
-        // by preceding the name with an exclamation mark
+            // shipment.lowestRate filters by carrier name and service name, and accepts negative filters 
+            // by preceding the name with an exclamation mark
             shipment.buy({rate: shipment.lowestRate(['USPS'], '!LibraryMail, !mediaMAIL')}, function(err, response) {
                 var shippmentlabel = response.postage_label.label_url;
                 future.return(shippmentlabel);
