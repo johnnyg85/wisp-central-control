@@ -19,18 +19,17 @@ Template.mdEasyPost.events({
             zip: zip,
             country: country 
         };
-        Meteor.call('mdEasypostVerifyAddress',toAddress,function(err,res)
-        {
+        
+        Meteor.call('mdEasypostVerifyAddress',toAddress,function(err,res){
            
             if(err)
                 console.log(err);
-            else
-            {
+            else {
                 console.log(res);
-                address=res;
-            //    console.log(address);
+                address = res;
+                //    console.log(address);
             }
-        } );
+        });
       
     }
    
@@ -71,21 +70,19 @@ Template.ShipmentLabel.events({
         
             };  
         
-        Meteor.call('mdEasypostCreateShipment',toAddress,fromAddress,parcel,function(err,res)
-        {
-           
-            if(err)
+        Meteor.call('mdEasypostCreateShipment', toAddress, fromAddress, parcel, function(err, res) {
+
+            if (err)
                 console.log(err);
-            else
-            {
+            else {
                 console.log("success");
                 //console.log(res);
-                ShipingLabel=res;
-              //  console.log(ShippingLabel);
-                Session.set('labelurl',ShipingLabel);
+                ShipingLabel = res;
+                //  console.log(ShippingLabel);
+                Session.set('labelurl', ShipingLabel);
                 Session.get('labelurl');
             }
-        } );
+        });
     }
 });
 
@@ -101,47 +98,7 @@ Template.mdEasyPost.helpers({
    
 label: function() {
     
-       /*
-        var toAddress = {
-            name: "Spencer Lambert",
-            street1: "810 S OAK DR",
-            city: "WOODLAND HILLS",
-            state: "UT",
-            zip: "84653",
-            country: "US"
-            };
-
-        var fromAddress = {
-            name: "MDisc",
-            street1: "915 S 500 E",
-            city: "AMERICAN FORK",
-            state: "UT",
-            zip: "84003"
-            };
-            
-        var parcel ={
-            predefined_package: "LargeFlatRateBox",
-            weight: 21
-        
-            };  
-        */
-       /* Meteor.call('mdEasypostVerifyAddress',fromAddress,function(err,res)
-        {
-            console.log(err, res);
-            if(err)
-                console.log(err);
-            else
-                console.log(res);
-        } );
-      */
-    /*    Meteor.call('mdEasypostCreateShipment',toAddress,fromAddress,parcel,function(err,res)
-        {
-            console.log(err, res);
-            if(err)
-                console.log(err);
-            else
-                console.log(res);
-        } );*/
+       
     }
  
 });
