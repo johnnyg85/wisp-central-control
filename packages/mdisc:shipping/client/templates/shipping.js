@@ -48,7 +48,7 @@ Template.mdShipping.events({
         Meteor.call("setShippingLabel", label_url, this.archive._id);
         
         Meteor.call("getArchiveById", this.archive._id, function(err, res) {
-            if (!err) {
+            if (!err && res) {
                 var lastScanned = Session.get('lastScanned');
                 if (lastScanned && lastScanned.archive) {
                     lastScanned.archive = res;
@@ -69,7 +69,7 @@ qrScanner.on('scan', function(err, result) {
             var qrdata = JSON.parse(result);
             if (qrdata) {
                 Meteor.call("getArchiveById", qrdata.id, function(err, res) {
-                    if (!err) {
+                    if (!err && res) {
                         var lastScanned = Session.get('lastScanned');
                         var scannedDisks = Session.get('scannedDisks');
                         if (!scannedDisks) {
@@ -86,7 +86,7 @@ qrScanner.on('scan', function(err, result) {
                         Session.set('lastScanned', {archive: res, disc: qrdata.n});
                         Session.set('scannedDisks', scannedDisks);
                         Meteor.call("appendToArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
-                            if (!err) {
+                            if (!err && res) {
                                 var lastScanned = Session.get('lastScanned');
                                 if (lastScanned && lastScanned.archive) {
                                     lastScanned.archive = res;
