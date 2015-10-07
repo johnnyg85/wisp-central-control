@@ -6,8 +6,6 @@ Package.describe({
     documentation: 'README.md'
 });
 
-Npm.depends({"quagga": "0.7.0"});
-
 Package.onUse(function (api) {
     api.versionsFrom('1.1.0.3');
     
@@ -18,7 +16,8 @@ Package.onUse(function (api) {
         'wisptools:collection',
         'wisptools:menu',
         'mdisc:archive',
-        'mrt:qr-scanner@0.2.0'
+        'mrt:qr-scanner@0.2.0',
+        'zimme:luhn@0.1.4'
     ]);
     
     //api.export('');

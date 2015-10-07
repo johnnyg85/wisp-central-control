@@ -3,6 +3,9 @@ Meteor.methods({
   getArchiveById: function (archiveId) {
     return MdArchive.collection.findOne({_id: archiveId});
   },
+  getArchiveByTrackingId: function (trackingId) {
+    return MdArchive.collection.findOne({trackingId: trackingId});
+  },
   setArchiveStatus: function (status, archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$set: {status: status}});
   },
@@ -21,5 +24,9 @@ Meteor.methods({
   },
   setShippingLabel: function (url, archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$set: {shippingLabel: url}});
+  },
+  appendToArchiveShippingScanned: function (archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$push: {shippingScanned: {time: new Date()}}});
+    return MdArchive.collection.findOne({_id: archiveId});
   }
 });

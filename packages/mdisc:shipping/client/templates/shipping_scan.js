@@ -1,5 +1,7 @@
 Template.mdShippingScan.helpers({
-    
+    lastShippingScanned: function() {
+        return Session.get('lastShippingScanned');
+    }
 });
 
 Template.mdShippingScan.onRendered(function() {
@@ -60,10 +62,35 @@ Template.mdShippingScan.onRendered(function() {
     Quagga.onDetected(function (result) {
         var code = result.codeResult.code;
         if (code != lastScanned) {
-            scanIndications();
-            lastScanned = code;
-            
-            console.log(code);
+            var USPSBarcodeData = parseUSPSBarcode(code);
+            if (USPSBarcodeData) {
+                if (USPSBarcodeData.RAI == '420') {
+                    scanIndications();
+                    lastScanned = code;
+                    Meteor.call("getArchiveByTrackingId", USPSBarcodeData.trackingNumber, function (err, res) {
+                        if (!err && res) {
+                            Session.set('lastShippingScanned', res);
+                            Meteor.call("setArchiveStatus", "Shipped", res._id, function(err) {
+                                if (!err) {
+                                    var lastScanned = Session.get('lastShippingScanned');
+                                    if (lastScanned) {
+                                        lastScanned.status = 'Shipped';
+                                        Session.set('lastShippingScanned', lastScanned);
+                                    }
+                                }
+                            });
+                            Meteor.call("appendToArchiveShippingScanned", res._id, function (err, res) {
+                                if (!err && res) {
+                                    var lastScanned = Session.get('lastShippingScanned');
+                                    if (lastScanned) {
+                                        Session.set('lastShippingScanned', res);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }
         }
     });
 });
@@ -75,4 +102,40 @@ var scanIndications = function() {
     }, 250);
     
     new Audio('click.mp3').play();
+};
+
+var parseUSPSBarcode = function(data) {
+    /* Based on http://www.endicia.com/tools-resources/harrys-hints/new-usps-tracking-barcodes
+     *
+     * RAI : Routing Application Identifier (3 digits)
+     * ZIP : ZIP Code (5 digits)
+     * CAI : Channel Application Identifier (2 digits)
+     * STC : Service Type Code (3 digits)
+     * SOI : Source Identifier (2 digits)
+     * MID : Mailer ID (6 digits)
+     * SLN : Serial Number (8 digits)
+     * MCD : MOD 10  Check Digit (1 digit)
+     * 
+     * trackingNumber : Barcode data excluding RAI and ZIP section (22 digits)
+     */
+    
+    if (data.length != 30) {
+        return false;
+    }
+    if (!Luhn.validate(data)) {
+        return false;
+    }
+    var result = {
+        RAI: data.slice(0, 3),
+        ZIP: data.slice(3, 8),
+        CAI: data.slice(8, 10),
+        STC: data.slice(10, 13),
+        SOI: data.slice(13, 15),
+        MID: data.slice(15, 21),
+        SLN: data.slice(21, 29),
+        MCD: data.slice(29),
+        
+        trackingNumber: data.slice(8)
+    };
+    return result;
 };
