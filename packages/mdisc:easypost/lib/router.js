@@ -1,5 +1,5 @@
 Router.route('/shipment-label/', {
-  name: 'mdEasyPost', 
-  template: 'mdEasyPost'
+  name: 'CreateShippingLabel', 
+  template: 'mdCreateShippingLabel'
 });
 
