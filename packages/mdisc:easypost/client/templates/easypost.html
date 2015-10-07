@@ -1,74 +1,68 @@
-<template name="mdEasyPost">
-    <div class="col-md-4">
-        <div class="panel panel-default Shipment Addrtess">
-            <div class="panel-heading">Shipment Address</div>
-            <form class="verifyAddress">
-                <table id="wtRolesUserTable"  >
-                    <tbody>
-                        <tr>
-                            <td>
-                                <!-- Hello
-                                 {{label}}-->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"></td> <td> Name :</td> <td class="col-md-2"><input type="text" name="txtName" required></td>
-                        </tr>
-                        <tr>
-                           <td></td> <td> Street 1 :</td> <td class="col-md-2"><input type="text" name="txtStreet1" required></td>
-                        </tr>
-                        <tr>
-                            <td></td><td> Street 2 :</td> <td class="col-md-2"><input type="text" name="txtStreet2"></td>
-                        </tr>
-                        <tr>
-                           <td></td> <td> City :</td> <td class="col-md-2"><input type="text" name="txtCity" required></td>
-                        </tr>
-                        <tr>
-                           <td></td> <td> State :</td> <td class="col-md-2"><input type="text" name="txtState" required></td>
-                        </tr>
-                        <tr>
-                           <td></td> <td> Zip :</td> <td class="col-md-2"><input type="text" name="txtZip" required></td>
-                        </tr>
-                        <tr>
-                           <td></td> <td> Country :</td> <td class="col-md-2"><input type="text" name="txtCountry" required></td>
-                        </tr>
-                        
-                        <tr>
-                          <td></td>  <td></td><td><input type="submit" class="btn btn-default navbar-btn" id="btValidateEmail" value="Validate Email"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-        </div>
-    </div>
-    <div class="col-md-8">
-        <div class="panel panel-default Shipment Label">
-            <div class="panel-heading">Shipment Label
-                <p style="text-align: right">  </p>
-            </div>
-            {{>ShipmentLabel}}
-        </div>
-    </div>
-</template>
+<template name="mdShippingAddress">
 
-<template name="ShipmentLabel">
-    
-            <form class="shipmentLabel">
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button class="submit btn btn-default navbar-btn" id="btShipmentLabel" value="CreateLabel">Create Shipment</button> 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            
-                             <img width="70%" src='{{labelUrl}}' />
-                            
-                        </td>
-                    </tr>
-                </table>
-               
-          
-            </form>
+
+
+    <form id="validateform" class="form-horizontal">
+        <div class="form-group">
+            <label for="txtName" class="col-sm-3 control-label">Name :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control required" id="txtName" name="txtName" placeholder="Name" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtStreet1" class="col-sm-3 control-label">Street 1:</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtStreet1" name="txtStreet1" placeholder="Street 1" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtStreet2" class="col-sm-3 control-label">Street 2:</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtStreet2" name="txtStreet2" placeholder="Street 2">
+            </div>
+        </div>   
+        <div class="form-group">
+            <label for="txtCity" class="col-sm-3 control-label">City :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtCity" name="txtCity" placeholder="City" required>
+            </div>
+        </div>                  
+        <div class="form-group">
+            <label for="txtState" class="col-sm-3 control-label">State :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtState" name="txtState" placeholder="State" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtZip" class="col-sm-3 control-label">Zip :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtZip" name="txtZip" placeholder="Zip" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtCountry" class="col-sm-3 control-label">Country:</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtCountry" name="txtCountry" placeholder="Country" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="chkAddress" name="chkAddress"> Use this Address
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+                <button type="submit" id="btValidateEmail" class="btn btn-default navbar-btn">Validate Address</button>
+            </div>
+        </div>
+    </form>
+
+
+
+
 </template>
