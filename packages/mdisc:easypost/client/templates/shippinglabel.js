@@ -43,8 +43,7 @@ Template.mdShippinglabel.events({
                 //console.log(res);
                 ShipingLabel = res;
                 //  console.log(ShippingLabel);
-                Session.set('labelurl', ShipingLabel);
-                Session.get('labelurl');
+                
             }
         });
     }
