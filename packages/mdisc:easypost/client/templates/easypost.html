@@ -50,16 +50,51 @@
             <div class="col-sm-offset-3 col-sm-10">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" id="chkAddress" name="chkAddress"> Use this Address
+                        <input type="checkbox" id="chkAddress" name="chkAddress"> Use this Address with out verification
                     </label>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10">
-                <button type="submit" id="btValidateEmail" class="btn btn-default navbar-btn">Validate Address</button>
+                <button type="submit" id="btValidateAddress" class="btn btn-default navbar-btn">Validate Address</button>
             </div>
         </div>
+
+        <div class="panel panel-default" style="width: 50%;text-align: center;margin: 0 auto;" >
+
+            {{#with address}}
+            <div class="form-group" style="">
+                <label style="color: #2f6d0c"> Address Successfully Verified </label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{name}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{street1}}</label>             
+                <label class="control-label">{{street2}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{city}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{state}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{zip}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{country}}</label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="chkVerAddress" name="chkAddress"> <b>Use this Address</b>
+                </label>
+            </div>
+            {{/with}}
+
+        </div>
+
     </form>
 
 
