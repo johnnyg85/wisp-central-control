@@ -3,7 +3,12 @@ Router.route('/shipping/', {
   template: 'mdShipping'
 });
 
-Router.route('/shippingScan/', {
+Router.route('/shipping/info/', {
+  name: 'mdShippingInfo', 
+  template: 'mdShippingInfo'
+});
+
+Router.route('/shipping/scan/', {
   name: 'mdShippingScan', 
   template: 'mdShippingScan'
 });

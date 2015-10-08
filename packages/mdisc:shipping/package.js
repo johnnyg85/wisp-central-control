@@ -27,6 +27,8 @@ Package.onUse(function (api) {
         'client/subscriptions.js',
         'client/templates/shipping.html',
         'client/templates/shipping.js',
+        'client/templates/shipping_info.html',
+        'client/templates/shipping_info.js',
         'client/templates/shipping_scan.html',
         'client/templates/quagga.min.js',
         'client/templates/shipping_scan.js',

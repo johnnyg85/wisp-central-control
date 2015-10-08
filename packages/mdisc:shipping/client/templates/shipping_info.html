@@ -1,0 +1,25 @@
+<template name="mdShippingInfo">
+    <div class="col-md-4">
+        <div class="panel panel-default scanSection">
+            <div class="panel-heading">Barcode Scanner</div>
+            <div class="panel-body scanArea" style="min-height: 275px;">
+                <div id="container">
+                    <div id="interactive" class="viewport"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default lastScanned">
+            <div class="panel-heading">Info</div>
+            <div class="panel-body" style="min-height: 275px;">
+                {{#with lastShippingScanned}}
+                    Type : {{type}}<br>
+                    Service : {{service}}<br>
+                    Disks : {{disks}}<br>
+                    Status : {{status}}<br>
+                {{/with}}
+            </div>
+        </div>
+    </div>
+</template>
