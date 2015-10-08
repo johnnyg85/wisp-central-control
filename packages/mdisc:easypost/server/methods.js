@@ -3,7 +3,7 @@ Future = Npm.require('fibers/future');
 // verify address
 Meteor.methods({
     mdEasypostVerifyAddress: function(fromAddress) {
-      
+
         var future = new Future();
         easypost.Address.create(fromAddress, function(err, fromAddress) {
             fromAddress.verify(function(err, response) {
@@ -11,12 +11,12 @@ Meteor.methods({
                 if (err) {
                     console.log('Address is invalid.');
                     future.return({error: 'Address is invalid'});
-                } else if (response.message !== undefined && response.message!== null) {
+                } else if (response.message !== undefined && response.message !== null) {
                     console.log('Address is valid but has an issue: ',
                             response.message);
                     verifiedAddress = response.address;
                 } else {
-                    verifiedAddress = response;
+                    verifiedAddress = response.address;
                     console.log(verifiedAddress);
                 }
                 future.return(verifiedAddress);
