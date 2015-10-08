@@ -27,7 +27,6 @@ Package.onUse(function(api) {
     api.addFiles([
         'lib/router.js'
 
-
     ], ['server', 'client']);
 
     api.addFiles([
