@@ -1,11 +1,11 @@
 <template name="mdParcel">
 
-    
-  <form id="validateform" class="form-horizontal">
-     <div class="form-group">
-            <label for="txtlength" class="col-sm-3 control-label">Length :</label>
+
+    <form id="validateforms" class="form-horizontal">
+        <div class="form-group">
+            <div> <label for="txtlength" class="col-sm-3 control-label">Length :</label></div>
             <div class="col-sm-7">
-                <input type="text" class="form-control required" id="txtLength" name="txtLength" placeholder="Length" >
+                <input type="text" class="form-control required" id="txtLength" name="txtLength" placeholder="Length" required>
             </div>
         </div>
         <div class="form-group">
@@ -17,7 +17,7 @@
         <div class="form-group">
             <label for="txtHeight" class="col-sm-3 control-label">Height:</label>
             <div class="col-sm-7">
-                <input type="text" class="form-control" id="txtHeight" name="txtHeight" placeholder="Height">
+                <input type="text" class="form-control" id="txtHeight" name="txtHeight" placeholder="Height" required>
             </div>
         </div>   
         <div class="form-group">
@@ -26,15 +26,45 @@
                 <input type="text" class="form-control" id="txtWeight" name="txtWeight" placeholder="Weight" required>
             </div>
         </div>                  
-       
+
 
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10">
-                <button type="submit" id="btCreateParcel" class="btn btn-default navbar-btn">Create Parcel</button>
+                <button type="submit" id="btCreateParcel" name="btCreateParcel" class="btn btn-default navbar-btn">Create Parcel</button>
             </div>
         </div>
 
-  </form>
+        <div class="panel panel-default">
+
+            <div class="panel-heading">Shipping Rates</div>
+
+            {{#if Rates}}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>service</th>
+                        <th>carrier</th>
+                        <th>rate</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#with Rates}}
+                    {{#each Rates}}
+                    <tr>
+                        <td>{{service}}</td>
+                        <td>{{carrier}}</td>
+                        <td>{{rate}}{{currency}}</td>
+                        <td><input type="checkbox" id="chkVerAddress" name="chkAddress">  Use this service</td>
+                    </tr>
+                    {{/each}}
+                    {{/with}}
+                </tbody>
+            </table>
+            {{/if}}
+        </div>
+
+    </form>
 
 
 </template>
