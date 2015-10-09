@@ -51,6 +51,7 @@ Template.mdShippingAddress.rendered = function()
 
 Template.mdShippingAddress.events({
     'submit form': function(event) {
+        //  event.preventDefault();
         event.preventDefault();
 
         var name = $('[name=txtName]').val();
@@ -74,36 +75,54 @@ Template.mdShippingAddress.events({
 
         Meteor.call('mdEasypostVerifyAddress', toAddress, function(err, res) {
 
-            if (err)
+            if (err) {
+                console.log("i");
                 console.log(err);
+                alert(err);
+            }
             else {
-                console.log(res);
-                address = res;
+                console.log("f");
+                if (res !== null)
+                {
+                    console.log("i)");
+                    console.log(res.id);
+                    console.log(res);
+                    address = res;
 
-                Session.set('verifiedAddress', address);
+                    Session.set('verifiedAddress', address);
+                }
+                else
+                {
+                    console.log("er");
+                    console.log(err);
+                    alert("error");
+                }
 
             }
         });
-    }
-    ,
-    'click #btValidateAddress': function(event) {
-        //  event.preventDefault();
-
     },
     'click #chkAddress': function(event) {
         //  alert("Selected");
         if (($('[name=txtName]').val() != '') && ($('[name=txtStreet1]').val() != '') && ($('[name=txtCity]').val() != '')
                 && ($('[name=txtState]').val() != '') && ($('[name=txtZip]').val() != '') && ($('[name=txtCountry]').val() != ''))
-            Router.go('parcel');
+            WtTabPage.show('md_shipping_parcel');
+        else
+            alert('Provide a Valid address');
+        // Router.go('parcel');
 
 
 
     },
     'click #chkVerAddress': function(event) {
         //  alert("Selected");
-        Router.go('parcel');
-
+        // Router.go('parcel');
+        WtTabPage.show('md_shipping_parcel');
+    },
+    'click .main': function() {
+        $(".main").fadeOut();
+        Session.set('verifiedAddress', true);
     }
+
 
 });
 
@@ -111,13 +130,17 @@ Template.mdShippingAddress.events({
 Template.mdShippingAddress.helpers({
     address: function()
     {
-        // console.log("hh");
+        console.log("hh");
 
         return Session.get('verifiedAddress');
     },
     label: function() {
 
 
+    },
+    showMessage: function() {
+        // because the Session variable will most probably be undefined the first time
+        return !Session.get('verifiedAddress');
     }
 
 });
