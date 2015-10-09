@@ -43,7 +43,7 @@ Template.mdShippinglabel.events({
                 //console.log(res);
                 ShipingLabel = res;
                 //  console.log(ShippingLabel);
-                
+
             }
         });
     }
