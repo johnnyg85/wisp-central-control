@@ -10,31 +10,51 @@ Meteor.methods({
                 var verifiedAddress;
                 if (err) {
                     console.log('Address is invalid.');
-                    future.return({error: 'Address is invalid'});
+
+                    future.return(response.message);
                 } else if (response.message !== undefined && response.message !== null) {
                     console.log('Address is valid but has an issue: ',
                             response.message);
                     verifiedAddress = response.address;
+                    future.return(verifiedAddress);
                 } else {
                     verifiedAddress = response.address;
                     console.log(verifiedAddress);
+                    future.return(verifiedAddress);
                 }
-                future.return(verifiedAddress);
+
             });
         });
         return future.wait();
     },
     // set parcel
 
-    mdEasypostSetParsel: function() {
-        easypost.Parcel.create({
-            predefined_package: "InvalidPackageName",
-            weight: 21.2
+    mdEasypostSetParsel: function(parcel) {
+        
+        easypost.Parcel.create(parcel, function(err, parcel) {
+            // predefined_package: "LargeFlatRateBox",
+            // weight: 21.2
+
         }, function(err, response) {
-            console.log(err);
+            console.log(response);
         });
     },
-    // create shipment
+    // create Rates
+    mdEasypostShowRates: function(toAddress, fromAddress, parcel) {
+        var future = new Future();
+        easypost.Shipment.create({
+            to_address: toAddress,
+            from_address: fromAddress,
+            parcel: parcel
+
+        }, function(err, shipment) {
+            var shippmentRates = shipment.rates;
+            console.log(shippmentRates);
+            future.return(shippmentRates);
+        });
+        return future.wait();
+    },
+    //Create Shipment
     mdEasypostCreateShipment: function(toAddress, fromAddress, parcel) {
         var future = new Future();
         easypost.Shipment.create({
