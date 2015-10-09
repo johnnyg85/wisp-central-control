@@ -21,8 +21,11 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/css/style.css',
     'client/templates/tabs.html',
-    'client/templates/tabs.js'
+    'client/templates/tabs.js',
+    'client/tab-page.js'
     ], 'client');
+
+  api.export('WtTabPage', ['client']);
 
 });
 

@@ -18,14 +18,20 @@ Meteor.methods({
   setArchiveDiskType: function (type, archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$set: {diskType: type}});
   },
-  appendToArchiveScanned: function (archiveId, diskIndex) {
+  setArchiveShippingLabel: function (url, archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$set: {shippingLabel: url}});
+  },
+  setArchiveShipTo: function (address, archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$set: {shipTo: address}});
+  },
+  setArchiveTitle: function (title, archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$set: {title: title}});
+  },
+  pushArchiveScanned: function (archiveId, diskIndex) {
     MdArchive.collection.update({_id: archiveId}, {$push: {scanned: {diskIndex: diskIndex, time: new Date()}}});
     return MdArchive.collection.findOne({_id: archiveId});
   },
-  setShippingLabel: function (url, archiveId) {
-    MdArchive.collection.update({_id: archiveId}, {$set: {shippingLabel: url}});
-  },
-  appendToArchiveShippingScanned: function (archiveId) {
+  pushArchiveShippingScanned: function (archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$push: {shippingScanned: {time: new Date()}}});
     return MdArchive.collection.findOne({_id: archiveId});
   }
