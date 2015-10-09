@@ -115,5 +115,5 @@ var scanIndications = function() {
         $('.scanArea').css('background-color', '#FFFFFF');
     }, 250);
     
-    new Audio('click.mp3').play();
+    new Audio('scanner-beep.mp3').play();
 };
