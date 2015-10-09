@@ -79,7 +79,7 @@ Template.mdShippingScan.onRendered(function() {
                                     }
                                 }
                             });
-                            Meteor.call("appendToArchiveShippingScanned", res._id, function (err, res) {
+                            Meteor.call("pushArchiveShippingScanned", res._id, function (err, res) {
                                 if (!err && res) {
                                     var lastScanned = Session.get('lastShippingScanned');
                                     if (lastScanned) {

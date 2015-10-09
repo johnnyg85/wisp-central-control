@@ -45,7 +45,7 @@ Template.mdShipping.events({
     'click .print_shipping_label': function() {
         var label_url = "http://assets.geteasypost.com/postage_labels/labels/0jvZJy.png";
         Meteor.call("setArchiveStatus", "Docking", this.archive._id);
-        Meteor.call("setShippingLabel", label_url, this.archive._id);
+        Meteor.call("setArchiveShippingLabel", label_url, this.archive._id);
         
         Meteor.call("getArchiveById", this.archive._id, function(err, res) {
             if (!err && res) {
@@ -85,7 +85,7 @@ qrScanner.on('scan', function(err, result) {
                         }
                         Session.set('lastScanned', {archive: res, disc: qrdata.n});
                         Session.set('scannedDisks', scannedDisks);
-                        Meteor.call("appendToArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
+                        Meteor.call("pushArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
                             if (!err && res) {
                                 var lastScanned = Session.get('lastScanned');
                                 if (lastScanned && lastScanned.archive) {
