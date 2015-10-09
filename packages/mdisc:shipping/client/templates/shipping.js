@@ -59,46 +59,48 @@ Template.mdShipping.events({
     }
 });
 
-var lastScanned = "";
-qrScanner.on('scan', function(err, result) {
-    if (!err) {
-        result = processScannedData(result);
-        if (result != lastScanned) {
-            scanIndications();
-            lastScanned = result;
-            var qrdata = JSON.parse(result);
-            if (qrdata) {
-                Meteor.call("getArchiveById", qrdata.id, function(err, res) {
-                    if (!err && res) {
-                        var lastScanned = Session.get('lastScanned');
-                        var scannedDisks = Session.get('scannedDisks');
-                        if (!scannedDisks) {
-                            scannedDisks = new Array();
-                        }
-                        if (lastScanned && lastScanned.archive && lastScanned.archive._id == res._id) {
-                            if (scannedDisks.indexOf(qrdata.n)<0) {
+Template.mdShipping.onRendered(function() {
+    var lastScanned = "";
+    qrScanner.on('scan', function(err, result) {
+        if (!err) {
+            result = processScannedData(result);
+            if (result != lastScanned) {
+                scanIndications();
+                lastScanned = result;
+                var qrdata = JSON.parse(result);
+                if (qrdata) {
+                    Meteor.call("getArchiveById", qrdata.id, function(err, res) {
+                        if (!err && res) {
+                            var lastScanned = Session.get('lastScanned');
+                            var scannedDisks = Session.get('scannedDisks');
+                            if (!scannedDisks) {
+                                scannedDisks = new Array();
+                            }
+                            if (lastScanned && lastScanned.archive && lastScanned.archive._id == res._id) {
+                                if (scannedDisks.indexOf(qrdata.n)<0) {
+                                    scannedDisks.push(qrdata.n);
+                                }
+                            } else {
+                                scannedDisks = new Array();
                                 scannedDisks.push(qrdata.n);
                             }
-                        } else {
-                            scannedDisks = new Array();
-                            scannedDisks.push(qrdata.n);
-                        }
-                        Session.set('lastScanned', {archive: res, disc: qrdata.n});
-                        Session.set('scannedDisks', scannedDisks);
-                        Meteor.call("pushArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
-                            if (!err && res) {
-                                var lastScanned = Session.get('lastScanned');
-                                if (lastScanned && lastScanned.archive) {
-                                    lastScanned.archive = res;
-                                    Session.set('lastScanned', lastScanned);
+                            Session.set('lastScanned', {archive: res, disc: qrdata.n});
+                            Session.set('scannedDisks', scannedDisks);
+                            Meteor.call("pushArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
+                                if (!err && res) {
+                                    var lastScanned = Session.get('lastScanned');
+                                    if (lastScanned && lastScanned.archive) {
+                                        lastScanned.archive = res;
+                                        Session.set('lastScanned', lastScanned);
+                                    }
                                 }
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+                }
             }
         }
-    }
+    });
 });
 
 var processScannedData = function(data) {

@@ -95,6 +95,10 @@ Template.mdShippingScan.onRendered(function() {
     });
 });
 
+Template.mdShippingScan.onDestroyed(function() {
+    Quagga.stop();
+});
+
 var scanIndications = function() {
     $('.scanArea').css('background-color', '#DFF0D8');
     setTimeout(function() {
