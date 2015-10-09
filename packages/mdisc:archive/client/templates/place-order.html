@@ -1,5 +1,64 @@
 <template name="mdArchivePlaceOrderButton">
-    <a id="archivePlaceOrder" class="btn btn-default btn-lg btn-login" href="{{pathFor 'mdArchiveThisOrder'}}">
-        Place Order
-    </a>
+  <a id="archivePlaceOrder" class="btn btn-primary btn-lg btn-login" href="{{pathFor 'mdArchiveThisOrder'}}">
+    Place Order
+  </a>
+</template>
+
+<template name="mdArchiveAddress">
+  <form id="shipping-address-form" class="form-horizontal col-md-12">
+    <div class="alert alert-danger address-errors" role="alert" style="display: none;"></div>
+    <div class="form-group">
+      <label for="name" class="col-md-3 control-label">Name</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{archiveName}}">
+      </div>
+    </div>
+
+    {{> mdAddress}}
+
+    <div class="form-group">
+      <div class="col-md-offset-8 col-md-4">
+        <button type="submit" class="btn btn-primary btn-block">Save</button>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="mdArchivePayment">
+  {{> mdStripePaymentSimple amount='24.95'}}
+</template>
+
+<template name="mdArchiveConfrim">
+  <table class="table">
+    <tbody>
+      <tr><td><strong>Date</strong></td><td>{{openArchive.createdAt}}</td></tr>
+      <tr><td><strong>Paid</strong></td><td>Yes</td></tr>
+      <tr><td><strong>Archive Name</strong></td><td>{{openArchive.archiveName}}</td></tr>
+      <tr><td><strong>Address</strong></td><td>{{openArchive.shipTo.address}}</td></tr>
+      <tr><td><strong>City</strong></td><td>{{openArchive.shipTo.city}}</td></tr>
+      <tr><td><strong>State</strong></td><td>{{openArchive.shipTo.state}}</td></tr>
+      <tr><td><strong>Zip</strong></td><td>{{openArchive.shipTo.zip}}</td></tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-md-offset-8 col-md-4">
+      <button class="btn btn-primary btn-block my-account">My Account</button>
+    </div>
+  </div>
+
+</template>
+
+<template name="mdArchiveName">
+  <form action="" method="POST" id="archive-name-form" class="form-horizontal col-md-12">
+    <div class="form-group">
+      <label for="name" class="col-md-3 control-label">Archive Name</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="archive-name" name="name" placeholder="Name" value="{{openArchive.archiveName}}">
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="mdArchiveOrder">
+  {{> wtTabPage tabData=tabData}}
 </template>

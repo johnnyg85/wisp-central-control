@@ -53,6 +53,7 @@ localstorage@1.0.5
 logging@1.0.8
 matb33:collection-hooks@0.8.1
 mdisc:accounts@0.0.1
+mdisc:address-ui@0.0.1
 mdisc:archive@0.0.1
 mdisc:busy@0.0.1
 mdisc:cloud-service-dropbox@0.0.1

@@ -1,21 +1,9 @@
-<template name="mdStripePayment">
-    <form action="" method="POST" id="payment-form" class="form-horizontal col-md-12">
+<template name="mdStripePaymentSimple">
+    <form action="" method="POST" id="payment-form-simple" class="form-horizontal col-md-12">
         <div class="alert alert-danger payment-errors" role="alert" style="display: none;"></div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-                <div class="alert alert-info" role="alert"><strong><center>${{amount}}</center></strong></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-sm-3 control-label">Name</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="email" class="col-sm-3 control-label">Email</label>
-            <div class="col-sm-9">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                <div class="alert alert-info payment-amount" role="alert"><strong><center>${{amount}}</center></strong></div>
             </div>
         </div>
         <div class="form-group">
@@ -51,17 +39,10 @@
                 </div>
             </div>
         </div>
-        {{> mdAddress}}
         <div class="form-group">
             <div class="col-sm-offset-8 col-sm-4">
                 <button type="submit" class="btn btn-primary btn-block">Make Payment</button>
             </div>
         </div>
     </form>
-</template>
-
-<template name="mdStripePlaceOrderButton">
-    <a id="archivePlaceOrder" class="btn btn-default btn-lg btn-login" href="{{pathFor 'mdStripePayment'}}">
-        Place Order
-    </a>
 </template>

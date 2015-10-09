@@ -33,6 +33,12 @@ Template.mdCloudGoogleAuthorizeButtonsBig.events({
 Template.mdCloudGoogleStartArchive.helpers({
   googleConnected: function () { return Session.get('googleConnected'); },
   googleConnecting: function () { return Session.get('googleConnecting'); },
+  showOrderForm: function() {
+    if (Session.get('googleConnected') || Session.get('googleConnecting')) {
+      return true;
+    }
+    return false;
+  }
 });
 
 Template.mdCloudGoogleStartArchive.onCreated(function () {

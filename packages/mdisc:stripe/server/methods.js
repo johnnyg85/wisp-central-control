@@ -77,7 +77,7 @@ Meteor.methods({
                 } else {
                     //Payment Successful
                     StripeMeteor.successfulOneTimePayment(charge, options);
-                    myFuture.return({status: "success", data: charge.status}); //Return only required info from charge object
+                    myFuture.return({status: "success", data: charge.id}); //Return only required info from charge object
                 }
             });
             var myFutureResult = myFuture.wait();
@@ -86,6 +86,29 @@ Meteor.methods({
             } else {
                 return myFutureResult.data;
             }
+        }
+    },
+
+    oneTimePaymentSimple: function (options) {
+        var amount = 1500; //Hardcoded amount value in cents.
+        var description = "Archive Payment"; //Description that appears along with transaction in Stripe interface
+        
+        var myFuture = new Future();
+        StripeMeteor.charge(options.token, amount, description, function (err, charge) {
+            if (err) {
+                console.log(err.message);
+                myFuture.return({status: "error", data: err.message});
+            } else {
+                //Payment Successful
+                StripeMeteor.successfulOneTimePayment(charge, options);
+                myFuture.return({status: "success", data: charge.id}); //Return only required info from charge object
+            }
+        });
+        var myFutureResult = myFuture.wait();
+        if (myFutureResult.status == "error") {
+            throw new Meteor.Error("card-error", myFutureResult.data);
+        } else {
+            return myFutureResult.data;
         }
     }
     

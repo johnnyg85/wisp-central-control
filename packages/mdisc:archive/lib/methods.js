@@ -1,6 +1,7 @@
 // Methods on both client and server
 Meteor.methods({
   openAutoCloudArchive: function (service) {
+
     var id = MdArchive.collection.insert({
       type: 'Auto Cloud Archive',
       version: '0.0.1',
@@ -9,6 +10,7 @@ Meteor.methods({
       size: 'Unknown',
       diskType: 'Unknown',
       disks: 'Unknown',
+      archiveName: 'My Photos',
       initDone: false 
     });
     return id;

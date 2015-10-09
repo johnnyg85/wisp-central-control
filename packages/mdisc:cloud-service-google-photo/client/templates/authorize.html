@@ -1,23 +1,40 @@
 <template name="mdCloudGoogleAuthorizeButtonsBig">
-    <a id="authorizeGooglePhoto" class="btn btn-default btn-lg btn-login google" href="#">
-        <i class="fa fa-google-plus fa-fw"></i> Photos Account
+    <a id="authorizeGooglePhoto" class="btn btn-primary btn-lg btn-login google" href="#">
+        Buy Google Photos Archive
     </a>
 </template>
 
 <template name="mdCloudGoogleStartArchive">
   <center>
-    <h1>Connect to Google Photos</h1>
-    {{#unless googleConnected}}
+    <h1>Order Archive</h1>
+    {{#unless showOrderForm}}
       {{> mdCloudGoogleAuthorizeButtonsBig}}
     {{/unless}}
   </center>
-  {{#if googleConnecting}}
+  {{#if showOrderForm}}
     <div class="row">
-      <div class="col-xs-12">{{> mdBusy}}</div>
+      <div class="col-xs-offset-2 col-xs-8">
+        {{> mdArchiveName}}
+      </div>
     </div>
-  {{/if}}
-  {{#if googleConnected}}
-    {{> mdCloudServiceShowFewPhotos}}
-    <center>{{> mdStripePlaceOrderButton}}</center>
+    <div class="row">
+      <div class="col-sm-8">
+        <h3>Order Details</h3>
+        {{> mdArchiveOrder}}
+      </div>
+      <div class="col-sm-4">
+        <h3>Archive Preview</h3>
+        <div class="row">
+          <div class="col-xs-12">
+            {{#if googleConnecting}}
+              <br /><br /><br /><br />{{> spinner}}
+            {{/if}}
+            {{#if googleConnected}}
+              {{> mdCloudServiceShowFewPhotos}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
   {{/if}}
 </template>
