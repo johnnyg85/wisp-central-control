@@ -3,6 +3,17 @@
 
 
     <form id="validateform" class="form-horizontal">
+         <div id="formAlert" class="alert hide">  
+          <a class="close">×</a>  
+          <strong>Warning!</strong> Make sure all fields are filled and try again.
+        </div>
+        {{#if address}}
+        <div class="alert alert-success">
+             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> Address Verified Successfully
+        </div>
+        {{/if}}
+
         <div class="form-group">
             <label for="txtName" class="col-sm-3 control-label">Name :</label>
             <div class="col-sm-7">
@@ -57,16 +68,15 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10">
-                <button type="submit" id="btValidateAddress" class="btn btn-default navbar-btn">Validate Address</button>
+                <button type="submit" id="btValidateAddress" name="btValidateAddress" class="btn btn-default navbar-btn">Validate Address</button>
             </div>
         </div>
 
         <div class="panel panel-default" style="width: 50%;text-align: center;margin: 0 auto;" >
 
+
             {{#with address}}
-            <div class="form-group" style="">
-                <label style="color: #2f6d0c"> Address Successfully Verified </label>
-            </div>
+
             <div class="checkbox">
                 <label class="control-label">{{name}}</label>
             </div>
