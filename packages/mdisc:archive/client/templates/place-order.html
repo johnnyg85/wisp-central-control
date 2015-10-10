@@ -10,7 +10,7 @@
     <div class="form-group">
       <label for="name" class="col-md-3 control-label">Name</label>
       <div class="col-md-9">
-        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{archiveName}}">
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{shipTo.name}}">
       </div>
     </div>
 
@@ -18,20 +18,22 @@
 
     <div class="form-group">
       <div class="col-md-offset-8 col-md-4">
-        <button type="submit" class="btn btn-primary btn-block">Save</button>
+        <button type="submit" class="btn btn-primary btn-block">Next</button>
       </div>
     </div>
   </form>
 </template>
 
 <template name="mdArchivePayment">
-  {{> mdStripePaymentSimple amount='24.95'}}
+  {{> mdStripePaymentSimple amount='35.00' desc='Google Photos full archive'}}
 </template>
 
 <template name="mdArchiveConfrim">
   <table class="table">
     <tbody>
+      <tr><td><strong>Order #</strong></td><td>{{openArchive._id}}</td></tr>
       <tr><td><strong>Date</strong></td><td>{{openArchive.createdAt}}</td></tr>
+      <tr><td><strong>Type</strong></td><td>{{openArchive.archiveType}}</td></tr>
       <tr><td><strong>Paid</strong></td><td>Yes</td></tr>
       <tr><td><strong>Archive Name</strong></td><td>{{openArchive.archiveName}}</td></tr>
       <tr><td><strong>Address</strong></td><td>{{openArchive.shipTo.address}}</td></tr>

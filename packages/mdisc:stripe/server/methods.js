@@ -90,8 +90,9 @@ Meteor.methods({
     },
 
     oneTimePaymentSimple: function (options) {
-        var amount = 1500; //Hardcoded amount value in cents.
-        var description = "Archive Payment"; //Description that appears along with transaction in Stripe interface
+        // TODO: set from the form input values.
+        var amount = 3500; //Hardcoded amount value in cents.
+        var description = "Google Photos full archive"; //Description that appears along with transaction in Stripe interface
         
         var myFuture = new Future();
         StripeMeteor.charge(options.token, amount, description, function (err, charge) {

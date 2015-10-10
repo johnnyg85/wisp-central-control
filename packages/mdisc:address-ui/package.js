@@ -15,7 +15,10 @@ Package.onUse(function(api) {
   api.use([
     'templating'
   ]);
-  api.addFiles('client/address.html', 'client');
+  api.addFiles([
+    'client/address.html',
+    'client/address.js'
+  ], 'client');
 });
 
 Package.onTest(function(api) {

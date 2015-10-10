@@ -48,6 +48,7 @@ Template.mdArchiveAddress.events({
         name = name.slice(0, name.indexOf(' '));
 
       MdArchive.collection.update({_id: archiveId}, {$set: {archiveName: name + "'s Photos"}});
+
     }
   },
   'submit': function(e, t) {
@@ -63,11 +64,29 @@ Template.mdArchiveAddress.events({
       }
     }
 
+
+
     MdArchive.collection.update({_id: archiveId}, {$set: {shipTo: shipTo}});
     WtTabPage.enable('arch_pay');
     WtTabPage.show('arch_pay');
 
+    // Update the account address
+    Meteor.users.update({_id: Meteor.userId()}, { $set:{"profile.shipTo": shipTo}} )
+
+    // Update the first name
+    var name = shipTo.name.trim();
+    if (name.indexOf(' ') > 0)
+      name = name.slice(0, name.indexOf(' '));
+    Meteor.users.update({_id: Meteor.userId()}, { $set:{"profile.firstname": name}} )
+
   },
+});
+
+
+Template.mdArchiveAddress.helpers({
+  shipTo: function () {
+    return Meteor.user().profile.shipTo;    
+  }
 });
 
 

@@ -1,11 +1,11 @@
 <template name="mdStripePaymentSimple">
     <form action="" method="POST" id="payment-form-simple" class="form-horizontal col-md-12">
-        <div class="alert alert-danger payment-errors" role="alert" style="display: none;"></div>
         <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-9">
-                <div class="alert alert-info payment-amount" role="alert"><strong><center>${{amount}}</center></strong></div>
+            <div class="col-sm-12">
+                <div class="alert alert-info payment-amount" role="alert"><strong><center>{{desc}} ${{amount}}</center></strong></div>
             </div>
         </div>
+        <div class="alert alert-danger payment-errors" role="alert" style="display: none;"></div>
         <div class="form-group">
             <label for="cardnumber" class="col-sm-3 control-label">Card Number</label>
             <div class="col-sm-9">
