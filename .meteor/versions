@@ -60,6 +60,7 @@ mdisc:cloud-service-dropbox@0.0.1
 mdisc:cloud-service-google-photo@0.0.1
 mdisc:cloud-services@0.0.1
 mdisc:jobs@0.0.1
+mdisc:manage-account@0.0.1
 mdisc:mandrill@0.0.1
 mdisc:shipping@0.0.1
 mdisc:stripe@0.0.1
@@ -81,6 +82,7 @@ mongo@1.1.2
 mongo-id@1.0.1
 mongo-livedata@1.0.9
 mrt:later@1.6.1
+mrt:moment@2.8.1
 mrt:qr-scanner@0.2.0
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.39_1
@@ -106,6 +108,7 @@ spacebars@1.0.7
 spacebars-compiler@1.0.7
 srp@1.0.4
 standard-minifiers@1.0.1
+steeve:moment-dateformat@0.0.1
 templating@1.1.4
 templating-tools@1.0.0
 tracker@1.0.9

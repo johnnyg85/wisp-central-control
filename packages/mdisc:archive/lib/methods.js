@@ -16,6 +16,7 @@ Meteor.methods({
       disks: 'Unknown',
       archiveName: name,
       archiveType: 'Google Photos full archive',
+      price: '35.00',
       initDone: false 
     });
     return id;

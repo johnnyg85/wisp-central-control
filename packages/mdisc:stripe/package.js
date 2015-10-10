@@ -15,6 +15,7 @@ Package.onUse(function (api) {
         'iron:router@1.0.7',
         'mongo',
         'wisptools:collection',
+        'wisptools:growl',
         'mdisc:address-ui'
     ]);
     api.export('StripeMeteor');

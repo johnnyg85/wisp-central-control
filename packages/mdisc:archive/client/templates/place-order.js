@@ -71,7 +71,12 @@ Template.mdArchiveAddress.events({
     WtTabPage.show('arch_pay');
 
     // Update the account address
-    Meteor.users.update({_id: Meteor.userId()}, { $set:{"profile.shipTo": shipTo}} )
+    Meteor.users.update({_id: Meteor.userId()}, { $set:{"profile.shipTo": shipTo}}, function (err, res) {
+      if (err)
+        WtGrowl.fail("Could not update Shipping Information");
+      else
+        WtGrowl.success("Shipping Information updated");
+    });
 
     // Update the first name
     var name = shipTo.name.trim();

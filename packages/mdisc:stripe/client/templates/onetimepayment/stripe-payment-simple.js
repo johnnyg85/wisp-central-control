@@ -42,6 +42,7 @@ var stripeResponseHandlerSimple = function StripeResponseHandler(status, respons
         $form.find('.payment-errors').text(response.error.message);
         $form.find('.payment-errors').css("display", "block");
         $form.find('button').prop('disabled', false);
+        WtGrowl.fail("Payment Failed");
     } else {
         var options = {
             token: response.id,
@@ -51,9 +52,11 @@ var stripeResponseHandlerSimple = function StripeResponseHandler(status, respons
                 $form.find('.payment-errors').text(error.reason);
                 $form.find('.payment-errors').css("display", "block");
                 $form.find('button').prop('disabled', false);
+                WtGrowl.fail("Payment Failed");
             } else {
                 $form.find('.payment-errors').text('');
                 $form.find('.payment-errors').css("display", "none");
+                WtGrowl.success("Payment Complete - Thank You!");
                 //alert('Payment complete.');
 
                 // TODO: Make sure that the server has validated the payment as well.  So that people cannot fake an order.

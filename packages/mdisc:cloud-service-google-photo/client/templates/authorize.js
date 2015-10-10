@@ -1,6 +1,6 @@
 
-Template.mdCloudGoogleAuthorizeButtonsBig.events({
-  'click a#authorizeGooglePhoto': function(e, t) {
+Template.mdCloudGoogleAuthorizeNavButton.events({
+  'click #authorizeGooglePhoto': function(e, t) {
     e.preventDefault();
 
     Google.requestCredential({
@@ -21,6 +21,7 @@ Template.mdCloudGoogleAuthorizeButtonsBig.events({
 
         // Start the timer for displaying some photos
         Session.set('googleConnecting', true);
+        Router.go('mdCloudGoogleStartArchive');
         Meteor.setTimeout(function () {
           Session.set('googleConnecting', false);
           Session.set('googleConnected', true);
@@ -42,6 +43,7 @@ Template.mdCloudGoogleStartArchive.helpers({
 });
 
 Template.mdCloudGoogleStartArchive.onCreated(function () {
-  Session.set('googleConnected', false);
-  Session.set('googleConnecting', false);
+  if (Session.get('googleConnecting')) {
+    Session.set('googleConnected', false);
+  }
 });
