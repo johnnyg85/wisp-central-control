@@ -62,7 +62,12 @@ var stripeResponseHandlerSimple = function StripeResponseHandler(status, respons
                 // TODO: Make sure that the server has validated the payment as well.  So that people cannot fake an order.
                 // Order the Archive
                 var archiveId = Session.get('openArchiveId');
-                MdArchive.collection.update({_id: archiveId}, {$set: {status: 'Ordered', paymentId: result, paid: true}});
+                var payment = {
+                    paid: true,
+                    date: new Date(),
+                    stripeId: result
+                };
+                MdArchive.collection.update({_id: archiveId}, {$set: {status: 'Ordered', payment: payment}});
                 Meteor.call('downloadArchive', archiveId);
 
                 // Mark for as paid
