@@ -47,7 +47,7 @@
 <template name="mdMyAccountOrder">
   {{#if show status}}
     <tr>
-      <td>{{dateFormat createdAt format="DD/MM/YY"}}</td>
+      <td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
       <td>Order # {{_id}}</td>
       <td>{{archiveType}}</td>
       <td>${{price}}</td>
