@@ -120,6 +120,7 @@ Template.mdShippingScan.onRendered(function() {
 
 Template.mdShippingScan.onDestroyed(function() {
     Quagga.stop();
+    Session.set('lastShippingScanned', false);
 });
 
 var scanIndications = function() {

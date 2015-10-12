@@ -1,63 +1,10 @@
-Template.mdShippingInfo.helpers({
+Template.mdShippingInfoBarcode.helpers({
     lastShippingScanned: function() {
         return Session.get('lastShippingScanned');
-    },
-    scannerType: function(type) {
-        return Session.get('scannerType') === type;
     }
 });
 
-Template.mdShippingInfo.events({
-    'click .scanSwitchBtn': function() {
-        var scannerType = Session.get('scannerType');
-        if (scannerType) {
-            if (scannerType == 'QR') {
-                startQRcodeScanner();
-                scannerType = 'Barcode';
-            } else {
-                startBarcodeScanner();
-                scannerType = 'QR';
-            }
-        } else {
-            startBarcodeScanner();
-            scannerType = 'QR';
-        }
-        Session.set('scannerType', scannerType);
-    }
-});
-
-Template.mdShippingInfo.onRendered(function() {
-    var scannerType = Session.get('scannerType');
-    if (scannerType && scannerType=='QR') {
-        startQRcodeScanner();
-    } else {
-        startBarcodeScanner();
-    }
-});
-
-var startQRcodeScanner = function() {
-    var lastScanned = "";
-    qrScanner.on('scan', function(err, result) {
-        console.log('QR scanner running');
-        if (!err) {
-            result = processScannedData(result);
-            if (result != lastScanned) {
-                scanIndications();
-                lastScanned = result;
-                var qrdata = JSON.parse(result);
-                if (qrdata) {
-                    Meteor.call("getArchiveById", qrdata.id, function(err, res) {
-                        if (!err && res) {
-                           Session.set('lastShippingScanned', res);
-                        }
-                    });
-                }
-            }
-        }
-    });
-};
-
-var startBarcodeScanner = function() {
+Template.mdShippingInfoBarcode.onRendered(function() {
     var config = {
         inputStream: {name: "Live",
             type: "LiveStream",
@@ -111,6 +58,29 @@ var startBarcodeScanner = function() {
     Quagga.init(config, function (err) {
         Quagga.start();
     });
+    Quagga.onProcessed(function (result) {
+        var drawingCtx = Quagga.canvas.ctx.overlay;
+        var drawingCanvas = Quagga.canvas.dom.overlay;
+        
+        if (result) {
+            if (result.boxes) {
+                drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                result.boxes.filter(function (box) {
+                    return box !== result.box;
+                }).forEach(function (box) {
+                    Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
+                });
+            }
+            
+            if (result.box) {
+                Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
+            }
+            
+            if (result.codeResult && result.codeResult.code) {
+                Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
+            }
+        }
+    });
     var lastScanned = "";
     Quagga.onDetected(function (result) {
         var code = result.codeResult.code;
@@ -129,7 +99,12 @@ var startBarcodeScanner = function() {
             }
         }
     });
-};
+});
+
+Template.mdShippingInfoBarcode.onDestroyed(function() {
+    Quagga.stop();
+    Session.set('lastShippingScanned', false);
+});
 
 var scanIndications = function() {
     $('.scanArea').css('background-color', '#DFF0D8');
@@ -174,10 +149,4 @@ var parseUSPSBarcode = function(data) {
         trackingNumber: data.slice(8)
     };
     return result;
-};
-
-var processScannedData = function(data) {
-    data = data.replace(/\'/g, '"'); //In JSON only escaped double-quote characters are allowed, not single-quotes.
-    data = data.replace(/\\/g, '');
-    return data;
 };

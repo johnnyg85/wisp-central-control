@@ -1,18 +1,9 @@
-<template name="mdShippingInfo">
+<template name="mdShippingInfoQR">
     <div class="col-md-4">
         <div class="panel panel-default scanSection">
-            <div class="panel-heading">
-                {{#if scannerType "QR"}}QR Code{{else}}Barcode{{/if}} Scanner
-                &nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-primary scanSwitchBtn">Scan {{#if scannerType "QR"}}Barcode{{else}}QR Code{{/if}}</button>
-            </div>
+            <div class="panel-heading">QR Code Scanner</div>
             <div class="panel-body scanArea" style="min-height: 275px;">
-                {{#if scannerType "QR"}}
-                    {{> qrScanner w=1024 h=768}}
-                {{else}}
-                    <div id="container">
-                        <div id="interactive" class="viewport"></div>
-                    </div>
-                {{/if}}
+                {{> qrScanner w=1024 h=768}}
             </div>
         </div>
     </div>
