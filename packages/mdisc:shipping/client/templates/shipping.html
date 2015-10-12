@@ -12,10 +12,10 @@
             <div class="panel-heading">Last Scanned</div>
             <div class="panel-body" style="min-height: 275px;">
                 {{#with lastScanned}}
-                    Type : {{archive.type}}<br>
-                    Service : {{archive.service}}<br>
-                    Status : {{archive.status}}<br>
-                    Disk Index : {{disc}}<br>
+                Type : {{archive.type}}<br>
+                Service : {{archive.service}}<br>
+                Status : {{archive.status}}<br>
+                Disk Index : {{disc}}<br>
                 {{/with}}
             </div>
         </div>
@@ -40,18 +40,18 @@
                     <td>
                         Disk {{scannedDiskCount}} of {{archive.disks}}<br><br>
                         {{#if diskCountKnown archive.disks}}
-                            {{#each scannedDisks archive.disks}}
-                            Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned{{else}}Pending...{{/if}}</span><br>
-                            {{/each}}
+                        {{#each scannedDisks archive.disks}}
+                        Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned{{else}}Pending...{{/if}}</span><br>
+                        {{/each}}
                         {{/if}}
                     </td>
                     <td>
                         <button class="btn print_shipping_label {{#if scanCompleted archive.disks}}btn-success{{else}}btn-default{{/if}}" disabled="{{#unless scanCompleted archive.disks}}disabled{{/unless}}">Print Shipping Label</button>
                         <br><br>
                         {{#if scanCompleted archive.disks}}
-                            {{#if archive.shippingLabel}}
-                                <a href="{{archive.shippingLabel}}" target="_blank">Shipping Label</a>
-                            {{/if}}
+                        {{#if archive.shippingLabel}}
+                        <a href="{{archive.shippingLabel}}" target="_blank">Shipping Label</a>
+                        {{/if}}
                         {{/if}}
                     </td>
                 </tr>
