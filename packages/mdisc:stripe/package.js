@@ -16,7 +16,8 @@ Package.onUse(function (api) {
         'mongo',
         'wisptools:collection',
         'wisptools:growl',
-        'mdisc:address-ui'
+        'mdisc:address-ui',
+        'mdisc:dates'
     ]);
     api.export('StripeMeteor');
     api.export('MdStripeMeteor');
