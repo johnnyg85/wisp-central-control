@@ -21,7 +21,8 @@ Package.onUse(function(api) {
     'google',
     'meteorhacks:async',
     'wisptools:menu',
-    'mdisc:busy'
+    'mdisc:busy',
+    'mdisc:archive'
   ]);  
 
   // Server only files

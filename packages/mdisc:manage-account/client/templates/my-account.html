@@ -1,0 +1,100 @@
+<template name="mdMyAccount">
+  <div class="row">
+    <div class="col-xs-12"><h2>Hi, {{user.profile.firstname}}!</h2></div>
+  </div>
+
+  <br />
+
+  <div class="row">
+    <div class="col-xs-12"><h3>Your Orders</h3></div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <tbody>
+            {{#each orders}}
+              {{> mdMyAccountOrder}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5">
+      <h3>Account Information</h3><hr />
+      {{> mdMyAccountUserForm}}
+    </div>
+    <div class="col-sm-7">
+      <h3>Shipping Information</h3><hr />
+      {{> mdMyAccountShippingForm}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Data Permissions</h3><hr />
+      {{> mdMyAccountDataPermissions}}
+    </div>
+  </div>
+
+
+</template>
+
+<template name="mdMyAccountOrder">
+  {{#if show status}}
+    <tr>
+      <td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
+      <td>Order # {{_id}}</td>
+      <td>{{archiveType}}</td>
+      <td>${{price}}</td>
+      <td>{{status}}</td>
+    </tr>
+  {{/if}}
+</template>
+
+<template name="mdMyAccountUserForm">
+  <strong>You are using Google to login.</strong>
+</template>
+
+<template name="mdMyAccountShippingForm">
+  <form id="shipping-address-form" class="form-horizontal col-md-12">
+    <div class="alert alert-danger address-errors" role="alert" style="display: none;"></div>
+    <div class="form-group">
+      <label for="name" class="col-md-3 control-label">Name</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{user.profile.shipTo.name}}">
+      </div>
+    </div>
+
+    {{> mdAddress}}
+
+    <div class="form-group">
+      <div class="col-md-offset-8 col-md-4">
+        <button type="submit" class="btn btn-primary btn-block">Update</button>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="mdMyAccountDataPermissions">
+  <div class="row">
+    <div class="col-sm-3">
+      <img src="/images/google_200px.png" class="img-responsive" />
+    </div>
+    <div class="col-sm-3 data-permission-content">
+      Status: Connected!
+    </div>
+    <div class="col-sm-3 data-permission-content">
+      Access to Google Drive, Picasa <br />
+      Read/Write permissions <br />
+      Basic account info <br />
+    </div>
+    <div class="col-sm-3 data-permission-content">
+      <a href="#">Revoke Permissions</a>
+    </div>
+  </div>
+</template>

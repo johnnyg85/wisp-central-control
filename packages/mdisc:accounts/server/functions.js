@@ -32,5 +32,8 @@ MdAccounts = {
     }
     return email;
 
+  },
+  initAddress: function () {
+    
   }
 };

@@ -22,7 +22,10 @@ Package.onUse(function(api) {
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:growl',
-    'mdisc:jobs'
+    'wisptools:tab-page',
+    'mdisc:jobs',
+    'mdisc:accounts',
+    'mdisc:address-ui'
   ]);
 
   api.addFiles([

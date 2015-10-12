@@ -1,5 +1,15 @@
 <template name="menu">
-  {{#if currentUser}}
+  {{#if isInRole 'admin'}}
     {{> wtMenu}}
   {{/if}}
+  {{#unless isInRole 'admin'}}
+    <li><a href="">How it works</a></li>
+    <li><a href="">Pricing</a></li>
+    <li><a href="">Contact</a></li>
+    {{#if currentUser}}
+      <li><a href="">|</a></li>
+      <li><a href="{{pathFor 'mdMyAccount'}}">Manage Account</a></li>
+      <li>{{> mdCloudGoogleAuthorizeNavButton}}</li>
+    {{/if}}
+  {{/unless}}
 </template>
