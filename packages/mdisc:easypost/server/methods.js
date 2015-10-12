@@ -29,28 +29,45 @@ Meteor.methods({
     },
     // set parcel
 
-    mdEasypostSetParsel: function(parcel) {
-        
-        easypost.Parcel.create(parcel, function(err, parcel) {
+    mdEasypostSetParsel: function(length, width, height, weight) {
+        var future = new Future();
+        easypost.Parcel.create({
             // predefined_package: "LargeFlatRateBox",
             // weight: 21.2
+            'length': length,
+            'width': width,
+            'height': height,
+            'weight': weight
+
 
         }, function(err, response) {
-            console.log(response);
+            if (err)
+                console.log(err);
+            else {
+                console.log(response.id);
+                future.return(response.id);
+            }
         });
+        return future.wait();
     },
     // create Rates
-    mdEasypostShowRates: function(toAddress, fromAddress, parcel) {
+    mdEasypostShowRates: function(toAddress, fromAddress, pid) {
+        console.log(pid);
         var future = new Future();
         easypost.Shipment.create({
-            to_address: toAddress,
-            from_address: fromAddress,
-            parcel: parcel
+            'to_address[id]': toAddress,
+            'from_address': fromAddress,
+            '[parcel][id]': pid
 
         }, function(err, shipment) {
-            var shippmentRates = shipment.rates;
-            console.log(shippmentRates);
-            future.return(shippmentRates);
+            if (err)
+                console.log(err);
+            else
+            {
+                var shippmentRates = shipment.rates;
+                console.log(shippmentRates);
+                future.return(shippmentRates);
+            }
         });
         return future.wait();
     },
@@ -69,6 +86,32 @@ Meteor.methods({
                 future.return(shippmentlabel);
             });
         });
+        return future.wait();
+    },
+    mdEasypostCreateShipmentLabel: function(rateId, shipId) {
+        var future = new Future();
+        console.log(rateId);
+        console.log(shipId);
+        easypost.Shipment.retrieve({
+            id: shipId,
+            'rates[id]': rateId
+
+        }, function(err, shipment) {
+            console.log(shipment);
+            shipment.buy(
+                    {rate: shipment.selected_rate.rateId},
+            function(err, response)
+            {
+                if (err)
+                {
+                    console.log(rateId);
+                    console.log(err);
+                }
+                else
+                    console.log(response);
+            });
+        });
+
         return future.wait();
     }
 });
