@@ -90,6 +90,7 @@ Template.mdShippingAddress.events({
                     address = res;
 
                     Session.set('verifiedAddress', address);
+                    Session.set('toaddressid',address.id);
                 }
                 else
                 {
