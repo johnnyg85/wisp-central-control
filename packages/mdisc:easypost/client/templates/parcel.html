@@ -51,11 +51,12 @@
                 <tbody>
                     {{#with Rates}}
                     {{#each Rates}}
-                    <tr>
+                    <tr data-id="{{id}}" data-name="{{shipment_id}}">
                         <td>{{service}}</td>
                         <td>{{carrier}}</td>
                         <td>{{rate}}{{currency}}</td>
-                        <td><input type="checkbox" id="chkVerAddress" name="chkAddress">  Use this service</td>
+                        <td>{{id}}</td>
+                        <td><input type="checkbox" id="chkVerAddress" name="chkVerAddress" value="{{id}}">  Use this service</td>
                     </tr>
                     {{/each}}
                     {{/with}}
