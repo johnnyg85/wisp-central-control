@@ -55,14 +55,24 @@ Template.mdArchiveAddress.events({
     e.preventDefault();
 
     var archiveId = Session.get('openArchiveId');
-    var shipTo = {};
+    var formData = {};
+    var shipTo;
 
-    // Add form values to shipTo
+    // Build object of form data
     for (var x = 0; x < e.target.length; x++) {
       if (e.target[x].name) {
-        shipTo[e.target[x].name] = e.target[x].value;
+        formData[e.target[x].name] = e.target[x].value;
       }
     }
+
+    shipTo = {
+      name: formData.name,
+      address: formData.address,
+      address2: formData.address2,
+      city: formData.city,
+      state: formData.state,
+      zip: formData.zip
+    };
 
 
 
