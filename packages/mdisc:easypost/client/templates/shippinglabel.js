@@ -34,8 +34,23 @@ Template.mdShippinglabel.events({
 
         };
 
-        Meteor.call('mdEasypostCreateShipment', toAddress, fromAddress, parcel, function(err, res) {
+        /*    Meteor.call('mdEasypostCreateShipment', toAddress, fromAddress, parcel, function(err, res) {
+         
+         if (err)
+         console.log(err);
+         else {
+         console.log("success");
+         //console.log(res);
+         ShipingLabel = res;
+         //  console.log(ShippingLabel);
+         
+         }
+         });*/
+        var rateId = Session.get('Rateid');
+        console.log(rateId);
+        var shipId = Session.get('ShipId');
 
+        Meteor.call('mdEasypostCreateShipmentLabel', rateId, shipId, function(err, res) {
             if (err)
                 console.log(err);
             else {
@@ -45,6 +60,7 @@ Template.mdShippinglabel.events({
                 //  console.log(ShippingLabel);
 
             }
+
         });
     }
 });
