@@ -1,5 +1,6 @@
 
 Template.mdShippinglabel.events({
+  
     'click #btShipmentLabel': function(event) {
         /*console.log("Shippment Label");
          console.log(address);*/
@@ -57,7 +58,8 @@ Template.mdShippinglabel.events({
                 console.log("success");
                 //console.log(res);
                 ShipingLabel = res;
-                //  console.log(ShippingLabel);
+                Session.set('labelurl',ShipingLabel);
+                  //console.log(ShippingLabel);
 
             }
 
