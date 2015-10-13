@@ -38,6 +38,8 @@ Package.onUse(function(api) {
         'client/templates/easypost.js',
         'client/templates/parcel.html',
         'client/templates/parcel.js',
+        'client/templates/trackShipment.html',
+        'client/templates/trackShipment.js',
         'client/menu.js'
     ], ['client']);
 
