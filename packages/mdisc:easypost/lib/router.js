@@ -9,3 +9,10 @@ Router.route('/parcel/', {
     
 
 });
+
+Router.route('/Track-Shipment/', {
+    name:'mdTrackShipping',
+    template:'mdTrackShipping'
+    
+
+});
