@@ -38,17 +38,8 @@ Template.mdParcel.rendered = function()
 Template.mdParcel.events({
     'submit form': function(event) {
         event.preventDefault();
-        /*  var toAddress = {
-         name: "Spencer Lambert",
-         street1: "810 S OAK DR",
-         street2: "",
-         city: "WOODLAND HILLS",
-         state: "UT",
-         zip: "84653",
-         country: "US"
-         };
-         console.log(toAddress);*/
-        var toAddress = Session.get('toaddressid');
+
+
         var fromAddress = {
             name: "MDisc",
             street1: "915 S 500 E",
@@ -57,7 +48,7 @@ Template.mdParcel.events({
             zip: "84003"
         };
 
-        var toAddress = Session.get('toaddressid');
+        //var toAddress = Session.get('toaddressid');
         var length = $('[name=txtLength]').val();
         var width = $('[name=txtWidth]').val();
         var height = $('[name=txtHeight]').val();
@@ -70,50 +61,59 @@ Template.mdParcel.events({
             weight: weight
         };
         console.log("hiiii");
-        //  console.log(toAddress);
+
         console.log(parcel);
+        if(Session.set('toaddressid')||Session.set('toaddress')){
         Meteor.call('mdEasypostSetParsel', length, width, height, weight, function(err, res) {
 
             if (err)
                 console.log(err);
             else {
-                console.log("success");
-                //  parcelid=res;
-                //      console.log(parcelid);
-                //  console.log(res.length);
-                console.log(res);
-                // ShipingRates = res;
-                // console.log(ShippingRates);
+
                 Session.set('parcelid', res);
             }
         });
+        }
+        else
+        {
+            alert("Provide a shipping address first");
+             WtTabPage.show('md_shipping_address');
+        }
         var pid = Session.get('parcelid');
-        console.log(pid);
-        Meteor.call('mdEasypostShowRates', toAddress, fromAddress, pid, function(err, res) {
-//console.log(parcelid);
-            if (err)
-                console.log(err);
-            else {
-                console.log("success");
-                //  console.log(res.length);
-                console.log(res);
-                // ShipingRates = res;
-                // console.log(ShippingRates);
-                Session.set('Rates', res);
 
-            }
-        });
+        if (Session.set('toaddressid')) {
+            var toAddress = Session.get('toaddressid');
+
+            Meteor.call('mdEasypostShowRates', toAddress, fromAddress, pid, function(err, res) {
+
+                if (err)
+                    console.log(err);
+                else {
+                    Session.set('Rates', res);
+
+                }
+            });
+        }
+        else
+        {
+            var toAddress = Session.get('toaddress');
+            console.log(toAddress);
+            Meteor.call('mdEasypostShowRate', toAddress, fromAddress, pid, function(err, res) {
+                if (err)
+                    console.log(err);
+                else {
+
+                    Session.set('Rates', res);
+
+                }
+            });
+        }
     },
     'click #chkVerAddress': function(event) {
-        // event.preventDefault();
-        //alert("gg");
 
         Session.set('Rateid', $(event.target).closest('tr').data('id'));
         Session.set('ShipId', $(event.target).closest('tr').data('name'));
         WtTabPage.show('md_shipping_label');
-
-// var id=$('[name=chkVerAddress]').val();
-        // console.log(id);
 
     }
 });
