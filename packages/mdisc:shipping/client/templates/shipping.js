@@ -107,18 +107,3 @@ Template.mdShipping.onDestroyed(function() {
     Session.set('lastScanned', false);
     Session.set('scannedDisks', false);
 });
-
-var processScannedData = function(data) {
-    data = data.replace(/\'/g, '"'); //In JSON only escaped double-quote characters are allowed, not single-quotes.
-    data = data.replace(/\\/g, '');
-    return data;
-};
-
-var scanIndications = function() {
-    $('.scanArea').css('background-color', '#DFF0D8');
-    setTimeout(function() {
-        $('.scanArea').css('background-color', '#FFFFFF');
-    }, 250);
-    
-    new Audio('/scanner-beep.mp3').play();
-};

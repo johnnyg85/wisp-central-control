@@ -28,18 +28,3 @@ Template.mdShippingInfoQR.onRendered(function() {
 Template.mdShippingInfoQR.onDestroyed(function() {
     Session.set('lastShippingScanned', false);
 });
-
-var scanIndications = function() {
-    $('.scanArea').css('background-color', '#DFF0D8');
-    setTimeout(function() {
-        $('.scanArea').css('background-color', '#FFFFFF');
-    }, 250);
-    
-    new Audio('/scanner-beep.mp3').play();
-};
-
-var processScannedData = function(data) {
-    data = data.replace(/\'/g, '"'); //In JSON only escaped double-quote characters are allowed, not single-quotes.
-    data = data.replace(/\\/g, '');
-    return data;
-};

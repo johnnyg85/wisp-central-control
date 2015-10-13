@@ -25,6 +25,7 @@ Package.onUse(function (api) {
     api.addFiles([
         'client/menu.js',
         'client/subscriptions.js',
+        'client/commonFunctions.js',
         'client/templates/shipping.html',
         'client/templates/shipping.js',
         'client/templates/shipping_info_qr.html',
