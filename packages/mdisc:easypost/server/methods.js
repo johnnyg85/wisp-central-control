@@ -71,47 +71,73 @@ Meteor.methods({
         });
         return future.wait();
     },
-    //Create Shipment
-    mdEasypostCreateShipment: function(toAddress, fromAddress, parcel) {
+    //Create rates without verified addresses
+    mdEasypostShowRate: function(toAddress, fromAddress, pid) {
+        console.log(pid);
         var future = new Future();
         easypost.Shipment.create({
-            to_address: toAddress,
-            from_address: fromAddress,
-            parcel: parcel
+            'to_address': toAddress,
+            'from_address': fromAddress,
+            '[parcel][id]': pid
+
         }, function(err, shipment) {
-            // shipment.lowestRate filters by carrier name and service name, and accepts negative filters 
-            // by preceding the name with an exclamation mark
-            shipment.buy({rate: shipment.lowestRate(['USPS'], '!LibraryMail, !mediaMAIL')}, function(err, response) {
-                var shippmentlabel = response.postage_label.label_url;
-                future.return(shippmentlabel);
-            });
+            if (err)
+                console.log(err);
+            else
+            {
+                var shippmentRates = shipment.rates;
+                console.log(shippmentRates);
+                future.return(shippmentRates);
+            }
         });
         return future.wait();
     },
+    //Create Shipment
+
     mdEasypostCreateShipmentLabel: function(rateId, shipId) {
         var future = new Future();
-        console.log(rateId);
-        console.log(shipId);
         easypost.Shipment.retrieve({
-            id: shipId,
-            'rates[id]': rateId
-
+            id: shipId
         }, function(err, shipment) {
-            console.log(shipment);
+            // console.log(shipment);
             shipment.buy(
-                    {rate: shipment.selected_rate.rateId},
+                    {
+                        'rate[id]': rateId
+                    },
             function(err, response)
             {
                 if (err)
                 {
-                    console.log(rateId);
+
                     console.log(err);
                 }
-                else
-                    console.log(response);
+                else {
+                    console.log(shipment);
+                    var shippmentlabel = shipment.postage_label.label_url;
+                    future.return(shippmentlabel);
+                    //  console.log("fffffffffffffff");
+                    //  console.log(shipment);
+                }
+
             });
         });
 
+        return future.wait();
+    },
+    mdEasypostTrackShipment: function(trackId) {
+        var future = new Future();
+        easypost.Tracker.create({
+            tracking_code: trackId,
+            carrier: 'USPS'
+        }, function(err, response) {
+            if (err)
+                console.log(err);
+            else
+            {
+                future.return(response);
+                //console.log(response);
+            }
+        });
         return future.wait();
     }
 });
