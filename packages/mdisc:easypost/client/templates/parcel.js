@@ -63,7 +63,7 @@ Template.mdParcel.events({
         console.log("hiiii");
 
         console.log(parcel);
-        if(Session.set('toaddressid')||Session.set('toaddress')){
+   
         Meteor.call('mdEasypostSetParsel', length, width, height, weight, function(err, res) {
 
             if (err)
@@ -73,15 +73,10 @@ Template.mdParcel.events({
                 Session.set('parcelid', res);
             }
         });
-        }
-        else
-        {
-            alert("Provide a shipping address first");
-             WtTabPage.show('md_shipping_address');
-        }
+       
         var pid = Session.get('parcelid');
 
-        if (Session.set('toaddressid')) {
+       
             var toAddress = Session.get('toaddressid');
 
             Meteor.call('mdEasypostShowRates', toAddress, fromAddress, pid, function(err, res) {
@@ -93,21 +88,8 @@ Template.mdParcel.events({
 
                 }
             });
-        }
-        else
-        {
-            var toAddress = Session.get('toaddress');
-            console.log(toAddress);
-            Meteor.call('mdEasypostShowRate', toAddress, fromAddress, pid, function(err, res) {
-                if (err)
-                    console.log(err);
-                else {
-
-                    Session.set('Rates', res);
-
-                }
-            });
-        }
+       
+        
     },
     'click #chkVerAddress': function(event) {
 
