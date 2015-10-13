@@ -1,0 +1,61 @@
+<template name="mdTrackShipping">
+    <form class="trackshipment">
+        <button class="submit btn btn-default navbar-btn" id="btTrackShipment" value="TrackShipment">Track Shipment</button> 
+        {{#with track}}
+        <div class="panel panel-default">
+
+            <div class="panel-heading">Shipment Status</div>
+            <table class="table ">
+
+
+
+                <tr>
+                    <td>Carrier </td>
+                    <td>{{carrier}}</td>
+                </tr>
+                <tr>
+                    <td>Tracking Code</td>
+                    <td>{{tracking_code}}</td>
+                </tr>
+                <tr>
+                    <td>Estimated Delivery Date</td>
+                    <td>{{est_delivery_date}}</td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>{{status}}</td>
+                </tr>
+                <tr>
+                    <td>Created Date</td>
+                    <td>{{created_at}}</td>
+                </tr>
+                <tr>
+                    <td>Last Updated on</td>
+                    <td>{{updated_at}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="panel panel-default">
+
+                            <div class="panel-heading">Tracking Details</div>
+                            <table class="table ">
+
+                                {{#each tracking_details}}
+                                <tr><td>{{message}}</td></tr>
+                                <tr><td>{{status}}</td></tr>
+                                <tr><td>{{datetime}}</td></tr>
+                                <tr><td>{{tracking_location}}</td></tr>
+                                <hr>
+                                {{/each}}
+
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+        {{/with}}
+    </form>
+</template>
