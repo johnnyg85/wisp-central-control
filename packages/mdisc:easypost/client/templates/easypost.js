@@ -70,8 +70,8 @@ Template.mdShippingAddress.events({
             zip: zip,
             country: country
         };
-        // console.log("hiiii");
-        console.log(toAddress);
+       
+        //console.log(toAddress);
 
         Meteor.call('mdEasypostVerifyAddress', toAddress, function(err, res) {
 
@@ -106,22 +106,35 @@ Template.mdShippingAddress.events({
         //  alert("Selected");
         if (($('[name=txtName]').val() != '') && ($('[name=txtStreet1]').val() != '') && ($('[name=txtCity]').val() != '')
                 && ($('[name=txtState]').val() != '') && ($('[name=txtZip]').val() != '') && ($('[name=txtCountry]').val() != ''))
+        {
+             var name = $('[name=txtName]').val();
+        var street1 = $('[name=txtStreet1]').val();
+        var street2 = $('[name=txtStreet2]').val();
+        var city = $('[name=txtCity]').val();
+        var state = $('[name=txtState]').val();
+        var zip = $('[name=txtZip]').val();
+        var country = $('[name=txtCountry]').val();
+        toAddress = {
+            name: name,
+            street1: street1,
+            street2: street2,
+            city: city,
+            state: state,
+            zip: zip,
+            country: country
+        };
+       
+            Session.set('toaddress',toAddress);
             WtTabPage.show('md_shipping_parcel');
-        else
-            alert('Provide a Valid address');
-        // Router.go('parcel');
+        }
+  
 
 
 
     },
     'click #chkVerAddress': function(event) {
-        //  alert("Selected");
-        // Router.go('parcel');
+        
         WtTabPage.show('md_shipping_parcel');
-    },
-    'click .main': function() {
-        $(".main").fadeOut();
-        Session.set('verifiedAddress', true);
     }
 
 
@@ -138,10 +151,5 @@ Template.mdShippingAddress.helpers({
     label: function() {
 
 
-    },
-    showMessage: function() {
-        // because the Session variable will most probably be undefined the first time
-        return !Session.get('verifiedAddress');
     }
-
 });
