@@ -129,7 +129,7 @@ var scanIndications = function() {
         $('.scanArea').css('background-color', '#FFFFFF');
     }, 250);
     
-    new Audio('scanner-beep.mp3').play();
+    new Audio('/scanner-beep.mp3').play();
 };
 
 var parseUSPSBarcode = function(data) {
