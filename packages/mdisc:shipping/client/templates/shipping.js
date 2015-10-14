@@ -1,6 +1,6 @@
 Template.mdShipping.helpers({
     qrCode: function() {
-        return qrScanner.message();
+        return processScannedData(qrScanner.message());
     },
     lastScanned: function() {
         return Session.get('lastScanned');
@@ -65,12 +65,16 @@ Template.mdShipping.onRendered(function() {
         if (!err) {
             result = processScannedData(result);
             if (result != lastScanned) {
-                scanIndications();
                 lastScanned = result;
-                var qrdata = JSON.parse(result);
+                try {
+                    var qrdata = JSON.parse(result);
+                } catch (e) {
+                    //Do nothing
+                }
                 if (qrdata) {
                     Meteor.call("getArchiveById", qrdata.id, function(err, res) {
                         if (!err && res) {
+                            scanIndications();
                             var lastScanned = Session.get('lastScanned');
                             var scannedDisks = Session.get('scannedDisks');
                             if (!scannedDisks) {
@@ -95,8 +99,12 @@ Template.mdShipping.onRendered(function() {
                                     }
                                 }
                             });
+                        } else {
+                            scanError();
                         }
                     });
+                } else {
+                    scanError();
                 }
             }
         }

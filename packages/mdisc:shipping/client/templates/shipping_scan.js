@@ -1,4 +1,7 @@
 Template.mdShippingScan.helpers({
+    rawBarcodeData: function() {
+        return Session.get('mdShippingRawBarcodeData');
+    },
     lastShippingScanned: function() {
         return Session.get('lastShippingScanned');
     }
@@ -35,14 +38,15 @@ Template.mdShippingScan.onRendered(function() {
     var lastScanned = "";
     Quagga.onDetected(function (result) {
         var code = result.codeResult.code;
+        Session.set('mdShippingRawBarcodeData', code);
         if (code != lastScanned) {
             var USPSBarcodeData = parseUSPSBarcode(code);
             if (USPSBarcodeData) {
                 if (USPSBarcodeData.RAI == '420') {
-                    scanIndications();
                     lastScanned = code;
                     Meteor.call("getArchiveByTrackingId", USPSBarcodeData.trackingNumber, function (err, res) {
                         if (!err && res) {
+                            scanIndications();
                             Session.set('lastShippingScanned', res);
                             Meteor.call("setArchiveStatus", "Shipped", res._id, function(err) {
                                 if (!err) {
@@ -61,9 +65,15 @@ Template.mdShippingScan.onRendered(function() {
                                     }
                                 }
                             });
+                        } else {
+                            scanError();
                         }
                     });
+                } else {
+                    scanError();
                 }
+            } else {
+                scanError();
             }
         }
     });
@@ -72,4 +82,5 @@ Template.mdShippingScan.onRendered(function() {
 Template.mdShippingScan.onDestroyed(function() {
     Quagga.stop();
     Session.set('lastShippingScanned', false);
+    Session.set('mdShippingRawBarcodeData', false);
 });

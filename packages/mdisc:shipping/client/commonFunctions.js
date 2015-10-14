@@ -1,6 +1,8 @@
 processScannedData = function(data) {
-    data = data.replace(/\'/g, '"'); //In JSON only escaped double-quote characters are allowed, not single-quotes.
-    data = data.replace(/\\/g, '');
+    if (data) {
+        data = data.replace(/\'/g, '"'); //In JSON only escaped double-quote characters are allowed, not single-quotes.
+        data = data.replace(/\\/g, '');
+    }
     return data;
 };
 
@@ -11,6 +13,16 @@ scanIndications = function() {
     }, 250);
     
     new Audio('/scanner-beep.mp3').play();
+};
+
+scanError = function() {
+    WtGrowl.fail('No matching Archive found.');
+    $('.scanArea').css('background-color', '#F2DEDE');
+    setTimeout(function() {
+        $('.scanArea').css('background-color', '#FFFFFF');
+    }, 250);
+    
+    new Audio('/error.wav').play();
 };
 
 parseUSPSBarcode = function(data) {
