@@ -28,7 +28,7 @@ if (Meteor.isServer) {
           archiveId: archiveId
         }
       );
-      job.priority('normal').save();
+      job.priority('normal').retry({retries: 5, wait: 5*60*1000}).save();
     }
   });
 

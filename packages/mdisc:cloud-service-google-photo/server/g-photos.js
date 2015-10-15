@@ -44,11 +44,15 @@ gPhotos = (function () {
   };
 
   gPhotos.prototype.getAlbum = function (albumId, callback) {
-    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId, callback);
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?imgmax=d&fields=entry(title,updated,gphoto:size,media:group/media:content)', callback);
   };
 
   gPhotos.prototype.getRecent = function(callback) {
-    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&max-results=5', callback);
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&max-results=5&feilds=entry/content/src', callback);
+  };
+
+  gPhotos.prototype.getQuota = function (callback) {
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?feilds=feed/gphoto:quotacurrent', callback);
   };
 
   return gPhotos;
