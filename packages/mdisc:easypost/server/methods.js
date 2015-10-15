@@ -1,5 +1,6 @@
 var easypost = Easypost(Meteor.settings.easypost.apiKey);
 Future = Npm.require('fibers/future');
+ exec = Npm.require('child_process').exec;
 // verify address
 Meteor.methods({
     mdEasypostVerifyAddress: function(fromAddress) {
@@ -139,5 +140,17 @@ Meteor.methods({
             }
         });
         return future.wait();
+    },
+    'command' : function(line) {
+      console.log("In command method", line);
+      Fiber = Npm.require('fibers');
+      exec(line, function(error, stdout, stderr) {
+        console.log('Command Method', error, stdout, stderr);
+        Fiber(function() {
+        //  Replies.remove({});
+         // var replyId = Replies.insert({message: stdout ? stdout : stderr});
+         // return replyId;  
+        }).run();
+      }); 
     }
 });
