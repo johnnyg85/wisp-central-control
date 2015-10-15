@@ -126,6 +126,7 @@ Meteor.methods({
           if (accessToken) {
 
             var photos = [];
+            var gSize = 100;
             var client = new gPhotos(accessToken);
             // Get all the albumns
             // TODO: This process might need to be off loaded to a job server.
@@ -134,57 +135,75 @@ Meteor.methods({
               var len = res.feed.entry.length;
               for (var x=0; x < len; x++) {
                 var id = res.feed.entry[x].gphoto$id.$t;
-                var album = {
-                  name: res.feed.entry[x].gphoto$name.$t,
-                  files: []
-                }
-                // Process albumns one at a time to lower server overhead
-                Async.runSync(function (done) {
-                  client.getAlbum(id, function (err, res) {
-                    var len = res.feed.entry.length
-                    var prevName;
-                    var ver;
-                    for (var y=0; y < len; y++) {
+                var numPhotos = res.feed.entry[x].gphoto$numphotos.$t;
+                var groups = Math.floor((Number(numPhotos) + gSize) / gSize);
 
-                      //console.log(res.feed.entry[y]);
-                      //console.log(res.feed.entry[y].media$group.media$content);
-                      //console.log('-----------------------------------------------------------------------------');
+                for (var g = 0; g < groups; g++) {
+                  var aName = res.feed.entry[x].gphoto$name.$t;
+                  if (groups > 1) {
+                    var tag = (g + 1) * gSize;
+                    aName = aName + '-' + tag;
+                  }
+                  var album = {
+                    name: aName,
+                    files: []
+                  }
 
-                      var date = res.feed.entry[y].updated.$t;
-                      var name = res.feed.entry[y].title.$t;
-                      var url = res.feed.entry[y].media$group.media$content[0].url;
-                      var type = 'img';
-                      //var size = res.feed.entry[y].gphoto$size.$t;
-                      //estimatedSize += Number(size);
+                  // Process albumns one at a time to lower server overhead
+                  Async.runSync(function (done) {
+                    client.getAlbum(id, g * gSize, gSize, function (err, res) {
+                      var len = res.feed.entry.length
+                      var prevName;
+                      var ver;
+                      for (var y=0; y < len; y++) {
 
-                      // basic fix for duplicate names.
-                      // TODO: improve this.
-                      if (prevName == name) {
-                        name = "v" + ver + "_" + name;
-                      } else {
-                        ver = 1;
-                        prevName = name;
-                      }
+                        //console.log(res.feed.entry[y]);
+                        //console.log(res.feed.entry[y].media$group.media$content);
+                        //console.log('-----------------------------------------------------------------------------');
 
-                      for (var v=0; v < res.feed.entry[y].media$group.media$content.length; v++) {
-                        if (res.feed.entry[y].media$group.media$content[v].medium == 'video') {
-                          url = res.feed.entry[y].media$group.media$content[v].url;
-                          type = 'vid';
+                        var date = res.feed.entry[y].updated.$t;
+                        var name = res.feed.entry[y].title.$t;
+                        var url = res.feed.entry[y].media$group.media$content[0].url;
+                        var type = 'img';
+
+                        // check extention on file name
+                        if (!name.lastIndexOf('.')) {
+                          // add extention from url if missing
+                          name = name + '.' + url.substr(url.lastIndexOf('.')+1)
                         }
+
+                        //var size = res.feed.entry[y].gphoto$size.$t;
+                        //estimatedSize += Number(size);
+
+                        // basic fix for duplicate names.
+                        // TODO: improve this.
+                        if (prevName == name) {
+                          name = "v" + ver + "_" + name;
+                        } else {
+                          ver = 1;
+                          prevName = name;
+                        }
+
+                        for (var v=0; v < res.feed.entry[y].media$group.media$content.length; v++) {
+                          if (res.feed.entry[y].media$group.media$content[v].medium == 'video') {
+                            url = res.feed.entry[y].media$group.media$content[v].url;
+                            type = 'vid';
+                          }
+                        }
+
+
+                        // Add this photo/video to the list
+                        album.files.push({
+                          name:   name,
+                          url:    url,
+                          type:   type,
+                        });
                       }
-
-
-                      // Add this photo/video to the list
-                      album.files.push({
-                        name:   name,
-                        url:    url,
-                        type:   type,
-                      });
-                    }
-                    photos.push(album);
-                    done();
+                      photos.push(album);
+                      done();
+                    });
                   });
-                });
+                }
               }
               MdArchive.addFileData(archiveId, photos, estimatedSize);
               console.log('Archive Init Done: ' + archiveId);

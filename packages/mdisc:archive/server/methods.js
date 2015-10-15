@@ -30,8 +30,10 @@ Meteor.methods({
   },
   openAutoCloudArchive: function (service) {
     var name = 'My Photos';
-    if (Meteor.user().profile.firstname) {
-      name = Meteor.user().profile.firstname + "'s Photos";
+    if (Meteor.user().profile) {
+      if (Meteor.user().profile.firstname) {
+        name = Meteor.user().profile.firstname + "'s Photos";
+      }
     }
 
     var id = MdArchive.collection.insert({

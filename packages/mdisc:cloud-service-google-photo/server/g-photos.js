@@ -43,8 +43,9 @@ gPhotos = (function () {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default', callback);
   };
 
-  gPhotos.prototype.getAlbum = function (albumId, callback) {
-    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?imgmax=d&fields=entry(title,updated,gphoto:size,media:group/media:content)', callback);
+  gPhotos.prototype.getAlbum = function (albumId, startAt, max, callback) {
+    var start = 1 + startAt;
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?imgmax=d&start-index=' + start + '&max-results=' + max + '&fields=entry(title,updated,gphoto:size,media:group/media:content)', callback);
   };
 
   gPhotos.prototype.getRecent = function(callback) {

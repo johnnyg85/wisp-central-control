@@ -22,7 +22,6 @@ Package.onUse(function (api) {
     api.export('StripeMeteor');
     api.export('MdStripeMeteor');
     api.addFiles([
-        'client/header.html',
         'client/subscriptions.js',
         'client/templates/subscription/stripe-payment.html',
         'client/templates/subscription/stripe-payment.js',
