@@ -6,13 +6,19 @@
                         <td>
                             <button class="submit btn btn-default navbar-btn" id="btShipmentLabel" value="CreateLabel">Create Shipment</button> 
                         </td>
+                        {{#if labelUrl}}
+                        <td class="col-md-1"><button class="submit btn btn-default navbar-btn" id="btPrintLabel" value="PrintLabel">Print Label</button> </td>
+                        {{/if}}
                     </tr>
                     <tr>
-                        <td class="col-md-4">
-                            
+                         {{#if labelUrl}}
+                         <td class="col-md-4" style="text-align: center">
+                           
                              <img width="50%" src='{{labelUrl}}' />
-                            
+                           
                         </td>
+                       
+                         {{/if}}
                     </tr>
                    
                 </table>
