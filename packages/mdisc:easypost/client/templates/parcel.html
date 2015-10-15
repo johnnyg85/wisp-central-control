@@ -2,6 +2,10 @@
 
 
     <form id="validateforms" class="form-horizontal">
+         <div id="formAlert" class="alert hide">  
+          <a class="close">×</a>  
+          <strong>Warning!</strong> Make sure a valid Shipping address is provided.
+        </div>
         <div class="form-group">
             <div> <label for="txtlength" class="col-sm-3 control-label">Length :</label></div>
             <div class="col-sm-7">
@@ -56,7 +60,7 @@
                         <td>{{carrier}}</td>
                         <td>{{rate}}{{currency}}</td>
                         <td>{{id}}</td>
-                        <td><input type="checkbox" id="chkVerAddress" name="chkVerAddress" value="{{id}}">  Use this service</td>
+                        <td><label><input type="radio" id="chkVerAddress" name="chkVerAddress" value="{{id}}">  Use this service</label></td>
                     </tr>
                     {{/each}}
                     {{/with}}
