@@ -1,6 +1,4 @@
-
 Template.mdShippinglabel.events({
-  
     'click #btShipmentLabel': function(event) {
         /*console.log("Shippment Label");
          console.log(address);*/
@@ -35,18 +33,6 @@ Template.mdShippinglabel.events({
 
         };
 
-        /*    Meteor.call('mdEasypostCreateShipment', toAddress, fromAddress, parcel, function(err, res) {
-         
-         if (err)
-         console.log(err);
-         else {
-         console.log("success");
-         //console.log(res);
-         ShipingLabel = res;
-         //  console.log(ShippingLabel);
-         
-         }
-         });*/
         var rateId = Session.get('Rateid');
         console.log(rateId);
         var shipId = Session.get('ShipId');
@@ -58,19 +44,33 @@ Template.mdShippinglabel.events({
                 console.log("success");
                 //console.log(res);
                 ShipingLabel = res;
-                Session.set('labelurl',ShipingLabel);
-                  //console.log(ShippingLabel);
-
+                Session.set('labelurl', ShipingLabel);
+                //console.log(ShippingLabel);
+                delete Session.Keys('verifiedAddress');
+        delete Session.Keys('toaddressid');
+        delete Session.keys('toaddress');
+        delete Session.keys('Rateid');
+        delete Session.keys('ShipId');
+        delete Session.keys('parcelid');
+        delete Session.keys('Rates');
             }
 
         });
+    },
+    'click #btPrintLabel': function(event) {
+
+        event.preventDefault();
+        if (Meteor.isClient) {
+            var cmd = "google-chrome --kiosk --kiosk-printing " + Session.get('labelurl');
+            Meteor.call('command', cmd);
+        }
     }
+
 });
 
 Template.mdShippinglabel.helpers({
     labelUrl: function() {
-        //console.log("hellllloooo");
-        //console.log(ShipingLabel);
+        
         return Session.get('labelurl');
     }
 });
