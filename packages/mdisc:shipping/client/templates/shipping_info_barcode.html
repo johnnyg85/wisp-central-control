@@ -1,4 +1,7 @@
 <template name="mdShippingInfoBarcode">
+    <div class="col-md-12">
+        <h2>Information - Barcode Scan</h2>
+    </div>
     <div class="col-md-4">
         <div class="panel panel-default scanSection">
             <div class="panel-heading">
@@ -19,12 +22,47 @@
             <div class="panel-heading">Info</div>
             <div class="panel-body" style="min-height: 290px;">
                 {{#with lastShippingScanned}}
-                    Type : {{type}}<br>
-                    Service : {{service}}<br>
-                    Disks : {{disks}}<br>
-                    Status : {{status}}<br>
+                    {{> mdShippingInfoBarcodeDetail}}
                 {{/with}}
             </div>
         </div>
     </div>
+</template>
+
+<template name="mdShippingInfoBarcodeDetail">
+    <table class="table table-bordered table-condensed">
+        <tbody>
+            <tr><th>Archive ID</th><td>{{_id}}</td></tr>
+            <tr><th>Type</th><td>{{type}}</td></tr>
+            <tr><th>Archive Name</th><td>{{archiveName}}</td></tr>
+            <tr><th>Archive Type</th><td>{{archiveType}}</td></tr>
+            <tr><th>Service</th><td>{{service}}</td></tr>
+            <tr><th>Status</th><td>{{status}}</td></tr>
+            <tr>
+                <th>Shipping Details</th>
+                <td>{{shipTo.name}}<br>{{shipTo.address}}<br>{{shipTo.address2}}<br>{{shipTo.city}}<br>{{shipTo.state}}<br>{{shipTo.zip}}</td>
+            </tr>
+            <tr><th>Tracking Number</th><td>{{trackingId}}</td></tr>
+            <tr>
+                <th>QR Scan</th>
+                <td>
+                    <ul>
+                    {{#each scanned}}
+                    <li>Disk Index: {{diskIndex}}<br>Time: {{time}}</li>
+                    {{/each}}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Barcode Scan</th>
+                <td>
+                    <ul>
+                    {{#each shippingScanned}}
+                    <li>Time: {{time}}</li>
+                    {{/each}}
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </template>
