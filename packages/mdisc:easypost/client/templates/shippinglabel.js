@@ -46,31 +46,22 @@ Template.mdShippinglabel.events({
                 ShipingLabel = res;
                 Session.set('labelurl', ShipingLabel);
                 //console.log(ShippingLabel);
-                delete Session.Keys('verifiedAddress');
-        delete Session.Keys('toaddressid');
-        delete Session.keys('toaddress');
-        delete Session.keys('Rateid');
-        delete Session.keys('ShipId');
-        delete Session.keys('parcelid');
-        delete Session.keys('Rates');
+                var URL = Session.get('labelurl');
+                console.log(URL);
+                var W = window.open(URL);
+                W.window.print();
+
+
             }
 
         });
-    },
-    'click #btPrintLabel': function(event) {
-
-        event.preventDefault();
-        if (Meteor.isClient) {
-            var cmd = "google-chrome --kiosk --kiosk-printing " + Session.get('labelurl');
-            Meteor.call('command', cmd);
-        }
     }
 
 });
 
 Template.mdShippinglabel.helpers({
     labelUrl: function() {
-        
+
         return Session.get('labelurl');
     }
 });
