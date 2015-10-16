@@ -67,3 +67,9 @@ Template.mdShippingInfoBarcode.onDestroyed(function() {
     Session.set('lastShippingScanned', false);
     Session.set('mdShippingRawBarcodeData', false);
 });
+
+Template.mdShippingInfoBarcodeDetail.helpers({
+    addOne: function(num) {
+        return parseInt(num, 10)+1;
+    }
+});

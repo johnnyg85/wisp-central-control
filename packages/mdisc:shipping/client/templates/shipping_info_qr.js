@@ -39,3 +39,9 @@ Template.mdShippingInfoQR.onRendered(function() {
 Template.mdShippingInfoQR.onDestroyed(function() {
     Session.set('lastShippingScanned', false);
 });
+
+Template.mdShippingInfoQRDetail.helpers({
+    addOne: function(num) {
+        return parseInt(num, 10)+1;
+    }
+});

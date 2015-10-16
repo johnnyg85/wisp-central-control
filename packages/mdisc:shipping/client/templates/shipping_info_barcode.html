@@ -38,6 +38,7 @@
             <tr><th>Archive Type</th><td>{{archiveType}}</td></tr>
             <tr><th>Service</th><td>{{service}}</td></tr>
             <tr><th>Status</th><td>{{status}}</td></tr>
+            <tr><th>Disks</th><td>{{disks}}</td></tr>
             <tr>
                 <th>Shipping Details</th>
                 <td>{{shipTo.name}}<br>{{shipTo.address}}<br>{{shipTo.address2}}<br>{{shipTo.city}}<br>{{shipTo.state}}<br>{{shipTo.zip}}</td>
@@ -48,7 +49,7 @@
                 <td>
                     <ul>
                     {{#each scanned}}
-                    <li>Disk Index: {{diskIndex}}<br>Time: {{time}}</li>
+                    <li>Disk: {{addOne diskIndex}}<br>Time: {{time}}</li>
                     {{/each}}
                     </ul>
                 </td>
