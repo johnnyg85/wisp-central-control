@@ -16,7 +16,9 @@ Package.onUse(function (api) {
         'wisptools:collection',
         'wisptools:menu',
         'mdisc:archive',
-        'mrt:qr-scanner@0.2.0'
+        'mrt:qr-scanner@0.2.0',
+        'zimme:luhn@0.1.4',
+        'wisptools:growl'
     ]);
     
     //api.export('');
@@ -24,8 +26,17 @@ Package.onUse(function (api) {
     api.addFiles([
         'client/menu.js',
         'client/subscriptions.js',
+        'client/commonFunctions.js',
         'client/templates/shipping.html',
-        'client/templates/shipping.js'
+        'client/templates/shipping.js',
+        'client/templates/shipping_info_qr.html',
+        'client/templates/shipping_info_qr.js',
+        'client/templates/shipping_info_barcode.html',
+        'client/templates/shipping_info_barcode.js',
+        'client/templates/shipping_scan.html',
+        'client/templates/quagga.min.js',
+        'client/templates/shipping_scan.js',
+        'client/stylesheets/quagga.css'
     ], 'client');
 
     api.addFiles([

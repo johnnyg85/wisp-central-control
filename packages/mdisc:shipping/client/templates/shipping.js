@@ -1,6 +1,6 @@
 Template.mdShipping.helpers({
     qrCode: function() {
-        return qrScanner.message();
+        return processScannedData(qrScanner.message());
     },
     lastScanned: function() {
         return Session.get('lastScanned');
@@ -45,10 +45,10 @@ Template.mdShipping.events({
     'click .print_shipping_label': function() {
         var label_url = "http://assets.geteasypost.com/postage_labels/labels/0jvZJy.png";
         Meteor.call("setArchiveStatus", "Docking", this.archive._id);
-        Meteor.call("setShippingLabel", label_url, this.archive._id);
+        Meteor.call("setArchiveShippingLabel", label_url, this.archive._id);
         
         Meteor.call("getArchiveById", this.archive._id, function(err, res) {
-            if (!err) {
+            if (!err && res) {
                 var lastScanned = Session.get('lastScanned');
                 if (lastScanned && lastScanned.archive) {
                     lastScanned.archive = res;
@@ -59,59 +59,59 @@ Template.mdShipping.events({
     }
 });
 
-var lastScanned = "";
-qrScanner.on('scan', function(err, result) {
-    if (!err) {
-        result = processScannedData(result);
-        if (result != lastScanned) {
-            scanIndications();
-            lastScanned = result;
-            var qrdata = JSON.parse(result);
-            if (qrdata) {
-                Meteor.call("getArchiveById", qrdata.id, function(err, res) {
-                    if (!err) {
-                        var lastScanned = Session.get('lastScanned');
-                        var scannedDisks = Session.get('scannedDisks');
-                        if (!scannedDisks) {
-                            scannedDisks = new Array();
-                        }
-                        if (lastScanned && lastScanned.archive && lastScanned.archive._id == res._id) {
-                            if (scannedDisks.indexOf(qrdata.n)<0) {
+Template.mdShipping.onRendered(function() {
+    var lastScanned = "";
+    qrScanner.on('scan', function(err, result) {
+        if (!err) {
+            result = processScannedData(result);
+            if (result != lastScanned) {
+                lastScanned = result;
+                try {
+                    var qrdata = JSON.parse(result);
+                } catch (e) {
+                    //Do nothing
+                }
+                if (qrdata) {
+                    Meteor.call("getArchiveById", qrdata.id, function(err, res) {
+                        if (!err && res) {
+                            scanIndications();
+                            var lastScanned = Session.get('lastScanned');
+                            var scannedDisks = Session.get('scannedDisks');
+                            if (!scannedDisks) {
+                                scannedDisks = new Array();
+                            }
+                            if (lastScanned && lastScanned.archive && lastScanned.archive._id == res._id) {
+                                if (scannedDisks.indexOf(qrdata.n)<0) {
+                                    scannedDisks.push(qrdata.n);
+                                }
+                            } else {
+                                scannedDisks = new Array();
                                 scannedDisks.push(qrdata.n);
                             }
-                        } else {
-                            scannedDisks = new Array();
-                            scannedDisks.push(qrdata.n);
-                        }
-                        Session.set('lastScanned', {archive: res, disc: qrdata.n});
-                        Session.set('scannedDisks', scannedDisks);
-                        Meteor.call("appendToArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
-                            if (!err) {
-                                var lastScanned = Session.get('lastScanned');
-                                if (lastScanned && lastScanned.archive) {
-                                    lastScanned.archive = res;
-                                    Session.set('lastScanned', lastScanned);
+                            Session.set('lastScanned', {archive: res, disc: qrdata.n});
+                            Session.set('scannedDisks', scannedDisks);
+                            Meteor.call("pushArchiveScanned", qrdata.id, qrdata.n, function(err, res) {
+                                if (!err && res) {
+                                    var lastScanned = Session.get('lastScanned');
+                                    if (lastScanned && lastScanned.archive) {
+                                        lastScanned.archive = res;
+                                        Session.set('lastScanned', lastScanned);
+                                    }
                                 }
-                            }
-                        });
-                    }
-                });
+                            });
+                        } else {
+                            scanError();
+                        }
+                    });
+                } else {
+                    scanError();
+                }
             }
         }
-    }
+    });
 });
 
-var processScannedData = function(data) {
-    data = data.replace(/\'/g, '"'); //In JSON only escaped double-quote characters are allowed, not single-quotes.
-    data = data.replace(/\\/g, '');
-    return data;
-};
-
-var scanIndications = function() {
-    $('.scanArea').css('background-color', '#DFF0D8');
-    setTimeout(function() {
-        $('.scanArea').css('background-color', '#FFFFFF');
-    }, 250);
-    
-    new Audio('click.mp3').play();
-};
+Template.mdShipping.onDestroyed(function() {
+    Session.set('lastScanned', false);
+    Session.set('scannedDisks', false);
+});

@@ -1,0 +1,47 @@
+<template name="mdShippingScan">
+    <div class="col-md-12">
+        <h2>Shipping Scan</h2>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default scanSection">
+            <div class="panel-heading">Barcode Scanner</div>
+            <div class="panel-body scanArea" style="min-height: 275px;">
+                <div id="container">
+                    <div id="interactive" class="viewport"></div>
+                </div>
+                <div style="min-height: 20px; float: left; width: 100%; text-align: center;">
+                    {{rawBarcodeData}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default lastScanned">
+            <div class="panel-heading">Last Scanned</div>
+            <div class="panel-body" style="min-height: 290px;">
+                {{#with lastShippingScanned}}
+                    {{> mdShippingBarcodeDetail}}
+                {{/with}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="mdShippingBarcodeDetail">
+    <table class="table table-bordered table-condensed">
+        <tbody>
+            <tr><th>Archive ID</th><td>{{_id}}</td></tr>
+            <tr><th>Type</th><td>{{type}}</td></tr>
+            <tr><th>Archive Name</th><td>{{archiveName}}</td></tr>
+            <tr><th>Archive Type</th><td>{{archiveType}}</td></tr>
+            <tr><th>Service</th><td>{{service}}</td></tr>
+            <tr><th>Status</th><td>{{status}}</td></tr>
+            <tr><th>Disks</th><td>{{disks}}</td></tr>
+            <tr>
+                <th>Shipping Details</th>
+                <td>{{shipTo.name}}<br>{{shipTo.address}}<br>{{shipTo.address2}}<br>{{shipTo.city}}<br>{{shipTo.state}}<br>{{shipTo.zip}}</td>
+            </tr>
+            <tr><th>Tracking Number</th><td>{{trackingId}}</td></tr>
+        </tbody>
+    </table>
+</template>

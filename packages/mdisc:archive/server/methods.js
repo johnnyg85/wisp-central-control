@@ -3,6 +3,9 @@ Meteor.methods({
   getArchiveById: function (archiveId) {
     return MdArchive.collection.findOne({_id: archiveId});
   },
+  getArchiveByTrackingId: function (trackingId) {
+    return MdArchive.collection.findOne({trackingId: trackingId});
+  },
   setArchiveStatus: function (status, archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$set: {status: status}});
   },
@@ -25,7 +28,11 @@ Meteor.methods({
     MdArchive.collection.update({_id: archiveId}, {$set: {title: title}});
   },
   pushArchiveScanned: function (archiveId, diskIndex) {
-    MdArchive.collection.update({_id: archiveId}, {$push: {scanned: {diskIndex: diskIndex, time: new Date()}}});
+    MdArchive.collection.update({_id: archiveId}, {$push: {scanned: {diskIndex: diskIndex, time: new Date(), userId: Meteor.userId()}}});
+    return MdArchive.collection.findOne({_id: archiveId});
+  },
+  pushArchiveShippingScanned: function (archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$push: {shippingScanned: {time: new Date(), userId: Meteor.userId()}}});
     return MdArchive.collection.findOne({_id: archiveId});
   },
   openAutoCloudArchive: function (service) {
@@ -50,5 +57,5 @@ Meteor.methods({
       initDone: false 
     });
     return id;
-  }  
+  }
 });
