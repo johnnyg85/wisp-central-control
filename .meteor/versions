@@ -2,6 +2,7 @@ accounts-base@1.2.1
 accounts-google@1.0.6
 accounts-oauth@1.1.7
 accounts-password@1.1.3
+adyus:easypost@2.0.7
 alanning:roles@1.2.13
 autoupdate@1.2.3
 babel-compiler@5.8.24_1
@@ -60,6 +61,7 @@ mdisc:cloud-service-dropbox@0.0.1
 mdisc:cloud-service-google-photo@0.0.1
 mdisc:cloud-services@0.0.1
 mdisc:dates@0.0.1
+mdisc:easypost@0.0.1
 mdisc:jobs@0.0.1
 mdisc:manage-account@0.0.1
 mdisc:mandrill@0.0.1
@@ -112,6 +114,7 @@ standard-minifiers@1.0.1
 steeve:moment-dateformat@0.0.1
 templating@1.1.4
 templating-tools@1.0.0
+themeteorchef:jquery-validation@1.14.0
 tracker@1.0.9
 ui@1.0.8
 underscore@1.0.4
