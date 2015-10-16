@@ -13,10 +13,11 @@ Package.onUse(function (api) {
         'wisptools:collection'
     ]);
     
-    api.export('MdOrderNumber');
+    api.export('MdOrderNumber', 'server');
     
     api.addFiles([
         'server/methods.js',
-        'lib/order-number.js'
+        'server/order-number.js',
+        'server/collections.js'
     ], 'server');
 });
