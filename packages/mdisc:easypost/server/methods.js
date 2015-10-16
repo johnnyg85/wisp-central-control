@@ -30,6 +30,7 @@ Meteor.methods({
     },
     // set parcel
 
+
     mdEasypostSetParsel: function(length, width, height, weight) {
         var future = new Future();
         easypost.Parcel.create({
