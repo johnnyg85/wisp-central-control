@@ -16,12 +16,12 @@ Package.onUse(function (api) {
         'mongo',
         'wisptools:collection',
         'wisptools:growl',
-        'mdisc:address-ui'
+        'mdisc:address-ui',
+        'mdisc:dates'
     ]);
     api.export('StripeMeteor');
     api.export('MdStripeMeteor');
     api.addFiles([
-        'client/header.html',
         'client/subscriptions.js',
         'client/templates/subscription/stripe-payment.html',
         'client/templates/subscription/stripe-payment.js',

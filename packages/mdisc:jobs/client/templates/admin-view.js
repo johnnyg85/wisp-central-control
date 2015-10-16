@@ -1,6 +1,6 @@
 
 Template.mdJobsWorkingAll.helpers({
   jobs: function () {
-    return MdJobs.find({status: {$ne:'completed'}}).fetch();
+    return MdJobs.jc.find({status: {$ne:'completed'}}).fetch();
   }
 });

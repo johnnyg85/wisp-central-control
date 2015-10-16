@@ -18,6 +18,9 @@
         <div class="row">
           <div class="col-xs-12">
             <h3>Order Details</h3>
+            {{#if showAccountSize}}
+              <h4>(Estimated Size: {{accountSize}})</h4>
+            {{/if}}
             {{> mdArchiveOrder}}
           </div>
         </div>
@@ -26,10 +29,10 @@
         <h3>Archive Preview</h3>
         <div class="row">
           <div class="col-xs-12">
-            {{#unless googleConnected}}
+            {{#unless showRecentPhotos}}
               <br /><br /><br /><br />{{> spinner}}
             {{/unless}}
-            {{#if googleConnected}}
+            {{#if showRecentPhotos}}
               {{> mdCloudServiceShowFewPhotos}}
             {{/if}}
           </div>
