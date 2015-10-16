@@ -50,6 +50,7 @@ Template.mdShippinglabel.events({
                 console.log(URL);
                 var W = window.open(URL);
                 W.window.print();
+               // W.window.close();
 
 
             }
