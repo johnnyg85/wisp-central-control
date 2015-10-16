@@ -17,6 +17,8 @@ Package.onUse(function(api) {
     'templating',
     'iron:router@1.0.7',
     'wisptools:menu',
+    'wisptools:collection',
+    'wisptools:roles',
     'vsivsi:job-collection@1.2.3'
   ]);    
 
