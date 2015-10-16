@@ -3,6 +3,7 @@ div.tab-page-content {
   border: #ddd solid 1px;
   clear: both;
   width: 100%;
+  min-height: 350px;
 }
 
 div.tab-page-title {

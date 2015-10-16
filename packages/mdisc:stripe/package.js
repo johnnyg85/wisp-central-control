@@ -14,12 +14,14 @@ Package.onUse(function (api) {
         'templating',
         'iron:router@1.0.7',
         'mongo',
-        'wisptools:collection'
+        'wisptools:collection',
+        'wisptools:growl',
+        'mdisc:address-ui',
+        'mdisc:dates'
     ]);
     api.export('StripeMeteor');
     api.export('MdStripeMeteor');
     api.addFiles([
-        'client/header.html',
         'client/subscriptions.js',
         'client/templates/subscription/stripe-payment.html',
         'client/templates/subscription/stripe-payment.js',
@@ -28,7 +30,9 @@ Package.onUse(function (api) {
         'client/templates/subscription/stripe-payment-subscription.html',
         'client/templates/subscription/stripe-payment-subscription.js',
         'client/templates/onetimepayment/stripe-payment.html',
-        'client/templates/onetimepayment/stripe-payment.js'
+        'client/templates/onetimepayment/stripe-payment.js',
+        'client/templates/onetimepayment/stripe-payment-simple.html',
+        'client/templates/onetimepayment/stripe-payment-simple.js'
     ], 'client');
 
     api.addFiles([

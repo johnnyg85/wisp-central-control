@@ -1,23 +1,46 @@
-<template name="mdCloudGoogleAuthorizeButtonsBig">
-    <a id="authorizeGooglePhoto" class="btn btn-default btn-lg btn-login google" href="#">
-        <i class="fa fa-google-plus fa-fw"></i> Photos Account
-    </a>
+<template name="mdCloudGoogleAuthorizeNavButton">
+    <button type="button" id="authorizeGooglePhoto" class="btn btn-primary navbar-btn" href="#">
+        Archive now <i class="fa fa-angle-double-right"></i>
+    </button>
 </template>
 
 <template name="mdCloudGoogleStartArchive">
-  <center>
-    <h1>Connect to Google Photos</h1>
-    {{#unless googleConnected}}
-      {{> mdCloudGoogleAuthorizeButtonsBig}}
-    {{/unless}}
-  </center>
-  {{#if googleConnecting}}
+  <h2>Google Photo full archive</h2>
+  {{#if showOrderForm}}
     <div class="row">
-      <div class="col-xs-12">{{> mdBusy}}</div>
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col-xs-12">
+            <br />
+            {{> mdArchiveName}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <h3>Order Details</h3>
+            {{#if showAccountSize}}
+              <h4>(Estimated Size: {{accountSize}})</h4>
+            {{/if}}
+            {{> mdArchiveOrder}}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h3>Archive Preview</h3>
+        <div class="row">
+          <div class="col-xs-12">
+            {{#unless showRecentPhotos}}
+              <br /><br /><br /><br />{{> spinner}}
+            {{/unless}}
+            {{#if showRecentPhotos}}
+              {{> mdCloudServiceShowFewPhotos}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
     </div>
   {{/if}}
-  {{#if googleConnected}}
-    {{> mdCloudServiceShowFewPhotos}}
-    <center>{{> mdStripePlaceOrderButton}}</center>
-  {{/if}}
+  {{#unless showOrderForm}}
+    <br /><div class="alert alert-danger" role="alert"><strong>Yikes!</strong> Looks like you came to this page from the wrong place.</div>
+  {{/unless}}
 </template>

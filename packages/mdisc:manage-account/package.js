@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'mdisc:jobs',
+  name: 'mdisc:manage-account',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -11,36 +11,32 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.3');
-
+  api.versionsFrom('1.2.0.2');
   api.use([
+    'meteor',
     'templating',
     'iron:router@1.0.7',
+    'steeve:moment-dateformat@0.0.1',
     'wisptools:menu',
-    'wisptools:collection',
-    'wisptools:roles',
-    'vsivsi:job-collection@1.2.3'
-  ]);    
-
-  api.addFiles([
-    'client/templates/admin-view.html',
-    'client/templates/admin-view.js',
-    'client/menu.js',
-    ], ['client']);
-
-  api.addFiles([
-    'lib/jobs.js',
-    'lib/router.js'
-    ], ['server','client']);
+    'mdisc:accounts',
+    'mdisc:address-ui',
+    'wisptools:growl'
+  ]);
   
-  api.export('Jobs');
-  api.export('JobCollection');
-  api.export('MdJobs');
+  api.addFiles([
+    'client/templates/my-account.css',
+    'client/templates/my-account.html',
+    'client/templates/my-account.js'
+  ], 'client');
 
+  api.addFiles([
+    'lib/router.js'
+  ], ['client', 'server']);
 });
 
 Package.onTest(function(api) {
+  api.use('ecmascript');
   api.use('tinytest');
-  api.use('mdisc:jobs');
-  api.addFiles('jobs-tests.js');
+  api.use('mdisc:manage-account');
+  api.addFiles('manage-account-tests.js');
 });

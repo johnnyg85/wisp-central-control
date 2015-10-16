@@ -1,4 +1,17 @@
-
-i.menu-icon {
-  width: 25px;
+.navbar-nav > li > a {
+    padding-top:20px !important; 
+    padding-bottom:0 !important;
+    height: 65px;
 }
+.navbar-btn {
+    margin-top:15px !important; 
+}
+.navbar-right > .navbar-btn {
+    margin-right:15px !important; 
+}
+.navbar-brand {
+    padding-top:4px !important; 
+    padding-bottom:0 !important;
+    height: 65px;
+}
+.navbar {min-height:65px !important;}
