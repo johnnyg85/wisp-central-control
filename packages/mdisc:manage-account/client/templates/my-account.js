@@ -64,3 +64,19 @@ Template.mdMyAccountShippingForm.events({
 
   },
 });
+
+Template.mdMyAccountUserForm.events({
+   'click #btChangePassword':function(event){
+      /* $("#account-manage-form").validate({
+          rules: {
+            txtEmail: {
+                required: true,
+            }
+        }
+       });*/
+        event.preventDefault();
+
+        var email = $('[name=txtEmail').val();
+        var street1 = $('[name=txtPassword]').val();
+   }
+});

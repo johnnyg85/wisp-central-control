@@ -1,0 +1,114 @@
+<template name="mdShippingAddress">
+
+
+
+    <form id="validateform" class="form-horizontal">
+         <div id="formAlert" class="alert hide">  
+          <a class="close">×</a>  
+          <strong>Warning!</strong> Make sure all fields are filled and try again.
+        </div>
+        {{#if address}}
+        <div class="alert alert-success alert-block">
+             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> Address Verified Successfully
+        </div>
+       
+        {{/if}}
+
+        <div class="form-group">
+            <label for="txtName" class="col-sm-3 control-label">Name :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control required" id="txtName" name="txtName" placeholder="Name" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtStreet1" class="col-sm-3 control-label">Street 1:</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtStreet1" name="txtStreet1" placeholder="Street 1" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtStreet2" class="col-sm-3 control-label">Street 2:</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtStreet2" name="txtStreet2" placeholder="Street 2">
+            </div>
+        </div>   
+        <div class="form-group">
+            <label for="txtCity" class="col-sm-3 control-label">City :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtCity" name="txtCity" placeholder="City" required>
+            </div>
+        </div>                  
+        <div class="form-group">
+            <label for="txtState" class="col-sm-3 control-label">State :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtState" name="txtState" placeholder="State" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtZip" class="col-sm-3 control-label">Zip :</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtZip" name="txtZip" placeholder="Zip" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtCountry" class="col-sm-3 control-label">Country:</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="txtCountry" name="txtCountry" placeholder="Country" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="chkAddress" name="chkAddress"> Use this Address with out verification
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+                <button type="submit" id="btValidateAddress" name="btValidateAddress" class="btn btn-default navbar-btn">Validate Address</button>
+            </div>
+        </div>
+
+        <div class="panel panel-default" style="width: 50%;text-align: center;margin: 0 auto;" >
+
+
+            {{#with address}}
+
+            <div class="checkbox">
+                <label class="control-label">{{name}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{street1}}</label>             
+                <label class="control-label">{{street2}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{city}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{state}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{zip}}</label>
+            </div>
+            <div class="checkbox">
+                <label class="control-label">{{country}}</label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="chkVerAddress" name="chkAddress"> <b>Use this Address</b>
+                </label>
+            </div>
+            {{/with}}
+
+        </div>
+
+    </form>
+
+
+
+
+</template>

@@ -1,0 +1,30 @@
+<template name="mdShippinglabel">
+      
+            <form class="shipmentLabel">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button class="submit btn btn-default navbar-btn" id="btShipmentLabel" value="CreateLabel">Create Shipment</button> 
+                        </td>
+                        
+                       
+                       
+                    </tr>
+                    <tr>
+                         {{#if labelUrl}}
+                         <td class="col-md-4" style="text-align: center">
+                           
+                             <img width="50%" src='{{labelUrl}}' />
+                           
+                        </td>
+                       
+                         {{/if}}
+                    </tr>
+                   
+                </table>
+               
+          
+            </form>
+    
+</template>
+
