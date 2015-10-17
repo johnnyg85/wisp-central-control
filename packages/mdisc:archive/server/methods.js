@@ -34,28 +34,5 @@ Meteor.methods({
   pushArchiveShippingScanned: function (archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$push: {shippingScanned: {time: new Date(), userId: Meteor.userId()}}});
     return MdArchive.collection.findOne({_id: archiveId});
-  },
-  openAutoCloudArchive: function (service) {
-    var name = 'My Photos';
-    if (Meteor.user().profile) {
-      if (Meteor.user().profile.firstname) {
-        name = Meteor.user().profile.firstname + "'s Photos";
-      }
-    }
-
-    var id = MdArchive.collection.insert({
-      type: 'Auto Cloud Archive',
-      version: '0.0.1',
-      service: service,
-      status: 'Open',
-      size: 'Unknown',
-      diskType: 'Unknown',
-      disks: 'Unknown',
-      archiveName: name,
-      archiveType: 'Google Photos full archive',
-      price: '35.00',
-      initDone: false 
-    });
-    return id;
   }
 });
