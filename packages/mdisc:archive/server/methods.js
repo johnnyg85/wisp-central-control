@@ -6,6 +6,9 @@ Meteor.methods({
   getArchiveByTrackingId: function (trackingId) {
     return MdArchive.collection.findOne({trackingId: trackingId});
   },
+  getArchiveFilesById: function (filesId) {
+    return MdArchive.files.findOne({_id: filesId});    
+  },
   setArchiveStatus: function (status, archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$set: {status: status}});
   },
