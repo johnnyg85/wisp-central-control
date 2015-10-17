@@ -65,6 +65,7 @@ mdisc:easypost@0.0.1
 mdisc:jobs@0.0.1
 mdisc:manage-account@0.0.1
 mdisc:mandrill@0.0.1
+mdisc:order-number@0.0.1
 mdisc:shipping@0.0.1
 mdisc:stripe@0.0.1
 meteor@1.1.9

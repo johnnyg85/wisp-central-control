@@ -31,7 +31,16 @@ Meteor.methods({
             var client = new gPhotos(accessToken);
             var myFuture = new Future();
             client.getQuota(Meteor.bindEnvironment(function(err, res) {
-              if (err) myFuture.return(null);
+              if (err) {
+                myFuture.return(null);
+                return;
+              }
+              if (typeof res == 'string') {
+                // didn't get the expected JSON object.
+                console.log('Error in getAccountSize: ' + res);
+                myFuture.return([]);
+                return;
+              }
               estimatedSize = res.feed.gphoto$quotacurrent.$t;
               //console.log(estimatedSize);
               myFuture.return(estimatedSize);
@@ -62,7 +71,17 @@ Meteor.methods({
             var client = new gPhotos(accessToken);
             var myFuture = new Future();
             client.getRecent(Meteor.bindEnvironment(function(err, res) {
-              if (err) myFuture.return([]);
+              if (err) {
+                myFuture.return([]);
+                return;
+              }
+              if (typeof res == 'string') {
+                // didn't get the expected JSON object.
+                // This can happen with expired tokens
+                console.log('Error in getRecentPhotos: ' + res);
+                myFuture.return([]);
+                return;
+              }
               var len = res.feed.entry.length;
               var urls = [];
               for (var x = 0; x < len; x++) {
@@ -97,7 +116,11 @@ Meteor.methods({
             var client = new gPhotos(accessToken);
             client.getRecent(Meteor.bindEnvironment(function(err, res) {
               if (err) return false;
-
+              if (typeof res == 'string') {
+                // didn't get the expected JSON object.
+                console.log('Error in updateRecentPhotos: ' + res);
+                return false;
+              }
               var len = res.feed.entry.length;
               var urls = [];
               for (var x = 0; x < len; x++) {
@@ -135,6 +158,11 @@ Meteor.methods({
             // TODO: This process might need to be off loaded to a job server.
             client.getAlbums(Meteor.bindEnvironment(function (err, res) {
               if (err) return false;  // TODO: restart the init process
+              if (typeof res == 'string') {
+                // didn't get the expected JSON object.
+                console.log('Error in initAutoCloudArchive: ' + res);
+                return false;
+              }
               var estimatedSize = res.feed.gphoto$quotacurrent.$t;
               var len = res.feed.entry.length;
               for (var x=0; x < len; x++) {
@@ -168,6 +196,13 @@ Meteor.methods({
                           console.log('Error Getting Album: ' + err);
                           g--;
                           done();
+                          return;
+                        }
+                        if (typeof res == 'string') {
+                          // didn't get the expected JSON object.
+                          console.log('Error in initAutoCloudArchive (album): ' + res);
+                          done();
+                          return;
                         }
                         var len = res.feed.entry.length
                         var prevName;

@@ -52,6 +52,17 @@ var stripeResponseHandlerSimple = function StripeResponseHandler(status, respons
                 MdArchive.collection.update({_id: archiveId}, {$set: {status: 'Ordered', payment: payment}});
                 Meteor.call('downloadArchive', archiveId);
 
+                // Get a unique order number and update the archive
+                Meteor.call('mdCreateOrderNumber', function(err, res) {
+                    var orderNumber;
+                    if (err) {
+                        orderNumber = 'DEFAULT';
+                    } else {
+                        orderNumber = res;
+                    }
+                    MdArchive.collection.update({_id: archiveId}, {$set: {orderNumber: orderNumber}});
+                });
+
                 // Mark for as paid
                 $form.find('button').text('Paid - Thank You!');
                 $form.find('.payment-amount').addClass('alert-success');
