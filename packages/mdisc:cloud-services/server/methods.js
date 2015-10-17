@@ -96,6 +96,8 @@ Meteor.methods({
           if (accessToken) {
             var client = new gPhotos(accessToken);
             client.getRecent(Meteor.bindEnvironment(function(err, res) {
+              if (err) return false;
+
               var len = res.feed.entry.length;
               var urls = [];
               for (var x = 0; x < len; x++) {
@@ -126,11 +128,12 @@ Meteor.methods({
           if (accessToken) {
 
             var photos = [];
-            var gSize = 100;
+            var gSize = 1000; // max 1000
             var client = new gPhotos(accessToken);
             // Get all the albumns
             // TODO: This process might need to be off loaded to a job server.
             client.getAlbums(Meteor.bindEnvironment(function (err, res) {
+              if (err) return false;  // TODO: restart the init process
               var estimatedSize = res.feed.gphoto$quotacurrent.$t;
               var len = res.feed.entry.length;
               for (var x=0; x < len; x++) {
@@ -138,6 +141,8 @@ Meteor.methods({
                 var numPhotos = res.feed.entry[x].gphoto$numphotos.$t;
                 var groups = Math.floor((Number(numPhotos) + gSize) / gSize);
 
+                // break albums into smaller sub groups
+                // max is groups of 1000
                 for (var g = 0; g < groups; g++) {
                   var aName = res.feed.entry[x].gphoto$name.$t;
                   if (groups > 1) {
@@ -152,6 +157,12 @@ Meteor.methods({
                   // Process albumns one at a time to lower server overhead
                   Async.runSync(function (done) {
                     client.getAlbum(id, g * gSize, gSize, function (err, res) {
+                      if (err) {
+                        // try again
+                        console.log('Error Getting Album: ' + err);
+                        g--;
+                        done();
+                      }
                       var len = res.feed.entry.length
                       var prevName;
                       var ver;
