@@ -124,6 +124,7 @@ Meteor.methods({
       case 'Google Photos':
         var credential = MdCloudServices.credentials.findOne({owner: userId, service: service});
         if (credential) {
+          // TODO: reset credentials
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
 
@@ -154,68 +155,74 @@ Meteor.methods({
                     files: []
                   }
 
-                  // Process albumns one at a time to lower server overhead
-                  Async.runSync(function (done) {
-                    client.getAlbum(id, g * gSize, gSize, function (err, res) {
-                      if (err) {
-                        // try again
-                        console.log('Error Getting Album: ' + err);
-                        g--;
-                        done();
-                      }
-                      var len = res.feed.entry.length
-                      var prevName;
-                      var ver;
-                      for (var y=0; y < len; y++) {
+                  var index = g * gSize;
 
-                        //console.log(res.feed.entry[y]);
-                        //console.log(res.feed.entry[y].media$group.media$content);
-                        //console.log('-----------------------------------------------------------------------------');
-
-                        var date = res.feed.entry[y].updated.$t;
-                        var name = res.feed.entry[y].title.$t;
-                        var url = res.feed.entry[y].media$group.media$content[0].url;
-                        var type = 'img';
-
-                        // check extention on file name
-                        if (!name.lastIndexOf('.')) {
-                          // add extention from url if missing
-                          name = name + '.' + url.substr(url.lastIndexOf('.')+1)
+                  // TODO: Find a solution to getting indexs over 10,000
+                  // Error from Google: Deprecated offset is too large for a stream ID query. Please  switch to using resume tokens.
+                  if (index < 10000) {
+                    // Process albumns one at a time to lower server overhead
+                    Async.runSync(function (done) {
+                      client.getAlbum(id, g * gSize, gSize, function (err, res) {
+                        if (err) {
+                          // try again
+                          console.log('Error Getting Album: ' + err);
+                          g--;
+                          done();
                         }
+                        var len = res.feed.entry.length
+                        var prevName;
+                        var ver;
+                        for (var y=0; y < len; y++) {
 
-                        //var size = res.feed.entry[y].gphoto$size.$t;
-                        //estimatedSize += Number(size);
+                          //console.log(res.feed.entry[y]);
+                          //console.log(res.feed.entry[y].media$group.media$content);
+                          //console.log('-----------------------------------------------------------------------------');
 
-                        // basic fix for duplicate names.
-                        // TODO: improve this.
-                        if (prevName == name) {
-                          name = "v" + ver + "_" + name;
-                        } else {
-                          ver = 1;
-                          prevName = name;
-                        }
+                          var date = res.feed.entry[y].updated.$t;
+                          var name = res.feed.entry[y].title.$t;
+                          var url = res.feed.entry[y].media$group.media$content[0].url;
+                          var type = 'img';
 
-                        for (var v=0; v < res.feed.entry[y].media$group.media$content.length; v++) {
-                          if (res.feed.entry[y].media$group.media$content[v].medium == 'video') {
-                            url = res.feed.entry[y].media$group.media$content[v].url;
-                            type = 'vid';
+                          // check extention on file name
+                          if (!name.lastIndexOf('.')) {
+                            // add extention from url if missing
+                            name = name + '.' + url.substr(url.lastIndexOf('.')+1)
                           }
+
+                          //var size = res.feed.entry[y].gphoto$size.$t;
+                          //estimatedSize += Number(size);
+
+                          // basic fix for duplicate names.
+                          // TODO: improve this.
+                          if (prevName == name) {
+                            name = "v" + ver + "_" + name;
+                          } else {
+                            ver = 1;
+                            prevName = name;
+                          }
+
+                          for (var v=0; v < res.feed.entry[y].media$group.media$content.length; v++) {
+                            if (res.feed.entry[y].media$group.media$content[v].medium == 'video') {
+                              url = res.feed.entry[y].media$group.media$content[v].url;
+                              type = 'vid';
+                            }
+                          }
+
+
+                          // Add this photo/video to the list
+                          album.files.push({
+                            name:   name,
+                            url:    url,
+                            type:   type,
+                          });
                         }
-
-
-                        // Add this photo/video to the list
-                        album.files.push({
-                          name:   name,
-                          url:    url,
-                          type:   type,
-                        });
-                      }
-                      photos.push(album);
-                      done();
-                    });
-                  });
-                }
-              }
+                        photos.push(album);
+                        done();
+                      });
+                    }); // Async.runSync
+                  } // end if < 10000
+                } // for groups
+              } // for album
               MdArchive.addFileData(archiveId, photos, estimatedSize);
               console.log('Archive Init Done: ' + archiveId);
               console.log('Estimated Size: ' + estimatedSize);
