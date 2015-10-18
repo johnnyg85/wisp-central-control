@@ -31,6 +31,12 @@ Template.mdCloudGoogleAuthorizeNavButton.events({
   }
 });
 
+Template.mdCloudGoogleAuthorizeNavButton.helpers({
+  disabled: function () {
+    if (Router.current().route.getName() == "mdCloudGoogleStartArchive") return "disabled";
+  }
+});
+
 Template.mdCloudGoogleStartArchive.helpers({
   googleConnected: function () { return Session.get('googleConnected'); },
   googleConnecting: function () { return Session.get('googleConnecting'); },
