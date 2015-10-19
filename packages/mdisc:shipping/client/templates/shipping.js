@@ -38,6 +38,9 @@ Template.mdShipping.helpers({
     formatDate: function (timestamp) {
         var d = new Date(timestamp);
         return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+    },
+    progressBarWidth: function (scannedDisks, totalDisks) {
+        return Math.ceil(scannedDisks*100/totalDisks);
     }
 });
 
