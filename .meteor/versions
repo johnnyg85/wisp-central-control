@@ -19,6 +19,7 @@ callback-hook@1.0.4
 check@1.0.6
 chuangbo:cookie@1.1.0
 coffeescript@1.0.10
+cosmos:browserify@0.7.4
 ddp@1.2.2
 ddp-client@1.2.1
 ddp-common@1.2.1
@@ -62,6 +63,7 @@ mdisc:cloud-service-google-photo@0.0.1
 mdisc:cloud-services@0.0.1
 mdisc:dates@0.0.1
 mdisc:easypost@0.0.1
+mdisc:img-to-pdf@0.0.1
 mdisc:jobs@0.0.1
 mdisc:manage-account@0.0.1
 mdisc:mandrill@0.0.1
