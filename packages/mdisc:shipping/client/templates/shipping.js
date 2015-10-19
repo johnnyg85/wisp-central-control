@@ -90,6 +90,7 @@ Template.mdShipping.onRendered(function() {
                             } else {
                                 scannedDisks = new Array();
                                 scannedDisks.push(qrdata.n);
+                                WtGrowl.success("New Session Started: " + res._id);
                             }
                             Session.set('lastScanned', {archive: res, disc: qrdata.n});
                             Session.set('scannedDisks', scannedDisks);
