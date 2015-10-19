@@ -65,18 +65,36 @@ Template.mdMyAccountShippingForm.events({
   },
 });
 
-Template.mdMyAccountUserForm.events({
-   'click #btChangePassword':function(event){
-      /* $("#account-manage-form").validate({
-          rules: {
-            txtEmail: {
-                required: true,
-            }
-        }
-       });*/
-        event.preventDefault();
+Template.mdMyAccountUserForm.helpers({
+  userdet:function()
+  {
+      
+  }
+});
 
-        var email = $('[name=txtEmail').val();
-        var street1 = $('[name=txtPassword]').val();
-   }
+Template.mdMyAccountUserForm.events({
+  'click #btChangePassword':function(event){
+    event.preventDefault();
+
+    var email = $('[name=txtEmail]').val();
+    var password = $('[name=txtPassword]').val();
+    var repass = $('[name=txtPassword]').val();
+    //if($('[name=txtPassword]').val()!=$('[name=txtRepassword]').val())
+     //   $('.alert').show()
+    Accounts.changePassword(password,repass, function(err){
+        if(err)
+            console.log(err);
+        else
+            console.log("success");
+        
+    })
+    //if($('[name=txtPassword]').val()!=$('[name=txtRepassword]').val())
+     //   $('.alert').show()
+    //alert(password);
+    
+   // Meteor.users.update({_id:Meteor.userId()},{$set:{"services.password.bcrypt":password}})
+   // alert(email);
+    //alert(password);
+  }
+ 
 });
