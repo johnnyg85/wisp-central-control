@@ -28,7 +28,9 @@ Package.onUse(function(api) {
     'client/templates/my-account.html',
     'client/templates/my-account.js'
   ], 'client');
-
+  api.addFiles([
+    'server/publication.js'    
+  ],'server'),  
   api.addFiles([
     'lib/router.js'
   ], ['client', 'server']);
