@@ -19,11 +19,15 @@ Package.onUse(function (api) {
         'cosmos:browserify@0.7.0'
     ], 'client');
     
-    api.export('pdfKit');
-    api.export('blobStream');
+    api.export('imgToPdf');
     
     api.addFiles([
-        'client.browserify.js'
+        'client.browserify.js',
+        'client/img-to-pdf.js'
     ], 'client');
+    
+    api.addFiles([
+        'server/methods.js'
+    ], 'server');
     
 });
