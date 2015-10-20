@@ -68,33 +68,43 @@ Template.mdMyAccountShippingForm.events({
 Template.mdMyAccountUserForm.helpers({
   userdet:function()
   {
-      
+    Meteor.subscribe('userlog',Meteor.userId());
+    var data = Meteor.users.findOne({_id: Meteor.userId()});
+    return data;
   }
 });
 
 Template.mdMyAccountUserForm.events({
   'click #btChangePassword':function(event){
     event.preventDefault();
-
-    var email = $('[name=txtEmail]').val();
-    var password = $('[name=txtPassword]').val();
-    var repass = $('[name=txtPassword]').val();
-    //if($('[name=txtPassword]').val()!=$('[name=txtRepassword]').val())
-     //   $('.alert').show()
-    Accounts.changePassword(password,repass, function(err){
-        if(err)
-            console.log(err);
-        else
-            console.log("success");
+    if(($('[name=txtNewpassword]').val()!=$('[name=txtRepassword]').val())
+            ||($('[name=txtNewpassword]').val()=='')||($('[name=txtRepassword]').val()==''))
+      {
         
-    })
-    //if($('[name=txtPassword]').val()!=$('[name=txtRepassword]').val())
-     //   $('.alert').show()
-    //alert(password);
-    
-   // Meteor.users.update({_id:Meteor.userId()},{$set:{"services.password.bcrypt":password}})
-   // alert(email);
-    //alert(password);
+        $("#passmatch").toggleClass("hidden");
+        $("#chsuccess").hide();
+        $("#chpwd").hide();
+      }
+      else {
+        $("#passmatch").hide();
+         
+        var email = $('[name=txtEmail]').val();
+        var oldPassword = $('[name=txtPassword]').val();
+        var newPassword = $('[name=txtNewpassword]').val();
+        //console.log(newPassword.length);
+        
+          Accounts.changePassword(oldPassword,newPassword, function(err){
+            if(err){
+              $("#cherror").toggleClass("hidden");
+            }
+            else {
+              $("#chsuccess").toggleClass("hidden");  
+              $("#cherror").hide();
+              
+            }
+          })
+        
+      }
   }
  
 });
