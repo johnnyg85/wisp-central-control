@@ -13,7 +13,7 @@
         <table class="table table-striped">
           <tbody>
             {{#each orders}}
-            {{> mdMyAccountOrder}}
+              {{> mdMyAccountOrder}}
             {{/each}}
           </tbody>
         </table>
@@ -43,54 +43,75 @@
 </template>
 
 <template name="mdMyAccountOrder">
-    {{#if show status}}
+  {{#if show status}}
     <tr>
-        <td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
-        <td>Order {{orderNumber}}</td>
-        <td>{{archiveType}}</td>
-        <td>${{price}}</td>
-        <td>{{status}}</td>
+      <td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
+      <td>Order {{orderNumber}}</td>
+      <td>{{archiveType}}</td>
+      <td>${{price}}</td>
+      <td>{{status}}</td>
     </tr>
-    {{/if}}
+  {{/if}}
 </template>
 
 <template name="mdMyAccountUserForm">
-   <!-- {{#each userdet}} --> 
-  <strong>You are using Google to login.</strong> 
- 
-  <form id="account-manage-form" class="form-horizontal">
-    <div class="alert alert-warning alert-block">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      <strong>Warning!</strong> These Passwords don't match. Please try again.
-    </div>
-    <div class="form-group">
-      <label for="txtEmail" class="col-md-5 control-label">Email </label>   
-        <div class="col-md-7">
-          <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="Email" required>
-        </div>
-    </div>
-    <div class="form-group">
-      <div class="col-xs-12">(6-20 character password, min. one letter and one number required)</div>
-    </div>
-    <div class="form-group">
-      <label for="txtPassword" class="col-md-5 control-label">Password </label>   
-      <div class="col-md-7">
-        <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="New Password" required>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="txtRepassword" class="col-md-5 control-label">Re-enter Password </label>   
-      <div class="col-md-7">
-        <input type="password" class="form-control" id="txtRepassword" name="txtRepassword" placeholder="Re-enter Password" required>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-md-offset-7 col-md-5">
-        <button type="submit" id="btChangePassword" class="btn btn-primary btn-block">Submit</button>
-      </div>
-    </div>
-  </form>
- <!-- {{/each}} -->
+  {{#with userdet}}
+   {{#if services.google}} 
+     <strong>You are using Google to login.</strong> 
+   {{else}}
+     <form id="account-manage-form" class="form-horizontal">
+       <div id="chsuccess" class="alert alert-success hidden">
+         <strong>Success!</strong> Your password successfully changed.
+       </div>
+       <div id="cherror" class="alert alert-danger hidden">
+         <strong>Failed!</strong> Incorrect current password.
+       </div>
+       <div id="passmatch" class="alert alert-warning hidden">
+         
+         <strong>Warning!</strong> These Passwords don't match. Please try again.
+       </div>
+       <div id="chpwd" class="alert alert-warning hidden">
+         
+         <strong>Warning!</strong>Re Enter password with constraints.
+       </div>
+       <div class="form-group">
+         <label for="txtEmail" class="col-md-5 control-label">Email </label>   
+           <div class="col-md-7">
+             {{#each emails}}
+               <input type="email" class="form-control" id="txtEmail" name="txtEmail" value="{{address}}" placeholder="Email" required>
+             {{/each}}
+           </div>
+       </div>
+       <div class="form-group">
+         <div class="col-xs-12">(6-20 character password, min. one letter and one number required)</div>
+       </div>
+       <div id="currsucc" class="form-group">
+         <label for="txtPassword" class="col-md-5 control-label">Current Password </label>   
+       <div class="col-md-7">
+         <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Current Password" required>
+       </div>
+       </div>
+       <div class="form-group">
+         <label for="txtNewpassword" class="col-md-5 control-label">New-Password </label>   
+       <div class="col-md-7">
+         <input type="password" class="form-control" id="txtNewpassword" name="txtNewpassword" placeholder="New Password" required>
+       </div>
+       </div>
+       <div class="form-group">
+         <label for="txtRepassword" class="col-md-5 control-label">Re-enter Password </label>   
+           <div class="col-md-7">
+             <input type="password" class="form-control" id="txtRepassword" name="txtRepassword" placeholder="Re-enter Password" required>
+           </div>
+       </div>
+       <div class="form-group">
+         <div class="col-md-offset-7 col-md-5">
+           <button type="submit" id="btChangePassword" class="btn btn-primary btn-block">Submit</button>
+         </div>
+       </div>
+     </form>
+   {{/if}}
+  {{/with}}
+
 </template>
 
 <template name="mdMyAccountShippingForm">
