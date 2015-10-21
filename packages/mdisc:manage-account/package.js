@@ -24,10 +24,12 @@ Package.onUse(function(api) {
   ]);
   
   api.addFiles([
+    
     'client/templates/my-account.css',
     'client/templates/my-account.html',
     'client/templates/my-account.js'
-  ], 'client');
+    
+  ], 'client'),
   api.addFiles([
     'server/publication.js'    
   ],'server'),  
