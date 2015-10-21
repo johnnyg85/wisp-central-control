@@ -1,3 +1,5 @@
+
+
 Template.mdMyAccount.helpers({
   orders: function() {
     return MdArchive.collection.find().fetch();
@@ -65,46 +67,81 @@ Template.mdMyAccountShippingForm.events({
   },
 });
 
+Template.mdMyAccountUserForm.rendered=function()
+{
+ 
+  Session.set('pwdsuccess',false);
+  Session.set('passmatch',false);
+  Session.set('pwdstrength',false);
+  Session.set('pwdstrengths',false); 
+};
+
 Template.mdMyAccountUserForm.helpers({
   userdet:function()
   {
     Meteor.subscribe('userlog',Meteor.userId());
     var data = Meteor.users.findOne({_id: Meteor.userId()});
     return data;
+  },
+  showcurrerror:function()
+  {    
+    return Session.get('showcurr');
+  },
+  showpwderror:function()
+  {    
+    return Session.get('passmatch');
+  },
+  succmessage:function()
+  {
+    return Session.get('pwdsuccess');
+  },
+  passwdstrength:function()
+  {
+    return Session.get('pwdstrength');
+  },
+  passwdstrengths:function()
+  {
+    return Session.get('pwdstrengths');
   }
+  
 });
 
 Template.mdMyAccountUserForm.events({
   'click #btChangePassword':function(event){
-    event.preventDefault();
-    if(($('[name=txtNewpassword]').val()!=$('[name=txtRepassword]').val())
-            ||($('[name=txtNewpassword]').val()=='')||($('[name=txtRepassword]').val()==''))
-      {
+     event.preventDefault();
+     var password=$('[name=txtNewpassword]').val();
+    
+     if(($('[name=txtNewpassword]').val()!=$('[name=txtRepassword]').val())
+            ||($('[name=txtNewpassword]').val()=='')||($('[name=txtRepassword]').val()=='')) {
+        Session.set('passmatch',true);
+        Session.set('pwdsuccess',false);
+       }
+     else if((password.length < 6)||(password.length >20)) {
+       Session.set('passmatch',false);
+       Session.set('pwdstrength',true);
+     }
+     else if(!(password.match(/([a-zA-Z])/)) || !(password.match(/([0-9])/))) {
+       Session.set('passmatch',false);
+       Session.set('pwdstrength',false);
+       Session.set('pwdstrengths',true);
+     }
+     else {
+       Session.set('pwdstrengths',false);    
+       var email = $('[name=txtEmail]').val();
+       var oldPassword = $('[name=txtPassword]').val();
+       var newPassword = $('[name=txtNewpassword]').val();
         
-        $("#passmatch").toggleClass("hidden");
-        $("#chsuccess").hide();
-        $("#chpwd").hide();
-      }
-      else {
-        $("#passmatch").hide();
-         
-        var email = $('[name=txtEmail]').val();
-        var oldPassword = $('[name=txtPassword]').val();
-        var newPassword = $('[name=txtNewpassword]').val();
-        //console.log(newPassword.length);
+       Accounts.changePassword(oldPassword,newPassword, function(err){
+         if(err){
+           Session.set('showcurr',true);
+         }
+         else {
+           Session.set('showcurr',false);
+           Session.set('pwdsuccess',true);
+         }
+       })
         
-          Accounts.changePassword(oldPassword,newPassword, function(err){
-            if(err){
-              $("#cherror").toggleClass("hidden");
-            }
-            else {
-              $("#chsuccess").toggleClass("hidden");  
-              $("#cherror").hide();
-              
-            }
-          })
-        
-      }
+     }
   }
  
 });
