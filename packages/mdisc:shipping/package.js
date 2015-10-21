@@ -18,7 +18,8 @@ Package.onUse(function (api) {
         'mdisc:archive',
         'mrt:qr-scanner@0.2.0',
         'zimme:luhn@0.1.4',
-        'wisptools:growl'
+        'wisptools:growl',
+        'mdisc:img-to-pdf'
     ]);
     
     //api.export('');
