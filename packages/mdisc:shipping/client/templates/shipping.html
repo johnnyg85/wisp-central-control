@@ -41,6 +41,11 @@
                     <td>{{archive.service}}</td>
                     <td>{{archive.status}}</td>
                     <td>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="4" style="width: {{progressBarWidth scannedDiskCount archive.disks}}%;">
+                                <span class="sr-only">Disk {{scannedDiskCount}} of {{archive.disks}}</span>
+                            </div>
+                        </div>
                         Disk {{scannedDiskCount}} of {{archive.disks}}<br><br>
                         {{#if diskCountKnown archive.disks}}
                             {{#each scannedDisks archive.disks}}
