@@ -19,7 +19,8 @@ Package.onUse(function (api) {
         'mrt:qr-scanner@0.2.0',
         'zimme:luhn@0.1.4',
         'wisptools:growl',
-        'mdisc:img-to-pdf'
+        'mdisc:img-to-pdf',
+        'mdisc:easypost'
     ]);
     
     //api.export('');
