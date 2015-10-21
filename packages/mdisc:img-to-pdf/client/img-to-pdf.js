@@ -1,6 +1,6 @@
-imgToPdf = {};
+ImgToPdf = {};
 
-imgToPdf.print = function (imgURL) {
+ImgToPdf.print = function (imgURL) {
     // create a document and pipe to a blob
     var doc = new pdfKit({size: [400, 600], margin: 0});
     var stream = doc.pipe(blobStream());

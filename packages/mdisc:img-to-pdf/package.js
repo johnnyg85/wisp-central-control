@@ -19,7 +19,7 @@ Package.onUse(function (api) {
         'cosmos:browserify@0.7.0'
     ], 'client');
     
-    api.export('imgToPdf');
+    api.export('ImgToPdf', 'client');
     
     api.addFiles([
         'client.browserify.js',

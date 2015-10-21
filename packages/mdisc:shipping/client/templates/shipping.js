@@ -50,7 +50,7 @@ Template.mdShipping.events({
         Meteor.call("setArchiveStatus", "Docking", this.archive._id);
         Meteor.call("setArchiveShippingLabel", label_url, this.archive._id);
         
-        imgToPdf.print(label_url);
+        ImgToPdf.print(label_url);
         
         Meteor.call("getArchiveById", this.archive._id, function(err, res) {
             if (!err && res) {
