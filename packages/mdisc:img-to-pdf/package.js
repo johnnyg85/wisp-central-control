@@ -26,8 +26,4 @@ Package.onUse(function (api) {
         'client/img-to-pdf.js'
     ], 'client');
     
-    api.addFiles([
-        'server/methods.js'
-    ], 'server');
-    
 });

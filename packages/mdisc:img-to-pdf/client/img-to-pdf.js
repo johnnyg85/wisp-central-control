@@ -1,12 +1,6 @@
 imgToPdf = {};
 
 imgToPdf.print = function (imgURL) {
-    /*
-     * Add Code that downloads image from imgURL to current server and provide a link to it
-     * 
-     */
-    
-    
     // create a document and pipe to a blob
     var doc = new pdfKit({size: [400, 600], margin: 0});
     var stream = doc.pipe(blobStream());
