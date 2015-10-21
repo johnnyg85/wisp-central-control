@@ -73,24 +73,21 @@
          {{/if}}
          {{#if showpwderror}}
        <div id="passmatch" class="alert alert-warning ">
-         
          <strong>Warning!</strong> These Passwords don't match. Please try again.
        </div>
          {{/if}}
          {{#if passwdstrength}}
        <div id="chpwd" class="alert alert-warning ">
-         
-         <strong>Warning!</strong>Password length must be between 6-20 .
+         <strong>Warning!</strong> Password length must be between 6-20.
        </div>
          {{/if}}
          {{#if passwdstrengths}}
        <div id="chpwd" class="alert alert-warning ">
-         
-         <strong>Warning!</strong>Password must contain one character and one number .
+         <strong>Warning!</strong> Password must contain one character and one number.
        </div>
          {{/if}}
        <div class="form-group">
-         <label for="txtEmail" class="col-md-5 control-label">Email </label>   
+         <label for="txtEmail" class="col-md-5 control-label">Email</label>   
            <div class="col-md-7">
              {{#each emails}}
                <input type="email" class="form-control" name="txtEmail" value="{{address}}" readonly placeholder="Email">
@@ -101,26 +98,26 @@
          <div class="col-xs-12">(6-20 character password, min. one letter and one number required)</div>
        </div>
        <div id="currsucc" class="form-group">
-         <label for="txtPassword" class="col-md-5 control-label">Current Password </label>   
+         <label for="txtPassword" class="col-md-5 control-label">Current Password</label>   
        <div class="col-md-7">
          <input type="password" class="form-control" name="txtPassword" placeholder="Current Password">
        </div>
        </div>
        <div class="form-group">
-         <label for="txtNewpassword" class="col-md-5 control-label">New-Password </label>   
+         <label for="txtNewpassword" class="col-md-5 control-label">New Password</label>   
        <div class="col-md-7">
          <input type="password" class="form-control" name="txtNewpassword" placeholder="New Password">
        </div>
        </div>
        <div class="form-group">
-         <label for="txtRepassword" class="col-md-5 control-label">Re-enter Password </label>   
+         <label for="txtRepassword" class="col-md-5 control-label">Re-enter Password</label>   
            <div class="col-md-7">
              <input type="password" class="form-control" name="txtRepassword" placeholder="Re-enter Password">
            </div>
        </div>
        <div class="form-group">
          <div class="col-md-offset-7 col-md-5">
-           <button type="submit" id="btChangePassword" class="btn btn-primary btn-block">Change Password</button>
+           <button type="submit" id="btChangePassword" class="btn btn-primary btn-block">Update</button>
          </div>
        </div>
      </form>
