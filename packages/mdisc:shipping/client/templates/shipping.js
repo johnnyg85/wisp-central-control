@@ -45,7 +45,7 @@ Template.mdShipping.helpers({
 });
 
 Template.mdShipping.events({
-    'click .print_shipping_label': function() {
+    /*'click .print_shipping_label': function() {
         var label_url = "http://assets.geteasypost.com/postage_labels/labels/0jvZJy.png";
         Meteor.call("setArchiveStatus", "Docking", this.archive._id);
         Meteor.call("setArchiveShippingLabel", label_url, this.archive._id);
@@ -61,13 +61,14 @@ Template.mdShipping.events({
                 }
             }
         });
-    }
+    }*/
 });
 
 Template.mdShipping.onRendered(function() {
     var lastScanned = "";
+    var scannerEnabled = 1;
     qrScanner.on('scan', function(err, result) {
-        if (!err) {
+        if (!err && scannerEnabled) {
             result = processScannedData(result);
             if (result != lastScanned) {
                 lastScanned = result;
@@ -105,6 +106,18 @@ Template.mdShipping.onRendered(function() {
                                     }
                                 }
                             });
+                            
+                            if (scannedDisks.length == res.disks) {
+                                scannerEnabled = 0;
+                                WtGrowl.success("The shipping label will be generated and printed shortly.");
+                                Meteor.call("getArchiveShippingLabel", res._id, function (err, res) {
+                                    if (!err) {
+                                        ImgToPdf.print(res);
+                                        scannerEnabled = 1;
+                                    }
+                                });
+                            }
+                            
                         } else {
                             scanError();
                         }
