@@ -44,26 +44,6 @@ Template.mdShipping.helpers({
     }
 });
 
-Template.mdShipping.events({
-    /*'click .print_shipping_label': function() {
-        var label_url = "http://assets.geteasypost.com/postage_labels/labels/0jvZJy.png";
-        Meteor.call("setArchiveStatus", "Docking", this.archive._id);
-        Meteor.call("setArchiveShippingLabel", label_url, this.archive._id);
-        
-        ImgToPdf.print(label_url);
-        
-        Meteor.call("getArchiveById", this.archive._id, function(err, res) {
-            if (!err && res) {
-                var lastScanned = Session.get('lastScanned');
-                if (lastScanned && lastScanned.archive) {
-                    lastScanned.archive = res;
-                    Session.set('lastScanned', lastScanned);
-                }
-            }
-        });
-    }*/
-});
-
 Template.mdShipping.onRendered(function() {
     var lastScanned = "";
     var scannerEnabled = 1;
@@ -112,7 +92,19 @@ Template.mdShipping.onRendered(function() {
                                 WtGrowl.success("The shipping label will be generated and printed shortly.");
                                 Meteor.call("getArchiveShippingLabel", res._id, function (err, res) {
                                     if (!err) {
-                                        ImgToPdf.print(res);
+                                        ImgToPdf.print(res, function () {
+                                            scannedDisks = new Array();
+                                            Session.set('scannedDisks', scannedDisks);
+                                            lastScanned = "";
+                                            Session.set('lastScanned', lastScanned);
+                                            scannerEnabled = 1;
+                                        });
+                                    } else {
+                                        WtGrowl.fail('Failed to print shipping label.');
+                                        scannedDisks = new Array();
+                                        Session.set('scannedDisks', scannedDisks);
+                                        lastScanned = "";
+                                        Session.set('lastScanned', lastScanned);
                                         scannerEnabled = 1;
                                     }
                                 });
