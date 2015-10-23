@@ -54,12 +54,8 @@
                         {{/if}}
                     </td>
                     <td>
-                        <button class="btn print_shipping_label {{#if scanCompleted archive.disks}}btn-success{{else}}btn-default{{/if}}" disabled="{{#unless scanCompleted archive.disks}}disabled{{/unless}}">Print Shipping Label</button>
-                        <br><br>
                         {{#if scanCompleted archive.disks}}
-                            {{#if archive.shippingLabel}}
-                                <a href="{{archive.shippingLabel}}" target="_blank">Shipping Label</a>
-                            {{/if}}
+                            {{> spinner}}
                         {{/if}}
                     </td>
                 </tr>
