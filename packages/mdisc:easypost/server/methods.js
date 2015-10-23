@@ -141,5 +141,25 @@ Meteor.methods({
             }
         });
         return future.wait();
+    },
+    
+    mdEasypostCreateShipment: function (toAddress, fromAddress, parcel) {
+        var future = new Future();
+        easypost.Shipment.create({
+            to_address: toAddress,
+            from_address: fromAddress,
+            parcel: parcel
+        }, function (err, shipment) {
+            if (!err) {
+                shipment.buy({rate: shipment.lowestRate(['USPS', 'ups'])}, function (err, shipment) {
+                    if (!err) {
+                        future.return(shipment);
+                    } else {
+                        console.log(err);
+                    }
+                });
+            }
+        });
+        return future.wait();
     }
 });
