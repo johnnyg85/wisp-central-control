@@ -16,9 +16,8 @@ Template.mdCloudGoogleAuthorizeNavButton.events({
         Meteor.call('openAutoCloudArchive', 'Google Photos', function (err, archiveId) {
           //console.log(archiveId);
           Session.set('openArchiveId', archiveId);
-          Meteor.call('initAutoCloudArchive', 'Google Photos', archiveId);
+          Meteor.call('initAutoCloudArchive', 'Google Photos', archiveId, function (err, res) {});
         });
-
         // Start the timer for displaying some photos
         Session.set('googleConnecting', true);
         Router.go('mdCloudGoogleStartArchive');

@@ -11,6 +11,7 @@ Meteor.methods({
     }
   },
   getAccountSize: function(service) {
+
     var userId = this.userId;
     var estimatedSize;
 
@@ -41,9 +42,14 @@ Meteor.methods({
                 myFuture.return([]);
                 return;
               }
-              estimatedSize = res.feed.gphoto$quotacurrent.$t;
-              //console.log(estimatedSize);
-              myFuture.return(estimatedSize);
+              //WARNING: some accounts don't have a quota value.
+              if (res.feed.gphoto$quotacurrent) {
+                estimatedSize = res.feed.gphoto$quotacurrent.$t;
+                //console.log(estimatedSize);
+                myFuture.return(estimatedSize);
+              } else {
+                myFuture.return(null);
+              }
             }));
             return myFuture.wait();
           }
@@ -89,6 +95,7 @@ Meteor.methods({
                 urls.push(res.feed.entry[x].content.src);
               }
               myFuture.return(urls);
+              return;
             }));
             return myFuture.wait();
           }
@@ -152,114 +159,119 @@ Meteor.methods({
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
 
-            var photos = [];
-            var gSize = 1000; // max 1000
-            var client = new gPhotos(accessToken);
-            // Get all the albumns
-            // TODO: This process might need to be off loaded to a job server.
-            var albums = client.getAllAlbums();
-            if (!albums) return false;  // TODO: restart the init process
+            // Run this on another fiber so that the server can reply to other method calls.
+            Meteor.setTimeout(Meteor.bindEnvironment(function () {
 
-            //console.log(albums);
-            var estimatedSize = 0;
-            var len = albums.length;
-            for (var x=0; x < len; x++) {
-              var id = albums[x].id;
-              var numPhotos = albums[x].numPhotos;
-              var groups = Math.floor((Number(numPhotos) + gSize) / gSize);
+              var photos = [];
+              var gSize = 1000; // max 1000
+              var client = new gPhotos(accessToken);
+              // Get all the albumns
+              // TODO: This process might need to be off loaded to a job server.
+              var albums = client.getAllAlbums();
+              if (!albums) return false;  // TODO: restart the init process
 
-              // break albums into smaller sub groups
-              // max is groups of 1000
-              for (var g = 0; g < groups; g++) {
-                var aName = albums[x].name;
-                if (groups > 1) {
-                  var tag = (g + 1) * gSize;
-                  aName = aName + '-' + tag;
-                }
-                var album = {
-                  name: aName,
-                  files: []
-                }
 
-                var index = g * gSize;
+              //console.log(albums);
+              var estimatedSize = 0;
+              var len = albums.length;
+              for (var x=0; x < len; x++) {
+                var id = albums[x].id;
+                var numPhotos = albums[x].numPhotos;
+                var groups = Math.floor((Number(numPhotos) + gSize) / gSize);
 
-                // TODO: Find a solution to getting indexs over 10,000
-                // Error from Google: Deprecated offset is too large for a stream ID query. Please  switch to using resume tokens.
-                if (index < 10000) {
-                  // Process albumns one at a time to lower server overhead
-                  Async.runSync(function (done) {
-                    client.getAlbum(id, g * gSize, gSize, function (err, res) {
-                      if (err) {
-                        // try again
-                        console.log('Error Getting Album: ' + err);
-                        g--;
-                        done();
-                        return;
-                      }
-                      if (typeof res == 'string') {
-                        // didn't get the expected JSON object.
-                        console.log('Error in initAutoCloudArchive (album): ' + res);
-                        done();
-                        return;
-                      }
-                      var len = res.feed.entry.length
-                      var prevName;
-                      var ver;
-                      for (var y=0; y < len; y++) {
+                // break albums into smaller sub groups
+                // max is groups of 1000
+                for (var g = 0; g < groups; g++) {
+                  var aName = albums[x].name;
+                  if (groups > 1) {
+                    var tag = (g + 1) * gSize;
+                    aName = aName + '-' + tag;
+                  }
+                  var album = {
+                    name: aName,
+                    files: []
+                  }
 
-                        //console.log(res.feed.entry[y]);
-                        //console.log(res.feed.entry[y].media$group.media$content);
-                        //console.log('-----------------------------------------------------------------------------');
+                  var index = g * gSize;
 
-                        var date = res.feed.entry[y].updated.$t;
-                        var name = res.feed.entry[y].title.$t;
-                        var url = res.feed.entry[y].media$group.media$content[0].url;
-                        var type = 'img';
-
-                        // check extention on file name
-                        if (!name.lastIndexOf('.')) {
-                          // add extention from url if missing
-                          name = name + '.' + url.substr(url.lastIndexOf('.')+1)
+                  // TODO: Find a solution to getting indexs over 10,000
+                  // Error from Google: Deprecated offset is too large for a stream ID query. Please  switch to using resume tokens.
+                  if (index < 10000) {
+                    // Process albumns one at a time to lower server overhead
+                    Async.runSync(function (done) {
+                      client.getAlbum(id, g * gSize, gSize, function (err, res) {
+                        if (err) {
+                          // try again
+                          console.log('Error Getting Album: ' + err);
+                          g--;
+                          done();
+                          return;
                         }
-
-                        var size = res.feed.entry[y].gphoto$size.$t;
-                        estimatedSize += Number(size);
-
-                        // basic fix for duplicate names.
-                        // TODO: improve this.
-                        if (prevName == name) {
-                          name = "v" + ver + "_" + name;
-                        } else {
-                          ver = 1;
-                          prevName = name;
+                        if (typeof res == 'string') {
+                          // didn't get the expected JSON object.
+                          console.log('Error in initAutoCloudArchive (album): ' + res);
+                          done();
+                          return;
                         }
+                        var len = res.feed.entry.length
+                        var prevName;
+                        var ver;
+                        for (var y=0; y < len; y++) {
 
-                        for (var v=0; v < res.feed.entry[y].media$group.media$content.length; v++) {
-                          if (res.feed.entry[y].media$group.media$content[v].medium == 'video') {
-                            url = res.feed.entry[y].media$group.media$content[v].url;
-                            type = 'vid';
+                          //console.log(res.feed.entry[y]);
+                          //console.log(res.feed.entry[y].media$group.media$content);
+                          //console.log('-----------------------------------------------------------------------------');
+
+                          var date = res.feed.entry[y].updated.$t;
+                          var name = res.feed.entry[y].title.$t;
+                          var url = res.feed.entry[y].media$group.media$content[0].url;
+                          var type = 'img';
+
+                          // check extention on file name
+                          if (!name.lastIndexOf('.')) {
+                            // add extention from url if missing
+                            name = name + '.' + url.substr(url.lastIndexOf('.')+1)
                           }
+
+                          var size = res.feed.entry[y].gphoto$size.$t;
+                          estimatedSize += Number(size);
+
+                          // basic fix for duplicate names.
+                          // TODO: improve this.
+                          if (prevName == name) {
+                            name = "v" + ver + "_" + name;
+                          } else {
+                            ver = 1;
+                            prevName = name;
+                          }
+
+                          for (var v=0; v < res.feed.entry[y].media$group.media$content.length; v++) {
+                            if (res.feed.entry[y].media$group.media$content[v].medium == 'video') {
+                              url = res.feed.entry[y].media$group.media$content[v].url;
+                              type = 'vid';
+                            }
+                          }
+
+
+                          // Add this photo/video to the list
+                          album.files.push({
+                            name:   name,
+                            url:    url,
+                            type:   type,
+                          });
                         }
+                        photos.push(album);
+                        done();
+                      });
+                    }); // Async.runSync
+                  } // end if < 10000
+                } // for groups
+              } // for album
+              MdArchive.addFileData(archiveId, photos, estimatedSize);
+              console.log('Archive Init Done: ' + archiveId);
+              console.log('Estimated Size: ' + estimatedSize);
 
-
-                        // Add this photo/video to the list
-                        album.files.push({
-                          name:   name,
-                          url:    url,
-                          type:   type,
-                        });
-                      }
-                      photos.push(album);
-                      done();
-                    });
-                  }); // Async.runSync
-                } // end if < 10000
-              } // for groups
-            } // for album
-            MdArchive.addFileData(archiveId, photos, estimatedSize);
-            console.log('Archive Init Done: ' + archiveId);
-            console.log('Estimated Size: ' + estimatedSize);
-
+            }), 1000); // end timeout
 
           }
         }

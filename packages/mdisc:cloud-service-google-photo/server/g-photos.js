@@ -51,7 +51,10 @@ gPhotos = (function () {
 
     HTTP.get(url, options, function (err, res) {
       //console.log(err);
-      if (err) callback(err, res);
+      if (err) {
+        callback(err, res);
+        return;
+      }
       callback(err, res.data);
     });
   };
@@ -105,12 +108,52 @@ gPhotos = (function () {
 
 
 
+  gPhotos.prototype.getRecent = function(callback) {
+    
+    var recent;
+    var _this = this;
+    var _callback = callback;
+
+    // First check if the account has standard recent photos
+    _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&v=2&max-results=5&feilds=entry/content/src', function (err, res) {
+      if (!err) {
+        // We have normal recent photos
+        _callback(err, res);
+        return;
+      }
+
+      //  Well, let's just get something...
+      _this.getAlbums(function (err, res) {
+        var albumId;
+        if (err) {
+          _callback(err, res);
+          return;
+        }
+        if (typeof res == 'string') {
+          // didn't get the expected JSON object.
+          console.log('Error in gPhotos.prototype.getAllAlbums: ' + res);
+          _callback(true, res);
+          return;
+        }
+        var len = res.feed.entry.length;
+        for (var x=0; x < len; x++) {
+          if (res.feed.entry[x].gphoto$name.$t == 'InstantUpload' || x == 0) {
+            albumId = res.feed.entry[x].gphoto$id.$t;
+          }
+        }
+        _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?kind=photo&v=2&max-results=5&feilds=entry/content/src', _callback);
+      });
+    });
+
+  };
+
+
   gPhotos.prototype.getAlbums = function (callback) {
-    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&prettyprint=true&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)', callback);
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)', callback);
   };
 
   gPhotos.prototype.getInstantAlbums = function (callback) {
-    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&prettyprint=true&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)&showall', callback);
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)&showall', callback);
   };
 
   gPhotos.prototype.getAlbum = function (albumId, startAt, max, callback) {
@@ -118,9 +161,6 @@ gPhotos = (function () {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?v=2&imgmax=d&start-index=' + start + '&max-results=' + max + '&fields=entry(title,updated,gphoto:size,media:group/media:content)', callback);
   };
 
-  gPhotos.prototype.getRecent = function(callback) {
-    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&v=2&max-results=5&feilds=entry/content/src', callback);
-  };
 
   gPhotos.prototype.getQuota = function (callback) {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?v=2&feilds=feed/gphoto:quotacurrent', callback);
