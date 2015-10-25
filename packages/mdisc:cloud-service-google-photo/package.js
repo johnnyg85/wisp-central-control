@@ -15,7 +15,7 @@ Package.onUse(function(api) {
 
   api.use([
     'meteor',
-    'oauth',
+    'http',
     'templating',
     'iron:router',
     'google',
@@ -49,9 +49,4 @@ Package.onTest(function(api) {
   api.use('tinytest');
   api.use('mdisc:cloud-service-google-photo');
   api.addFiles('cloud-service-google-photo-tests.js');
-});
-
-Npm.depends({
-  "simple-gdata": "0.1.0",
-  "google-refresh-token": "0.5.3"
 });

@@ -47,6 +47,6 @@ ImgToPdf.print = function (imgURL, callback) {
         setTimeout(function () {
             document.getElementById('pdfFrame').contentWindow.print();
             callback();
-        }, 2000);
+        }, 300);
     });
 };
