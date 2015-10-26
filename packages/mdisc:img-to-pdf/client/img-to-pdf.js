@@ -43,10 +43,10 @@ ImgToPdf.print = function (imgURL, callback) {
     img.src = imgURL;
     
     stream.on('finish', function () {
-        document.getElementById('pdfFrame').src = stream.toBlobURL('application/pdf');
-        setTimeout(function () {
+        document.getElementById('pdfFrame').onload = function () {
             document.getElementById('pdfFrame').contentWindow.print();
             callback();
-        }, 300);
+        };
+        document.getElementById('pdfFrame').src = stream.toBlobURL('application/pdf');
     });
 };
