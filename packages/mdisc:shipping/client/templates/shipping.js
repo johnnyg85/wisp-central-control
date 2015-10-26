@@ -101,7 +101,7 @@ Template.mdShipping.onRendered(function() {
                                             scannerEnabled = 1;
                                         });
                                     } else {
-                                        WtGrowl.fail('Failed to print shipping label.');
+                                        WtGrowl.fail(err.reason);
                                         scannedDisks = new Array();
                                         Session.set('scannedDisks', scannedDisks);
                                         lastScanned = "";

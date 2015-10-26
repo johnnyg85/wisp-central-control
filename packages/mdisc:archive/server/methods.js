@@ -73,7 +73,7 @@ Meteor.methods({
         Meteor.call('setArchiveTrackingId', shipment.tracking_code, archiveId);
         return MdArchive.collection.findOne({_id: archiveId});
       } else {
-        return false;
+        throw new Meteor.Error("easypost-error", "Failed to create shipping label.");
       }
     }
   }
