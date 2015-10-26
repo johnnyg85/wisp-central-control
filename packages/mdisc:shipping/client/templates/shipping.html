@@ -24,6 +24,10 @@
         </div>
     </div>
     <div class="col-md-12">
+        {{#with lastScanned}}
+        {{#if scanCompleted archive.disks}}
+            {{> spinner}}
+        {{/if}}
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -31,11 +35,9 @@
                     <th>Service</th>
                     <th>Status</th>
                     <th>Scanned</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                {{#with lastScanned}}
                 <tr>
                     <td>{{archive.type}}</td>
                     <td>{{archive.service}}</td>
@@ -53,15 +55,10 @@
                             {{/each}}
                         {{/if}}
                     </td>
-                    <td>
-                        {{#if scanCompleted archive.disks}}
-                            {{> spinner}}
-                        {{/if}}
-                    </td>
                 </tr>
-                {{/with}}
             </tbody>
         </table>
+        {{/with}}
     </div>
 </template>
 

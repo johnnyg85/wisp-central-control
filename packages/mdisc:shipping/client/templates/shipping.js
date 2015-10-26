@@ -92,7 +92,8 @@ Template.mdShipping.onRendered(function() {
                                 WtGrowl.success("The shipping label will be generated and printed shortly.");
                                 Meteor.call("getArchiveShippingLabel", res._id, function (err, res) {
                                     if (!err) {
-                                        ImgToPdf.print(res, function () {
+                                        Meteor.call("setArchiveStatus", "Docking", res._id);
+                                        ImgToPdf.print(res.shippingLabel, function () {
                                             scannedDisks = new Array();
                                             Session.set('scannedDisks', scannedDisks);
                                             lastScanned = "";

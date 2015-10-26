@@ -44,7 +44,7 @@ Meteor.methods({
   getArchiveShippingLabel: function (archiveId) {
     var archive = MdArchive.collection.findOne({_id: archiveId});
     if (archive.shippingLabel) {
-      return archive.shippingLabel;
+      return archive;
     } else {
       var toAddress = {
         name: archive.shipTo.name,
@@ -71,7 +71,7 @@ Meteor.methods({
       if (shipment) {
         Meteor.call('setArchiveShippingLabel', shipment.postage_label.label_url, archiveId);
         Meteor.call('setArchiveTrackingId', shipment.tracking_code, archiveId);
-        return shipment.postage_label.label_url;
+        return MdArchive.collection.findOne({_id: archiveId});
       } else {
         return false;
       }
