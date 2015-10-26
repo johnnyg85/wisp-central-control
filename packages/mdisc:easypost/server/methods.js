@@ -155,7 +155,7 @@ Meteor.methods({
                     if (!err) {
                         future.return(shipment);
                     } else {
-                        console.log(err);
+                        future.return(false);
                     }
                 });
             }
