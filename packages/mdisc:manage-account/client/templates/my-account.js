@@ -145,3 +145,33 @@ Template.mdMyAccountUserForm.events({
   }
  
 });
+
+Template.mdMyAccountDataPermissions.helpers({
+  isConnected: function() {
+    var credential = MdCloudServices.credentials.findOne();
+    if (credential) {
+      /*
+       * Implement Token refresh
+       */
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
+
+Template.mdMyAccountDataPermissions.events({
+  'click #connectNow': function (e) {
+    e.preventDefault();
+    
+    Google.requestCredential({
+      requestPermissions: ['https://picasaweb.google.com/data/'],
+      requestOfflineToken: 'true'
+    }, function (credentialToken) {
+      var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
+      if (credentialToken && credentialSecret) {
+        Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
+      }
+    });
+  }
+});
