@@ -43,27 +43,27 @@
 </template>
 
 <template name="mdMyAccountOrder">
-{{#if show status}}
-<tr>
+  {{#if show status}}
+    <tr>
 
-<td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
-<td>Order {{orderNumber}}</td>
-<td>{{archiveType}}</td>
-<td>${{price}}</td> 
-{{#if status="Shipped"}}
-<td><a href="/Track-Shipments/{{tracker_id}}" >{{status}}</a></td>
-{{else}}
-<td>{{status}}</td>
-{{/if}}
-{{#if shipStatus}}
-<td><a href="/Track-Shipments/{{tracker_id}}" >{{status}}</a></td>
-{{else}}
-<td>{{status}}</td>
-{{/if}}
+      <td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
+      <td>Order {{orderNumber}}</td>
+      <td>{{archiveType}}</td>
+      <td>${{price}}</td> 
+        {{#if status="Shipped"}}
+          <td><a href="/Track-Shipments/{{tracker_id}}" >{{status}}</a></td>
+        {{else}}
+          <td>{{status}}</td>
+        {{/if}}
+        {{#if shipStatus}}
+          <td><a href="/Track-Shipments/{{tracker_id}}" >{{status}}</a></td>
+        {{else}}
+          <td>{{status}}</td>
+        {{/if}}
 
-</tr>
+    </tr>
 
-{{/if}}
+  {{/if}}
 </template>
 
 
