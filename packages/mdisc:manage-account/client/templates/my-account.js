@@ -10,12 +10,21 @@ Template.mdMyAccount.helpers({
 });
 
 Template.mdMyAccountOrder.helpers({
-  show: function(status) {
+  show: function(status) { 
     if (status == 'Open') {
       return false;
     } else {
       return true;
     }
+  },
+  shipStatus: function(status) {
+    var stats=MdArchive.collection.find().fetch();
+      if(stats[0].status=="Shipped") {
+        console.log(stats[0].status);
+        return true;
+      } else {
+       return false
+      } 
   }
 });
 
