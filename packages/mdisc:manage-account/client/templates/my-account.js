@@ -37,7 +37,8 @@ Template.mdMyAccountOrder.helpers({
 Template.mdMyAccountOrder.events({
   'click a': function(){
     var tracker_id;
-
+    
+    Session.set('track',false);
     $('#mdTrack').modal('show');
 
   }
@@ -182,7 +183,8 @@ Template.mdTrack.events({
      event.preventDefault();
      //var trackCode="EZ1000000001";
      Session.set('Spinner',true);
-     var trackCode = $('[name=tracker-id]').val();
+     var trackCode = $('[name=tracker-id]').select.val();
+     
      Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
        {
          if(err) {
