@@ -5,7 +5,7 @@ Router.configure({
   waitOn: function() { /*return Meteor.subscribe('interaction');*/ }
 });
 
-Router.route('/', {name: 'dashboard'});
+Router.route('/', {name: 'home'});
 
 var requireLogin = function() {
   if (! Meteor.user()) {
@@ -19,4 +19,4 @@ var requireLogin = function() {
   }
 }
 Router.onBeforeAction('dataNotFound', {only: 'interactionPage'});
-Router.onBeforeAction(requireLogin, {except: 'stripeWebHook'});
+Router.onBeforeAction(requireLogin, {except: ['stripeWebHook', 'home']});

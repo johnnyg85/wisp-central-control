@@ -1,7 +1,14 @@
 <template name="mdCloudGoogleAuthorizeNavButton">
-    <button type="button" id="authorizeGooglePhoto" class="btn btn-primary navbar-btn" disabled="{{disabled}}">
-        Archive now <i class="fa fa-angle-double-right"></i>
-    </button>
+    {{#unless blue}}
+      <button type="button" id="authorizeGooglePhoto" class="btn btn-filled" disabled="{{disabled}}">
+          {{text}} <i class="fa fa-angle-double-right"></i>
+      </button>
+    {{/unless}}
+    {{#if blue}}
+      <button type="button" id="authorizeGooglePhoto" class="bluebtn btn btn-filled" disabled="{{disabled}}">
+          {{text}} <i class="fa fa-angle-double-right"></i>
+      </button>
+    {{/if}}
 </template>
 
 <template name="mdCloudGoogleStartArchive">
