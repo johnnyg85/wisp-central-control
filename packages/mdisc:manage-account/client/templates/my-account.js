@@ -25,6 +25,24 @@ Template.mdMyAccountOrder.helpers({
       } else {
        return false
       } 
+  },
+  isEqual: function(status,checkstat){
+    if(status==checkstat)
+      return true;
+    else
+      return false;
+  }
+});
+
+Template.mdMyAccountOrder.events({
+  'click a': function(){
+    var tracker_id;
+//event.preventDefault();
+
+
+Session.set('selectedTrackerId', tracker_id);
+$('#mdTrack').modal('show');
+
   }
 });
 
@@ -153,4 +171,41 @@ Template.mdMyAccountUserForm.events({
      }
   }
  
+});
+
+
+
+Template.mdTrack.rendered=function(){
+
+  Session.set('track',false);
+};
+
+Template.mdTrack.events({
+  'click #btTrackShipment':function(event){
+     event.preventDefault();
+     //var trackCode="EZ1000000001";
+     Session.set('Spinner',true);
+     var trackCode = $('[name=tracker-id]').val();
+     Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
+       {
+         if(err) {
+           console.log(err);
+           }
+         else {
+           Session.set('Spinner',false);
+           Session.set('track',response);
+           }
+                
+        });
+    }
+});
+
+
+Template.mdTrack.helpers({
+  track: function() {
+    return Session.get('track');
+  },
+  Spinner: function() {
+    return Session.get('Spinner');
+  }
 });
