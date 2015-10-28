@@ -37,11 +37,8 @@ Template.mdMyAccountOrder.helpers({
 Template.mdMyAccountOrder.events({
   'click a': function(){
     var tracker_id;
-//event.preventDefault();
 
-
-Session.set('selectedTrackerId', tracker_id);
-$('#mdTrack').modal('show');
+    $('#mdTrack').modal('show');
 
   }
 });
