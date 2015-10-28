@@ -29,7 +29,7 @@ Meteor.methods({
           }
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
-            var client = new gPhotos(accessToken);
+            var client = new gPhotos(credential.credential.serviceData);
             var myFuture = new Future();
             client.getQuota(Meteor.bindEnvironment(function(err, res) {
               if (err) {
@@ -74,7 +74,7 @@ Meteor.methods({
           }
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
-            var client = new gPhotos(accessToken);
+            var client = new gPhotos(credential.credential.serviceData);
             var myFuture = new Future();
             client.getRecent(Meteor.bindEnvironment(function(err, res) {
               if (err) {
@@ -120,7 +120,7 @@ Meteor.methods({
           }
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
-            var client = new gPhotos(accessToken);
+            var client = new gPhotos(credential.credential.serviceData);
             client.getRecent(Meteor.bindEnvironment(function(err, res) {
               if (err) return false;
               if (typeof res == 'string') {
@@ -164,7 +164,7 @@ Meteor.methods({
 
               var photos = [];
               var gSize = 1000; // max 1000
-              var client = new gPhotos(accessToken);
+              var client = new gPhotos(credential.credential.serviceData);
               // Get all the albumns
               // TODO: This process might need to be off loaded to a job server.
               var albums = client.getAllAlbums();
@@ -277,5 +277,5 @@ Meteor.methods({
         }
         break;
     }
-  }  
+  }
 });

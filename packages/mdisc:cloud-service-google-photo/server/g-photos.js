@@ -2,11 +2,14 @@ Future = Npm.require('fibers/future');
 
 gPhotos = (function () {
 
-  function gPhotos(token) {
-    this.accessToken = token;
+  function gPhotos(serviceData) {
+    this.accessToken = serviceData.accessToken;
+    this.idToken = serviceData.idToken;
+    this.expiresAt = serviceData.expiresAt;
+    this.refreshToken = serviceData.refreshToken;
   };
 
-  gPhotos.prototype.refreshAccessToken = function (refreshToken) {
+  gPhotos.prototype.refreshAccessToken = function () {
 
 
     /*
@@ -19,6 +22,27 @@ gPhotos = (function () {
     user-agent: google-oauth-playground
     client_secret=************&grant_type=refresh_token&refresh_token=1%2FhTI-gdlOvLFLEIC1LDYw5ElKnQGI4RRt14kXlKhNc6LBactUREZofsF9C7PrpE-j&client_id=407408718192.apps.googleusercontent.com
     */
+   
+    try {
+      var result = Meteor.http.call("POST", "https://accounts.google.com/o/oauth2/token", {
+        params: {
+          'client_id': Meteor.settings.google.clientId,
+          'client_secret': Meteor.settings.google.secret,
+          'refresh_token': this.refreshToken,
+          'grant_type': 'refresh_token'
+        }
+      });
+    } catch (e) {
+      var code = e.response ? e.response.statusCode : 500;
+      throw new Meteor.Error(code, 'Unable to exchange google refresh token..', e.response)
+    }
+    
+    if (result.statusCode === 200) {
+      console.log(result.data);
+      return result.data;
+    } else {
+      throw new Meteor.Error(result.statusCode, 'Unable to exchange google refresh token.', result);
+    }
 
   };
 
