@@ -63,7 +63,8 @@ gPhotos = (function () {
     var future = new Future();
     var albums = [];
     var _this = this;
-    _this.getAlbums(function (err, res) {
+
+    _this.getDetailedAlbums(function (err, res) {
       if (err) future.return(false);
       if (typeof res == 'string') {
         // didn't get the expected JSON object.
@@ -71,10 +72,12 @@ gPhotos = (function () {
         future.return(false);
       }
 
+      var count = 0;
 
       var len = res.feed.entry.length;
       for (var x=0; x < len; x++) {
-        if (!res.feed.entry[x].gphoto$name.$t == 'InstantUpload') {
+        count += res.feed.entry[x].gphoto$numphotos.$t;
+        if (res.feed.entry[x].gphoto$numphotos.$t != 0) {
           albums.push({
             id: res.feed.entry[x].gphoto$id.$t,
             numPhotos: res.feed.entry[x].gphoto$numphotos.$t,
@@ -82,25 +85,9 @@ gPhotos = (function () {
           });
         }
       }
-      _this.getInstantAlbums(function (err, res) {
-        if (err) future.return(false);
-        if (typeof res == 'string') {
-          // didn't get the expected JSON object.
-          console.log('Error in gPhotos.prototype.getAllAlbums: ' + res);
-          future.return(false);
-        }
-
-        var len = res.feed.entry.length;
-        for (var x=0; x < len; x++) {
-          albums.push({
-            id: res.feed.entry[x].gphoto$id.$t,
-            numPhotos: res.feed.entry[x].gphoto$numphotos.$t,
-            name: res.feed.entry[x].gphoto$name.$t
-          });
-        }
-        //console.log(albums);
-        future.return(albums);
-      });
+      console.log('Photos Reported (All Albums): ' + count);
+      //console.log(albums);
+      future.return(albums);
     });
 
     return future.wait();
@@ -152,7 +139,7 @@ gPhotos = (function () {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)', callback);
   };
 
-  gPhotos.prototype.getInstantAlbums = function (callback) {
+  gPhotos.prototype.getDetailedAlbums = function (callback) {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)&showall', callback);
   };
 
