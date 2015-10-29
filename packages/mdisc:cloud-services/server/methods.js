@@ -163,6 +163,7 @@ Meteor.methods({
             Meteor.setTimeout(Meteor.bindEnvironment(function () {
 
               var photos = [];
+              var count = 0;
               var gSize = 1000; // max 1000
               var client = new gPhotos(credential.credential.serviceData);
               // Get all the albumns
@@ -214,8 +215,6 @@ Meteor.methods({
                           return;
                         }
                         var len = res.feed.entry.length
-                        var prevName;
-                        var ver;
                         for (var y=0; y < len; y++) {
 
                           //console.log(res.feed.entry[y]);
@@ -227,23 +226,9 @@ Meteor.methods({
                           var url = res.feed.entry[y].media$group.media$content[0].url;
                           var type = 'img';
 
-                          // check extention on file name
-                          if (!name.lastIndexOf('.')) {
-                            // add extention from url if missing
-                            name = name + '.' + url.substr(url.lastIndexOf('.')+1)
-                          }
 
                           var size = res.feed.entry[y].gphoto$size.$t;
                           estimatedSize += Number(size);
-
-                          // basic fix for duplicate names.
-                          // TODO: improve this.
-                          if (prevName == name) {
-                            name = "v" + ver + "_" + name;
-                          } else {
-                            ver = 1;
-                            prevName = name;
-                          }
 
                           for (var v=0; v < res.feed.entry[y].media$group.media$content.length; v++) {
                             if (res.feed.entry[y].media$group.media$content[v].medium == 'video') {
@@ -259,6 +244,7 @@ Meteor.methods({
                             url:    url,
                             type:   type,
                           });
+                          count++;
                         }
                         photos.push(album);
                         done();
@@ -270,6 +256,8 @@ Meteor.methods({
               MdArchive.addFileData(archiveId, photos, estimatedSize);
               console.log('Archive Init Done: ' + archiveId);
               console.log('Estimated Size: ' + estimatedSize);
+              console.log('Photos/Videos: ' + count);
+
 
             }), 1000); // end timeout
 
