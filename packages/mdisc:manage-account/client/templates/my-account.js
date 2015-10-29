@@ -183,8 +183,8 @@ Template.mdTrack.events({
      event.preventDefault();
      //var trackCode="EZ1000000001";
      Session.set('Spinner',true);
-     var trackCode = $('[name=tracker-id]').select.val();
-     
+     var trackCode = $('[name=tracker-id]').val();
+     console.log(trackCode);
      Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
        {
          if(err) {
