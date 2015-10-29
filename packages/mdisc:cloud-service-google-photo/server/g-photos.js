@@ -38,7 +38,6 @@ gPhotos = (function () {
     }
     
     if (result.statusCode === 200) {
-      console.log(result.data);
       return result.data;
     } else {
       throw new Meteor.Error(result.statusCode, 'Unable to exchange google refresh token.', result);
