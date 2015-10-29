@@ -35,9 +35,11 @@ Template.mdMyAccountOrder.helpers({
 });
 
 Template.mdMyAccountOrder.events({
-  'click a': function(){
+  'click a': function(e,t){
     var tracker_id;
     
+    tracker_id = $(e.target).attr("value");
+    Session.set('trackid',tracker_id);
     Session.set('track',false);
     $('#mdTrack').modal('show');
 
@@ -176,15 +178,18 @@ Template.mdMyAccountUserForm.events({
 Template.mdTrack.rendered=function(){
 
   Session.set('track',false);
+  Session.set('Spinner',false);
 };
 
 Template.mdTrack.events({
   'click #btTrackShipment':function(event){
      event.preventDefault();
      //var trackCode="EZ1000000001";
+     //var trackCode="EZ2000000002";
      Session.set('Spinner',true);
-     var trackCode = $('[name=tracker-id]').val();
-     console.log(trackCode);
+     
+     var trackCode = Session.get('trackid');
+    
      Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
        {
          if(err) {
@@ -192,6 +197,7 @@ Template.mdTrack.events({
            }
          else {
            Session.set('Spinner',false);
+           Session.set('trackid',false);
            Session.set('track',response);
            }
                 
