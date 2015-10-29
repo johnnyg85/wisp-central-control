@@ -197,7 +197,6 @@ Template.mdTrack.events({
            }
          else {
            Session.set('Spinner',false);
-           Session.set('trackid',false);
            Session.set('track',response);
            }
                 
