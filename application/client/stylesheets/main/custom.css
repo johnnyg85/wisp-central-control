@@ -1,23 +1,14 @@
 /*!---------- PLACE YOUR CUSTOM STYLES AND OVERRIDES HERE ----------*/
 
 .bluebtn {
-    background-color: #36A9E1;
+  background-color: #36A9E1;
 }
 
 .bluebtn:hover {
   background-color: #3198CA;
 }
 
-.cta-spacer {
-    margin: 33px 0;
-    clear: both;
-}
-
-.videoinner {
-    padding: 200px 40px !important;
-}
-
-.in-page-link {
-    position: relative;
-    top: -200px;
+.btn-clear {
+  clear: both;
+  padding: 30px;
 }

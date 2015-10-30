@@ -1486,7 +1486,7 @@ nav.dismiss-active {
   -webkit-transform: translateZ(0);
 }
 .header-1 {
-  padding: 120px 0;
+  padding: 80px 0;
 }
 .header-1 .background-image-holder:before {
   position: absolute;
@@ -1508,12 +1508,6 @@ nav.dismiss-active {
 }
 .header-1 li:last-child {
   margin-bottom: 40px;
-}
-.header-1 i {
-  display: inline-block;
-  font-size: 36px;
-  float: left;
-  width: 15%;
 }
 .header-1 h5 {
   display: inline-block;

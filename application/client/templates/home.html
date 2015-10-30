@@ -1,9 +1,10 @@
 <template name="home">
 
-    <div class="main-container">
 
-      <a id="home" class="in-page-link"></a>
-      <section class="header header-1 fixed-header">
+    
+      <span id="home"></span>
+      
+      <section class="header header-1">
         <div class="background-image-holder">
           <img alt="Background Image" class="background-image" src="/img/hero_pool.jpg">
         </div>
@@ -12,50 +13,19 @@
             <div class="col-md-6">
               <h3 class="text-white">Hold onto your digital memories forever.</h3>
               <h5 class="text-white">This is where a sub-headline goes something something blah.</h5>
-              <p style="clear:both;"><a href="#press" class="cta-spacer btn btn-filled">Get started »</a></p>
+              <div class='btn-clear'>{{> mdCloudGoogleAuthorizeNavButton text='Get started'}}</div>
             </div>
-          
             <div class="col-md-6">
-              <div class="local-video-container">
-                <div class="background-image-holder">
-                  <img alt="Background Image" class="background-image" src="img/mdisc-large.jpg">
-                </div>
-                <video controls="">
-                  <source src="video/walter.mp4" type="video/mp4">  
-                </video>
-                <div class="play-button"></div>
-              </div>
-              <!-- <div class="videoinner inner">
-              <ul>
-                <li>
-                <p class="text-white">
-                  Video player here.</p>
-                </li>
-              </ul>
-              <form class="form-email" method="post">
-                <input type="text" name="name" class="signup-name-field validate-required" placeholder="Your Name">
-                <input type="text" name="email" class="validate-required validate-email signup-email-field" placeholder="Email Address">
-                <input type="submit" value="Join the club »">
-                <p class="sub">
-                * We don’t share your personal info with anyone. Check out our <a href="privacy.html"> Privacy Policy</a> for more information.
-                </p>
-                <div class="form-error">
-                <span>Please fill all fields correctly</span>
-                </div>
-              
-                <div class="form-success">
-                <span>Thanks, your details were sent</span>
-                </div>
-                <iframe srcdoc="" class="mail-list-form">
-                </iframe>
-              </form>
-              </div> -->
+              <video id="main_video" class="video-js vjs-default-skin" controls preload="auto" data-setup='{ "asdf": true }' poster="/img/mdisc-large.jpg" >
+                <source src="http://johnnygalbraith.com/consulting/mdisc/video/walter.mp4" type='video/mp4'>
+              </video>
             </div>
           </div>
         </div>
       </section>
+
       
-      <a id="how" class="in-page-link"></a>
+      <span id="how"></span>
       <section class="features features-2">
         <div class="container">
           <div class="row">
@@ -67,17 +37,17 @@
         
           <div class="row">
             <div class="text-center feature col-sm-4">
-              <img alt="Feature Image" src="img/phone_sunset.jpeg">
+              <img alt="Feature Image" src="/img/phone_sunset.jpeg">
               <h5>1. Sync your photos with Google Photos.</h5>
               <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
             </div>
             <div class="col-sm-4 text-center feature">
-              <img alt="Feature Image" src="img/google-photos-app.jpg" height="240px">
+              <img alt="Feature Image" src="/img/google-photos-app.jpg">
               <h5>2. Connect Google Photos securely with mydisc.</h5>
               <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
             </div>
             <div class="col-sm-4 text-center feature">
-              <img alt="Feature Image" src="img/mdisc-large.jpg">
+              <img alt="Feature Image" src="/img/mdisc-large.jpg">
               <h5>3. Receive your 1,000-year guaranteed mydisc in the mail.</h5>
               <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
             </div>
@@ -85,7 +55,7 @@
         </div>
       </section>
       
-      <a id="tech" class="in-page-link"></a>
+      <span id="tech"></span>
       <section class="features features-7">
         <div class="container">
           <div class="row">
@@ -94,14 +64,14 @@
               <h5 class="text-white">
                 At mydisc's score is a stone-like, carbon compound that lasts for 1,000 years. Your memories and prcious data are literally engraved in stone.
               </h5>
-              <a href="#press" class="cta-spacer btn btn-filled">Archive my memories »</a>
+              <div class='btn-clear'>{{> mdCloudGoogleAuthorizeNavButton text='Archive my memories'}}</div>
             </div>
           </div>
         </div>
         <img alt="Macbook" class="pull-right" src="img/stone_texture.jpg">
       </section>
       
-      <a id="testimonials" class="in-page-link"></a>
+      <span id="testimonials"></span>
       <section class="testimonials testimonials-3 bg-secondary">
         <div class="container">
           <div class="row">
@@ -124,7 +94,7 @@
         </div>
       </section>
       
-      <a id="pricing" class="in-page-link"></a>
+      <span id="pricing"></span>
       <section class="pricing pricing-5">
         <div class="container">
           <div class="row v-align-children">
@@ -137,7 +107,7 @@
                 <span class="terms"> </span>
               </div>
               <h5>up to 40GB archive</h5>
-              <a href="#press" class="btn btn-filled">Archive now »</a> 
+              {{> mdCloudGoogleAuthorizeNavButton text='Archive now'}}
               </div>
             </div>
             
@@ -178,28 +148,5 @@
         </div>
       </section>
       
-      <footer class="footer footer-1">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-4">
-              <ul class="social-links">
-              <li><a href="#how-it-works"><i class="icon-facebook"></i></a></li>
-              <li><a href="#how-it-works"><i class="icon-twitter"></i></a></li>
-              <li><a href="#how-it-works"><i class="icon-youtube-alt"></i></a></li>
-              <li><a href="#how-it-works"><i class="icon-vimeo"></i></a></li>
-              </ul>
-            </div>
-          
-            <div class="col-sm-4 text-center">
-              <p class="sub">© Copyright 2015 mydisc - All Rights Reserved</p>
-            </div>
-            
-            <div class="col-sm-4 text-right">
-              <a href="#"><img alt="Logo" src="img/mydisc_logo.png"></a>
-            </div>  
-          </div>
-        </div>
-      </footer>
-    </div>
 
 </template>
