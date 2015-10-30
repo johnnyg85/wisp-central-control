@@ -14,7 +14,6 @@
           <tbody>
             {{#each orders}}
               {{> mdMyAccountOrder}} 
-              {{> mdTrack}}
             {{/each}}
           </tbody>
         </table>
@@ -41,6 +40,7 @@
     </div>
   </div>
 
+    {{> mdTrack}}
 
 </template>
 
@@ -175,7 +175,7 @@
 </template>
 
 <template name="mdTrack">
-   <div class="modal" id="mdTrack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal fade" id="mdTrack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
      <div class="modal-dialog" role="document">
        <div class="modal-content">
          <div class="modal-header">
@@ -184,12 +184,14 @@
          </div>
        <div class="modal-body">
        <form class="trackshipment">
-         <button class="btn btn-primary navbar-btn" id="btTrackShipment" value="TrackShipment">Track Shipment</button> 
-           {{#with Spinner}}
-             {{> spinner}}
-           {{/with}}
-           {{#with track}}
-      
+        <!-- <button class="btn btn-primary navbar-btn" id="btTrackShipment" value="TrackShipment">Track Shipment</button> -->
+         {{#if showspinner}}
+           {{> spinner}}
+         {{/if}}
+           
+         {{#if trackdata}}
+           {{#with trackdata}}
+           
              <table class="table ">
                <tr>
                  <td class="bold">Carrier</td>
@@ -234,12 +236,13 @@
                </tr>
 
              </table>
-          
-           {{/with}}
+           
+           {{/with}} 
+         {{/if}} 
        </form>
        </div> 
          <div class="modal-footer">
-           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+           <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
          </div>
        </div> 
      
