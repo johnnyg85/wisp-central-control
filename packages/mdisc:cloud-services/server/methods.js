@@ -280,7 +280,12 @@ Meteor.methods({
               credentialDetail.serviceData.idToken = res.id_token;
               credentialDetail.serviceData.expiresAt = Date.now() + (res.expires_in*1000);
               MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
+              return true;
             } else {
+                //Mark as expired
+                var credentialDetail = credential.credential;
+                credentialDetail.serviceData.expiresAt = Date.now();
+                MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
                 throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
             }
           } else {
