@@ -1,5 +1,3 @@
-
-
 Template.mdMyAccount.helpers({
   orders: function() {
     return MdArchive.collection.find().fetch();
@@ -7,6 +5,12 @@ Template.mdMyAccount.helpers({
   user: function() {
     return Meteor.user();
   },
+  showTrack: function() {
+    if(Session.get('showTrack'))
+      return true;
+    else
+      return false;
+  }
 });
 
 Template.mdMyAccountOrder.helpers({
@@ -36,13 +40,25 @@ Template.mdMyAccountOrder.helpers({
 
 Template.mdMyAccountOrder.events({
   'click a': function(e,t){
-    var tracker_id;
+     Session.set('track',false);
+     Session.set('Spinner',true);
+     Session.set('showTrack',true);
     
-    tracker_id = $(e.target).attr("value");
-    Session.set('trackid',tracker_id);
-    Session.set('track',false);
-    $('#mdTrack').modal('show');
-
+     trackCode = $(e.target).attr("value");
+     Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
+       {
+         if(err) {
+           console.log(err);
+         }
+         else {
+           Session.set('Spinner',false);
+           Session.set('track',response);
+         }
+                
+       });
+ 
+     $('#mdTrack').modal('show');
+     
   }
 });
 
@@ -179,37 +195,21 @@ Template.mdTrack.rendered=function(){
 
   Session.set('track',false);
   Session.set('Spinner',false);
+  
 };
 
-Template.mdTrack.events({
-  'click #btTrackShipment':function(event){
-     event.preventDefault();
-     //var trackCode="EZ1000000001";
-     //var trackCode="EZ2000000002";
-     Session.set('Spinner',true);
-     
-     var trackCode = Session.get('trackid');
-    
-     Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
-       {
-         if(err) {
-           console.log(err);
-           }
-         else {
-           Session.set('Spinner',false);
-           Session.set('track',response);
-           }
-                
-        });
-    }
-});
-
-
 Template.mdTrack.helpers({
-  track: function() {
-    return Session.get('track');
+  trackdata: function() {
+   
+    trackdata = Session.get('track');
+    return trackdata;
   },
-  Spinner: function() {
-    return Session.get('Spinner');
+  showspinner: function() {
+    if(Session.get('Spinner')) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 });
