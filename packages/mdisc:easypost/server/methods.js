@@ -20,7 +20,7 @@ Meteor.methods({
                     future.return(verifiedAddress);
                 } else {
                     verifiedAddress = response.address;
-                    console.log(verifiedAddress);
+                    
                     future.return(verifiedAddress);
                 }
 
@@ -67,7 +67,7 @@ Meteor.methods({
             else
             {
                 var shippmentRates = shipment.rates;
-                console.log(shippmentRates);
+               
                 future.return(shippmentRates);
             }
         });
@@ -88,7 +88,7 @@ Meteor.methods({
             else
             {
                 var shippmentRates = shipment.rates;
-                console.log(shippmentRates);
+               
                 future.return(shippmentRates);
             }
         });
@@ -101,7 +101,7 @@ Meteor.methods({
         easypost.Shipment.retrieve({
             id: shipId
         }, function(err, shipment) {
-            // console.log(shipment);
+           
             shipment.buy(
                     {
                         'rate[id]': rateId
@@ -117,8 +117,7 @@ Meteor.methods({
                     console.log(shipment);
                     var shippmentlabel = shipment.postage_label.label_url;
                     future.return(shippmentlabel);
-                    //  console.log("fffffffffffffff");
-                    //  console.log(shipment);
+                   
                 }
 
             });
@@ -137,7 +136,7 @@ Meteor.methods({
             else
             {
                 future.return(response);
-                //console.log(response);
+                
             }
         });
         return future.wait();
