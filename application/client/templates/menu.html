@@ -1,6 +1,7 @@
 <template name="menu">
   {{#if isInRole 'admin'}}
     {{> wtMenu}}
+    <li><a href="" id="at-nav-sign-out">Sign Out</a></li>
   {{/if}}
   {{#unless isInRole 'admin'}}
     <li><a data-scroll href="{{pathFor 'home'}}#how">How it works</a></li>

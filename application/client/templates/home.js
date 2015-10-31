@@ -15,40 +15,6 @@ Template.home.onRendered(function() {
     });
 
 
-    // Hook up video controls on local video
-
-    $('.local-video-container .play-button').click(function() {
-        $(this).toggleClass('video-playing');
-        $(this).closest('.local-video-container').find('.background-image-holder').toggleClass('fadeout');
-        var video = $(this).closest('.local-video-container').find('video');
-        if (video.get(0).paused === true) {
-            video.get(0).play();
-        } else {
-            video.get(0).pause();
-        }
-    });
-
-    $('video').bind("pause", function() {
-        var that = this;
-        triggerVid = setTimeout(function() {
-            $(that).closest('section').find('.play-button').toggleClass('video-playing');
-            $(that).closest('.local-video-container').find('.background-image-holder').toggleClass('fadeout');
-            $(that).closest('.modal-video-container').find('.modal-video').toggleClass('reveal-modal');
-        }, 100);
-    });
-
-    $('video').on('play', function() {
-        if (typeof triggerVid === 'number') {
-            clearTimeout(triggerVid);
-        }
-    });
-
-    $('video').on('seeking', function() {
-        if (typeof triggerVid === 'number') {
-            clearTimeout(triggerVid);
-        }
-    });
-  
     videojs.autoSetup();
 
     videojs('main_video').ready(function(){

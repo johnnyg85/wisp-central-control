@@ -26,5 +26,13 @@ Template.menu.onRendered(function() {
             $(this).toggleClass('active');
         }
     });
-    
+
 });
+
+Template.menu.events({
+    'click #at-nav-sign-out': function(e, t) {
+        e.preventDefault();
+        Meteor.logout();
+    }
+});
+
