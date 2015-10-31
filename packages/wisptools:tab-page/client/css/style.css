@@ -4,6 +4,7 @@ div.tab-page-content {
   clear: both;
   width: 100%;
   min-height: 350px;
+  background: #fff;
 }
 
 div.tab-page-title {

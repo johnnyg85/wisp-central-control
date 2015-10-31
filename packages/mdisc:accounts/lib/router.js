@@ -2,6 +2,7 @@ Router.plugin('ensureSignedIn', {
   except: _.pluck(AccountsTemplates.routes, 'name').concat(['home'])
 });
 
+/*
 //Routes
 AccountsTemplates.configureRoute('changePwd', {
   name: 'atChangePwd',
@@ -43,3 +44,4 @@ AccountsTemplates.configureRoute('resendVerificationEmail', {
   path: '/send-again',
   template: 'atFormModal'
 });
+*/

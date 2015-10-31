@@ -1,0 +1,149 @@
+<template name="home">
+    
+      <span id="home"></span>
+      
+      <section class="header header-1">
+        <div class="background-image-holder">
+          <img alt="Background Image" class="background-image" src="/img/hero_pool.jpg">
+        </div>
+        <div class="container">
+          <div class="row v-align-children">
+            <div class="col-md-6">
+              <h3 class="text-white">Hold onto your digital memories forever.</h3>
+              <h5 class="text-white">This is where a sub-headline goes something something blah.</h5>
+              <div class='btn-clear'>{{> mdCloudGoogleAuthorizeNavButton text='Get started'}}</div>
+            </div>
+            <div class="col-md-6">
+              <video id="main_video" class="video-js vjs-default-skin" controls preload="auto" data-setup='{ "asdf": true }' poster="/img/mdisc-large.jpg" >
+                <source src="/video/walter.mp4" type='video/mp4'>
+              </video>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+      <span id="how"></span>
+      <section class="features features-2">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">
+              <h4>Preserving your digital memories is as<br>easy as 1-2-3.</h4>
+              <p>Here's a sub-headline to give a brief intro to the three step process.</p>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="text-center feature col-sm-4">
+              <img alt="Feature Image" src="/img/phone_sunset.jpeg">
+              <h5>1. Sync your photos with Google Photos.</h5>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
+            </div>
+            <div class="col-sm-4 text-center feature">
+              <img alt="Feature Image" src="/img/google-photos-app.jpg">
+              <h5>2. Connect Google Photos securely with mydisc.</h5>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
+            </div>
+            <div class="col-sm-4 text-center feature">
+              <img alt="Feature Image" src="/img/mdisc-large.jpg">
+              <h5>3. Receive your 1,000-year guaranteed mydisc in the mail.</h5>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <span id="tech"></span>
+      <section class="features features-7">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 text-center">
+              <h4 class="text-white">What makes mydisc technology unique?</h4>
+              <h5 class="text-white">
+                At mydisc's score is a stone-like, carbon compound that lasts for 1,000 years. Your memories and prcious data are literally engraved in stone.
+              </h5>
+              <div class='btn-clear'>{{> mdCloudGoogleAuthorizeNavButton text='Archive my memories'}}</div>
+            </div>
+          </div>
+        </div>
+        <img alt="Macbook" class="pull-right" src="img/stone_texture.jpg">
+      </section>
+      
+      <span id="testimonials"></span>
+      <section class="testimonials testimonials-3 bg-secondary">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <h4>Don't take our word for it</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 text-center testimonial">
+              <p class="lead">"I've been scanning hundreds of family photos and am putting together archive discs of those and other documents for my family. Until the M-disc I wouldn't have bothered because there was no trustworthy media to put them on. Now I believe there is."</p>
+              <img alt="Avatar" src="img/avatar-1.png">
+              <p><em>—ZDNet</em></p>
+            </div>
+            <div class="col-sm-6 text-center testimonial">
+              <p class="lead">"I’d strayed from optical for all the usual reasons: lack of speed and capacity, expense, bad discs, etc. But I’m back and fully intend to keep my most important data, the stuff that can’t be replaced, archived on M-Disc."</p>
+              <img alt="Avatar" src="img/avatar-2.png">
+              <p><em>—PCWorld</em></p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <span id="pricing"></span>
+      <section class="pricing pricing-5">
+        <div class="container">
+          <div class="row v-align-children">
+            <div class="col-md-4 text-center">
+              <div class="pricing-option">
+              <h6>One Price</h6>
+              <div class="price-container">
+                <span class="dollar">$</span>
+                <span class="price">29</span>
+                <span class="terms"> </span>
+              </div>
+              <h5>up to 40GB archive</h5>
+              {{> mdCloudGoogleAuthorizeNavButton text='Archive now'}}
+              </div>
+            </div>
+            
+            <div class="col-md-8">
+              <div class="feature">
+                <i class="icon-file-psd"></i>
+                <div class="inner">
+                  <h6>Feature #1</h6>
+                  <p>This is where more information about this feature will go. Or something.</p>
+                </div>
+              </div>
+            
+              <div class="feature">
+                <i class="icon-browser-full"></i>
+                <div class="inner">
+                  <h6>Feature #2</h6>
+                  <p>This is where more information about this feature will go. Or something.</p>
+                </div>
+              </div>
+            
+              <div class="feature">
+                <i class="icon-graph"></i>
+                <div class="inner">
+                  <h6>Feature #3</h6>
+                  <p>This is where more information about this feature will go. Or something.</p>
+                </div>
+              </div>
+            
+              <div class="feature">
+                <i class="icon-imac"></i>
+                <div class="inner">
+                  <h6>Feature #4</h6>
+                  <p>This is where more information about this feature will go. Or something.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+</template>

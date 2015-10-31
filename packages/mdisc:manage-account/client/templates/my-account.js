@@ -9,6 +9,13 @@ Template.mdMyAccount.helpers({
   },
 });
 
+Template.mdMyAccount.events({
+  'click #btSignOut':function(event){
+     event.preventDefault();
+     Meteor.logout();
+  }
+});
+
 Template.mdMyAccountOrder.helpers({
   show: function(status) {
     if (status == 'Open') {
@@ -18,6 +25,7 @@ Template.mdMyAccountOrder.helpers({
     }
   }
 });
+
 
 Template.mdMyAccountShippingForm.helpers({
   user: function() {
@@ -69,7 +77,6 @@ Template.mdMyAccountShippingForm.events({
 
 Template.mdMyAccountUserForm.rendered=function()
 {
- 
   Session.set('pwdsuccess',false);
   Session.set('passmatch',false);
   Session.set('pwdstrength',false);
@@ -143,7 +150,6 @@ Template.mdMyAccountUserForm.events({
         
      }
   }
- 
 });
 
 Template.mdMyAccountDataPermissions.helpers({

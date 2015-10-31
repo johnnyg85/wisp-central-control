@@ -1,4 +1,4 @@
-Router.route('/my-account/', {
+Router.route('/account/', {
   name: 'mdMyAccount', 
   template: 'mdMyAccount'
 });

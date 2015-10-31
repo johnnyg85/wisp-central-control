@@ -1,27 +1,31 @@
 <template name="mdShippingScan">
-    <div class="col-md-12">
-        <h2>Shipping Scan</h2>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default scanSection">
-            <div class="panel-heading">Barcode Scanner</div>
-            <div class="panel-body scanArea" style="min-height: 275px;">
-                <div id="container">
-                    <div id="interactive" class="viewport"></div>
-                </div>
-                <div style="min-height: 20px; float: left; width: 100%; text-align: center;">
-                    {{rawBarcodeData}}
+    <div class="bg-secondary app-page">
+        <div class="container">
+            <div class="col-md-12">
+                <h4>Shipping Scan</h4><hr />
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default scanSection">
+                    <div class="panel-heading">Barcode Scanner</div>
+                    <div class="panel-body scanArea" style="min-height: 275px;">
+                        <div id="container">
+                            <div id="interactive" class="viewport"></div>
+                        </div>
+                        <div style="min-height: 20px; float: left; width: 100%; text-align: center;">
+                            {{rawBarcodeData}}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-8">
-        <div class="panel panel-default lastScanned">
-            <div class="panel-heading">Last Scanned</div>
-            <div class="panel-body" style="min-height: 290px;">
-                {{#with lastShippingScanned}}
-                    {{> mdShippingBarcodeDetail}}
-                {{/with}}
+            <div class="col-md-8">
+                <div class="panel panel-default lastScanned">
+                    <div class="panel-heading">Last Scanned</div>
+                    <div class="panel-body" style="min-height: 290px;">
+                        {{#with lastShippingScanned}}
+                            {{> mdShippingBarcodeDetail}}
+                        {{/with}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
