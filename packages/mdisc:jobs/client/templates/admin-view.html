@@ -1,10 +1,12 @@
 <template name="mdJobsWorking">
-  <div class="row">
-    <div class="col-xs-12">
+  <div class="bg-secondary app-page">
+    <div class="container">
       <div class="row">
-        <div class="col-xs-2">
-          <h4>Download Jobs</h4>
+        <div class="col-xs-12">
+              <h4>Server Jobs</h4><hr />
         </div>
+      </div>
+      <div class="row">
         <div class="col-xs-12">
           {{> mdJobsWorkingAll}}
         </div>
@@ -14,10 +16,10 @@
 </template>
 
 <template name="mdJobsWorkingAll">
-  <table class="table table-striped">
+  <table class="table table-hover">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Job ID</th>
         <th>Type</th>
         <th>Completed</th>
         <th>Status</th>

@@ -20,3 +20,18 @@
 hr {
   border-top: 1px solid #8c8b8b;
 }
+
+
+@media all and (max-width: 767px) {
+  .app-page br {
+    display: none;
+  }
+}
+.app-page {
+  padding: 50px 0 60px 0;
+}
+@media all and (max-width: 767px) {
+  .app-page {
+    padding: 30px 0 40px 0;
+  }
+}
