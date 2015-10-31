@@ -3,13 +3,17 @@
     {{> wtMenu}}
   {{/if}}
   {{#unless isInRole 'admin'}}
-      <li><a data-scroll href="{{pathFor 'home'}}#how">How it works</a></li>
-      <li><a data-scroll href="{{pathFor 'home'}}#testimonials">Testimonials</a></li>
-      <li><a data-scroll href="{{pathFor 'home'}}#pricing">Pricing</a></li>
-      <li><a href="{{pathFor 'home'}}#">Contact</a></li>
+    <li><a data-scroll href="{{pathFor 'home'}}#how">How it works</a></li>
+    <li><a data-scroll href="{{pathFor 'home'}}#testimonials">Testimonials</a></li>
+    <li><a data-scroll href="{{pathFor 'home'}}#pricing">Pricing</a></li>
+    <li><a href="{{pathFor 'home'}}#">Contact</a></li>
+    <li><a href="">|</a></li>
+    {{#unless currentUser}}
+      <li><a href="" id="at-nav-button">Sign In</a></li>
+      {{> atFormModal}}
+    {{/unless}}
     {{#if currentUser}}
-      <li><a href="">|</a></li>
-      <li><a href="{{pathFor 'mdMyAccount'}}">Manage Account</a></li>
+      <li><a href="{{pathFor 'mdMyAccount'}}">Account</a></li>
     {{/if}}
   {{/unless}}
 </template>

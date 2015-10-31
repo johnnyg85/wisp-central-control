@@ -5,42 +5,46 @@
 </template>
 
 <template name="mdCloudGoogleStartArchive">
-  <h2>Google Photo full archive</h2>
-  {{#if showOrderForm}}
-    <div class="row">
-      <div class="col-sm-8">
+  <div class="bg-secondary testimonials testimonials-3">
+    <div class="container">
+      <h4>Google Photo full archive</h4>
+      {{#if showOrderForm}}
         <div class="row">
-          <div class="col-xs-12">
-            <br />
-            {{> mdArchiveName}}
+          <div class="col-sm-8">
+            <div class="row">
+              <div class="col-xs-12">
+                <br />
+                {{> mdArchiveName}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <h5>Order Details</h5>
+                {{#if showAccountSize}}
+                  <h6>(Estimated Size: {{accountSize}})</h6>
+                {{/if}}
+                {{> mdArchiveOrder}}
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <h5>Archive Preview</h5>
+            <div class="row">
+              <div class="col-xs-12">
+                {{#unless showRecentPhotos}}
+                  <br /><br /><br /><br />{{> spinner}}
+                {{/unless}}
+                {{#if showRecentPhotos}}
+                  {{> mdCloudServiceShowFewPhotos}}
+                {{/if}}
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <h3>Order Details</h3>
-            {{#if showAccountSize}}
-              <h4>(Estimated Size: {{accountSize}})</h4>
-            {{/if}}
-            {{> mdArchiveOrder}}
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <h3>Archive Preview</h3>
-        <div class="row">
-          <div class="col-xs-12">
-            {{#unless showRecentPhotos}}
-              <br /><br /><br /><br />{{> spinner}}
-            {{/unless}}
-            {{#if showRecentPhotos}}
-              {{> mdCloudServiceShowFewPhotos}}
-            {{/if}}
-          </div>
-        </div>
-      </div>
+      {{/if}}
+      {{#unless showOrderForm}}
+        <br /><div class="alert alert-danger" role="alert"><strong>Yikes!</strong> Looks like you came to this page from the wrong place.</div>
+      {{/unless}}
     </div>
-  {{/if}}
-  {{#unless showOrderForm}}
-    <br /><div class="alert alert-danger" role="alert"><strong>Yikes!</strong> Looks like you came to this page from the wrong place.</div>
-  {{/unless}}
+  </div>
 </template>

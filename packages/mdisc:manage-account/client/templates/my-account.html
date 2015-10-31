@@ -1,45 +1,48 @@
 <template name="mdMyAccount">
-  <div class="row">
-    <div class="col-xs-12"><h2>Hi, {{user.profile.firstname}}!</h2></div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-xs-12"><h3>Your Orders</h3></div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <tbody>
-            {{#each orders}}
-              {{> mdMyAccountOrder}}
-            {{/each}}
-          </tbody>
-        </table>
+  <div class="bg-secondary testimonials testimonials-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-10"><h4>Hi, {{user.profile.firstname}}!</h4></div>
+        <div class="col-sm-2">{{> atNavButton}}</div>
       </div>
+      <div class="row">
+        <div class="col-xs-12"><h5>Your Orders</h5></div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                {{#each orders}}
+                  {{> mdMyAccountOrder}}
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-sm-5">
+          <h5>Account Information</h5><hr />
+          {{> mdMyAccountUserForm}}
+        </div>
+        <div class="col-sm-7">
+          <h5>Shipping Information</h5><hr />
+          {{> mdMyAccountShippingForm}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h5>Data Permissions</h5><hr />
+          {{> mdMyAccountDataPermissions}}
+        </div>
+      </div>
+
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-sm-5">
-      <h3>Account Information</h3><hr />
-        {{> mdMyAccountUserForm}}
-    </div>
-    <div class="col-sm-7">
-      <h3>Shipping Information</h3><hr />
-        {{> mdMyAccountShippingForm}}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12">
-      <h3>Data Permissions</h3><hr />
-        {{> mdMyAccountDataPermissions}}
-    </div>
-  </div>
-
-
 </template>
 
 <template name="mdMyAccountOrder">
@@ -56,72 +59,73 @@
 
 <template name="mdMyAccountUserForm">
   {{#with userdet}}
-   {{#if services.google}} 
-     <strong>You are using Google to login.</strong> 
-   {{else}}
-   
-     <form id="account-manage-form" class="form-horizontal">
+    {{#if services.google}} 
+      <strong>You are using Google to login.</strong> 
+    {{else}}
+      <form id="account-manage-form" class="form-horizontal col-md-12">
         {{#if succmessage}}
-       <div id="chsuccess" class="alert alert-success">
-         <strong>Success!</strong> Your password successfully changed.
-       </div>
+          <div id="chsuccess" class="alert alert-success">
+            <strong>Success!</strong> Your password successfully changed.
+          </div>
         {{/if}}
-         {{#if showcurrerror}}
-       <div id="cherror" class="alert alert-danger ">
-         <strong>Failed!</strong> Incorrect current password.
-       </div>
-         {{/if}}
-         {{#if showpwderror}}
-       <div id="passmatch" class="alert alert-warning ">
-         <strong>Warning!</strong> These Passwords don't match. Please try again.
-       </div>
-         {{/if}}
-         {{#if passwdstrength}}
-       <div id="chpwd" class="alert alert-warning ">
-         <strong>Warning!</strong> Password length must be between 6-20.
-       </div>
-         {{/if}}
-         {{#if passwdstrengths}}
-       <div id="chpwd" class="alert alert-warning ">
-         <strong>Warning!</strong> Password must contain one character and one number.
-       </div>
-         {{/if}}
-       <div class="form-group">
-         <label for="txtEmail" class="col-md-5 control-label">Email</label>   
-           <div class="col-md-7">
-             {{#each emails}}
-               <input type="email" class="form-control" name="txtEmail" value="{{address}}" readonly placeholder="Email">
-             {{/each}}
-           </div>
-       </div>
-       <div class="form-group">
-         <div class="col-xs-12">(6-20 character password, min. one letter and one number required)</div>
-       </div>
-       <div id="currsucc" class="form-group">
-         <label for="txtPassword" class="col-md-5 control-label">Current Password</label>   
-       <div class="col-md-7">
-         <input type="password" class="form-control" name="txtPassword" placeholder="Current Password">
-       </div>
-       </div>
-       <div class="form-group">
-         <label for="txtNewpassword" class="col-md-5 control-label">New Password</label>   
-       <div class="col-md-7">
-         <input type="password" class="form-control" name="txtNewpassword" placeholder="New Password">
-       </div>
-       </div>
-       <div class="form-group">
-         <label for="txtRepassword" class="col-md-5 control-label">Re-enter Password</label>   
-           <div class="col-md-7">
-             <input type="password" class="form-control" name="txtRepassword" placeholder="Re-enter Password">
-           </div>
-       </div>
-       <div class="form-group">
-         <div class="col-md-offset-7 col-md-5">
-           <button type="submit" id="btChangePassword" class="btn btn-primary btn-block">Update</button>
-         </div>
-       </div>
-     </form>
-   {{/if}}
+        {{#if showcurrerror}}
+          <div id="cherror" class="alert alert-danger ">
+            <strong>Failed!</strong> Incorrect current password.
+          </div>
+        {{/if}}
+        {{#if showpwderror}}
+          <div id="passmatch" class="alert alert-warning ">
+            <strong>Warning!</strong> These Passwords don't match. Please try again.
+          </div>
+        {{/if}}
+        {{#if passwdstrength}}
+          <div id="chpwd" class="alert alert-warning ">
+            <strong>Warning!</strong> Password length must be between 6-20.
+          </div>
+        {{/if}}
+        {{#if passwdstrengths}}
+          <div id="chpwd" class="alert alert-warning ">
+            <strong>Warning!</strong> Password must contain one character and one number.
+          </div>
+        {{/if}}
+
+        <div class="form-group">
+          <label for="txtEmail" class="col-md-5 control-label">Email</label>   
+          <div class="col-md-7">
+            {{#each emails}}
+              <input type="email" class="form-control" name="txtEmail" value="{{address}}" readonly placeholder="Email">
+            {{/each}}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12"><span class="small">(6-20 character password, min. one letter and one number required)</span></div>
+        </div>
+        <div id="currsucc" class="form-group">
+          <label for="txtPassword" class="col-md-5 control-label">Current Password</label>   
+          <div class="col-md-7">
+            <input type="password" class="form-control" name="txtPassword" placeholder="Current Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtNewpassword" class="col-md-5 control-label">New Password</label>   
+          <div class="col-md-7">
+            <input type="password" class="form-control" name="txtNewpassword" placeholder="New Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtRepassword" class="col-md-5 control-label">Re-enter Password</label>   
+            <div class="col-md-7">
+              <input type="password" class="form-control" name="txtRepassword" placeholder="Re-enter Password">
+            </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-7 col-md-5">
+            <button type="submit" id="btChangePassword" class="btn btn-filled btn-block">Update</button>
+          </div>
+        </div>
+      </form>
+
+    {{/if}}
   {{/with}}
 
 </template>
@@ -140,7 +144,7 @@
 
       <div class="form-group">
         <div class="col-md-offset-8 col-md-4">
-          <button type="submit" class="btn btn-primary btn-block">Update</button>
+          <button type="submit" class="btn btn-filled btn-block">Update</button>
         </div>
       </div>
   </form>
