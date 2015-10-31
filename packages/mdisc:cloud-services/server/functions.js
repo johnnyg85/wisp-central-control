@@ -10,11 +10,11 @@ MdCloudServices.renewCredential = function (credential) {
   return newCredential;
 }
 
-MdCloudServices.getAlbumns = function (service, accessToken, cb) {
+MdCloudServices.getAlbumns = function (service, serviceData, cb) {
 
   switch (service) {
     case 'Google Photos':
-      var client = new gPhotos(accessToken);
+      var client = new gPhotos(serviceData);
       client.getAlbums(function (err, res) {
         var len = res.feed.entry.length;
         var albums = [];

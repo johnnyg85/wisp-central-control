@@ -29,7 +29,7 @@ Meteor.methods({
           }
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
-            var client = new gPhotos(accessToken);
+            var client = new gPhotos(credential.credential.serviceData);
             var myFuture = new Future();
             client.getQuota(Meteor.bindEnvironment(function(err, res) {
               if (err) {
@@ -74,7 +74,7 @@ Meteor.methods({
           }
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
-            var client = new gPhotos(accessToken);
+            var client = new gPhotos(credential.credential.serviceData);
             var myFuture = new Future();
             client.getRecent(Meteor.bindEnvironment(function(err, res) {
               if (err) {
@@ -120,7 +120,7 @@ Meteor.methods({
           }
           var accessToken = credential.credential.serviceData.accessToken;
           if (accessToken) {
-            var client = new gPhotos(accessToken);
+            var client = new gPhotos(credential.credential.serviceData);
             client.getRecent(Meteor.bindEnvironment(function(err, res) {
               if (err) return false;
               if (typeof res == 'string') {
@@ -165,7 +165,7 @@ Meteor.methods({
               var photos = [];
               var count = 0;
               var gSize = 1000; // max 1000
-              var client = new gPhotos(accessToken);
+              var client = new gPhotos(credential.credential.serviceData);
               // Get all the albumns
               // TODO: This process might need to be off loaded to a job server.
               var albums = client.getAllAlbums();
@@ -265,5 +265,33 @@ Meteor.methods({
         }
         break;
     }
-  }  
+  },
+  refreshCredential: function(service) {
+    var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
+
+    switch (service) {
+      case "Google Photos":
+          if (credential) {
+            var client = new gPhotos(credential.credential.serviceData);
+            var res = client.refreshAccessToken();
+            if (res) {
+              var credentialDetail = credential.credential;
+              credentialDetail.serviceData.accessToken = res.access_token;
+              credentialDetail.serviceData.idToken = res.id_token;
+              credentialDetail.serviceData.expiresAt = Date.now() + (res.expires_in*1000);
+              MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
+              return true;
+            } else {
+                //Mark as expired
+                var credentialDetail = credential.credential;
+                credentialDetail.serviceData.expiresAt = Date.now();
+                MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
+                throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
+            }
+          } else {
+              throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
+          }
+          break;
+    }
+  }
 });

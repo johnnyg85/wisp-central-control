@@ -149,5 +149,55 @@ Template.mdMyAccountUserForm.events({
        })
         
      }
-  } 
+  }
+});
+
+Template.mdMyAccountDataPermissions.helpers({
+  isConnected: function() {
+    var credential = MdCloudServices.credentials.findOne();
+    if (credential) {
+      if (credential.credential.serviceData.expiresAt <= Date.now()) {
+        if (Session.get('googleTokenRefreshStatus') != 'Started') {
+          Session.set('googleTokenRefreshRequired', true);
+        }
+      } else {
+        if (Session.get('googleTokenRefreshRequired') || Session.get('googleTokenRefreshStatus') == 'Started') {
+          Session.set('googleTokenRefreshResult', false);
+        } else {
+          Session.set('googleTokenRefreshResult', true);
+        }
+      }
+      if (Session.get('googleTokenRefreshRequired')) {
+        Session.set('googleTokenRefreshStatus', 'Started');
+        Session.set('googleTokenRefreshRequired', false);
+        Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
+          Session.set('googleTokenRefreshStatus', 'Completed');
+          if(res) {
+            Session.set('googleTokenRefreshResult', true);
+          } else {
+            Session.set('googleTokenRefreshResult', false);
+          }
+        });
+      }
+      return Session.get('googleTokenRefreshResult');
+    } else {
+      return false;
+    }
+  }
+});
+
+Template.mdMyAccountDataPermissions.events({
+  'click #connectNow': function (e) {
+    e.preventDefault();
+    
+    Google.requestCredential({
+      requestPermissions: ['https://picasaweb.google.com/data/'],
+      requestOfflineToken: 'true'
+    }, function (credentialToken) {
+      var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
+      if (credentialToken && credentialSecret) {
+        Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
+      }
+    });
+  }
 });

@@ -20,7 +20,8 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'mdisc:accounts',
     'mdisc:address-ui',
-    'wisptools:growl'
+    'wisptools:growl',
+    'google'
   ]);
   
   api.addFiles([
