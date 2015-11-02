@@ -1,7 +1,21 @@
 .data-permission-content {
   margin-top: 32px;
 }
-
+.modal {overflow: visible}
 .bold{
   font-weight: bold;
+}
+
+.track{
+  padding-left: 200px;
+  
+}
+
+.trackdata{
+  padding-left: 10%;
+}
+#footer{
+  padding-left: 60%;
+  padding-bottom: 5%;
+
 }
