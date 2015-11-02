@@ -40,23 +40,27 @@ Template.mdMyAccountOrder.helpers({
 
 Template.mdMyAccountOrder.events({
   'click a': function(e,t){
-     Session.set('track',false);
      Session.set('Spinner',true);
+     Session.set('track',false);
      Session.set('showTrack',true);
-    
+     Session.set('trackerr',false);
      trackCode = $(e.target).attr("value");
      Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
        {
-         if(err) {
-           console.log(err);
-         }
-         else {
+        if(response) {
            Session.set('Spinner',false);
+           Session.set('trackerr',false);
            Session.set('track',response);
+         }
+         else
+         {
+           Session.set('Spinner',false);
+           Session.set('trackerr',true);
          }
                 
        });
- 
+   
+    
      $('#mdTrack').modal('show');
      
   }
@@ -192,13 +196,19 @@ Template.mdMyAccountUserForm.events({
 
 
 Template.mdTrack.rendered=function(){
-
-  Session.set('track',false);
-  Session.set('Spinner',false);
   
+  Session.set('trackerr',false);
+  Session.set('track',false);
+  Session.set('Spinner',true);
+ 
 };
 
 Template.mdTrack.helpers({
+  trackerror: function() {
+   
+    return Session.get('trackerr');
+     
+  },
   trackdata: function() {
    
     trackdata = Session.get('track');
@@ -211,5 +221,11 @@ Template.mdTrack.helpers({
     else {
       return false;
     }
+  },
+  isEqual: function(status,checkstat){
+    if(status==checkstat)
+      return "Dispatched";
+    else
+      return status;
   }
 });
