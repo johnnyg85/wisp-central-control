@@ -128,16 +128,12 @@ Meteor.methods({
     mdEasypostTrackShipment: function(trackId) {
         var future = new Future();
         easypost.Tracker.create({
-            tracking_code: trackId,
-            carrier: 'USPS'
+            tracking_code: trackId
         }, function(err, response) {
-            if (err)
-                console.log(err);
-            else
-            {
-                future.return(response);
-                
-            }
+            
+          future.return(response);
+            
+           
         });
         return future.wait();
     },
