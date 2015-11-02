@@ -183,67 +183,76 @@
            <h4 class="modal-title" id="myModalLabel">Shipping Status</h4>
          </div>
        <div class="modal-body">
-       <form class="trackshipment">
-        <!-- <button class="btn btn-primary navbar-btn" id="btTrackShipment" value="TrackShipment">Track Shipment</button> -->
-         {{#if showspinner}}
-           {{> spinner}}
+    
+         <div style="display: inline-table;">
+           <p>
+             {{#if showspinner}}
+               {{> spinner}}
+             {{/if}} 
+           </p>
+         </div>
+         {{#if trackerror}}
+           <div id="passmatch" class="alert alert-danger ">
+             <strong>Warning!</strong>Corresponding Tracking Code Not Found.
+           </div>
          {{/if}}
            
          {{#if trackdata}}
            {{#with trackdata}}
-           
-             <table class="table ">
+             <div class="track">
+               <table class="table ">
                <tr>
                  <td class="bold">Carrier</td>
                  <td>{{carrier}}</td>
                </tr>
                <tr>
-                 <td class="bold">Tracking Code</td>
+                 <td class="bold">Tracking Number</td>
                  <td>{{tracking_code}}</td>
                </tr>
                <tr>
-                 <td class="bold">Estimated Delivery Date</td>
+                 <td class="bold">Estimated Delivery </td>
                  <td>{{est_delivery_date}}</td>
                </tr>
                <tr>
-                 <td class="bold">Status</td>
-                 <td>{{status}}</td>
+                 <td class="bold">Current Status</td>
+                  {{#if isEqual status "in_transit"}}
+                 <td>{{isEqual}}</td>
+                  {{else}}
+                    <td>{{isEqual}}</td>
+                  {{/if}}
                </tr>
                <tr>
-                 <td class="bold">Created Date</td>
-                 <td>{{created_at}}</td>
-               </tr>
-               <tr>
-                 <td class="bold">Last Updated on</td>
+                 <td class="bold">Last Update</td>
                  <td>{{updated_at}}</td>
                </tr>
                <tr><hr></tr>
-               <tr>
-                 <td> 
-                   <div class="panel panel-default">
-                     <div class="panel-heading">Tracking Details</div>
-                       <table class="table ">
-                         {{#each tracking_details}}
-                           <tr><td>{{message}}</td></tr>
-                           <tr><td>{{status}}</td></tr>
-                           <tr><td>{{datetime}}</td></tr>
-                           <tr><td>{{tracking_location}}</td></tr>
-                           <hr>
-                         {{/each}}
-                       </table>
-                   </div>
-                 </td>
-               </tr>
+              
+               </table>
+             </div>
+           <div id="footer" class="modal-footer" >
+           <button type="button"  class=" btn btn-primary btn-block" data-dismiss="modal">Close</button>
+         </div>
+           <div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">Details</div>
 
-             </table>
+                  {{#each tracking_details}}
+                    <div class="trackdata" >{{message}}</div>
+                    <hr>
+                  {{/each}}
+
+                </div>
+           </div>
            
            {{/with}} 
+           
+           
          {{/if}} 
-       </form>
-       </div> 
-         <div class="modal-footer">
-           <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+         <div>
+             
          </div>
+       </div> 
+        
        </div> 
      
      </div>
