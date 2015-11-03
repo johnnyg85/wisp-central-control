@@ -21,7 +21,8 @@ Package.onUse(function(api) {
     'mdisc:accounts',
     'mdisc:address-ui',
     'wisptools:growl',
-    'mdisc:easypost'
+    'mdisc:easypost',
+    'wisptools:date-format'
   ]);
   
   api.addFiles([
