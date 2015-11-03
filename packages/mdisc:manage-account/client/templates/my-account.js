@@ -227,5 +227,13 @@ Template.mdTrack.helpers({
       return "Dispatched";
     else
       return status;
+  },
+  formatdeliverydate: function(est_delivery_date) {
+    var deliverydate = WtDateFormat(est_delivery_date, "shortDate");
+    return deliverydate;
+  },
+  formatlastupdate: function(updated_at) {
+    var lastupdate = WtDateFormat(updated_at, "shortDate");
+    return lastupdate;
   }
 });
