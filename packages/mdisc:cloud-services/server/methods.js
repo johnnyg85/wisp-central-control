@@ -293,5 +293,24 @@ Meteor.methods({
           }
           break;
     }
+  },
+  mdCloudServiceIsConnected: function (service) {
+    var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
+
+    switch (service) {
+      case "Google Photos":
+        if (credential) {
+          Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
+            if (!err) {
+              return true;
+            } else {
+              throw new Meteor.Error('google-photos', 'Not connected to Google Photos services.');
+            }
+          });
+        } else {
+          throw new Meteor.Error('google-photos', 'Not connected to Google Photos services.');
+        }
+        break;
+    }
   }
 });
