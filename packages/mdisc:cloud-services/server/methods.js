@@ -300,13 +300,37 @@ Meteor.methods({
     switch (service) {
       case "Google Photos":
         if (credential) {
-          Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
-            if (!err) {
+          if (credential.credential.serviceData.expiresAt > Date.now()) {
+            var client = new gPhotos(credential.credential.serviceData);
+            var myFuture = new Future();
+            client.__getQuota(Meteor.bindEnvironment(function(err, res) {
+              if (err) {
+                myFuture.return("false");
+              } else {
+                myFuture.return("true");
+              }
+            }));
+            var result = myFuture.wait();
+            if (result === "true") {
               return true;
+            }
+          }
+          
+          var myFuture = new Future();
+          Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
+            console.log('Token Refresh');
+            if (!err) {
+              myFuture.return("true");
             } else {
-              throw new Meteor.Error('google-photos', 'Not connected to Google Photos services.');
+              myFuture.return("false");
             }
           });
+          var result = myFuture.wait();
+          if (result === "true") {
+            return true;
+          } else {
+            throw new Meteor.Error('google-photos', 'Not connected to Google Photos services.');
+          }
         } else {
           throw new Meteor.Error('google-photos', 'Not connected to Google Photos services.');
         }

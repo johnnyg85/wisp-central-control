@@ -175,6 +175,35 @@ gPhotos = (function () {
   gPhotos.prototype.getQuota = function (callback) {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?v=2&feilds=feed/gphoto:quotacurrent', callback);
   };
+  
+  /* This functions works without refreshing the token to ensure the access token is still valid */
+  gPhotos.prototype.__getQuota = function (callback) {
+    var url = 'https://picasaweb.google.com/data/feed/api/user/default?v=2&feilds=feed/gphoto:quotacurrent';
+    var options = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'GData-Version': '2',
+        'Authorization': 'Bearer ' + this.accessToken     
+      }
+    };
+
+    if(url.lastIndexOf('alt=json') == -1) {
+      if(url.lastIndexOf('?') > -1) {
+        url += '&alt=json';
+      } else {
+        url += '?alt=json';
+      }
+    }    
+
+    HTTP.get(url, options, function (err, res) {
+      //console.log(err);
+      if (err) {
+        callback(err, res);
+        return;
+      }
+      callback(err, res.data);
+    });
+  };
 
   return gPhotos;
 })();
