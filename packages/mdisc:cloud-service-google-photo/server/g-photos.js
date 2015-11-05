@@ -55,6 +55,9 @@ gPhotos = (function () {
   };
 
   gPhotos.prototype.getFeed = function (url, callback) {
+    /* Check and refresh token if required */
+    
+    
     console.log(url);
     var options = {
       headers: {
@@ -177,8 +180,8 @@ gPhotos = (function () {
   };
   
   /* This functions works without refreshing the token to ensure the access token is still valid */
-  gPhotos.prototype.__getQuota = function (callback) {
-    var url = 'https://picasaweb.google.com/data/feed/api/user/default?v=2&feilds=feed/gphoto:quotacurrent';
+  gPhotos.prototype.__getAlbums = function (callback) {
+    var url = 'https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)';
     var options = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

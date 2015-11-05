@@ -224,7 +224,14 @@ Template.mdMyAccountDataPermissions.events({
   'click #connectNow': function (e) {
     e.preventDefault();
     
-    googlePhotos.requestCredential();
+    googlePhotos.requestCredential(function (credentialToken) {
+      if (credentialToken) {
+        var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
+        if (credentialSecret) {
+          Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
+        }
+      }
+    });
   }
 });
 

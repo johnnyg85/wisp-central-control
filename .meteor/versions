@@ -132,6 +132,7 @@ vsivsi:job-collection@1.2.3
 webapp@1.2.3
 webapp-hashing@1.0.5
 wisptools:collection@0.0.1
+wisptools:date-format@0.0.1
 wisptools:growl@0.0.1
 wisptools:menu@0.0.1
 wisptools:roles@0.0.1

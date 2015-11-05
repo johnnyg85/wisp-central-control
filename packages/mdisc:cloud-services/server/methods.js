@@ -303,7 +303,7 @@ Meteor.methods({
           if (credential.credential.serviceData.expiresAt > Date.now()) {
             var client = new gPhotos(credential.credential.serviceData);
             var myFuture = new Future();
-            client.__getQuota(Meteor.bindEnvironment(function(err, res) {
+            client.__getAlbums(Meteor.bindEnvironment(function(err, res) {
               if (err) {
                 myFuture.return("false");
               } else {
