@@ -10,28 +10,28 @@ Template.mdCloudGoogleAuthorizeNavButton.events({
       return;     
     }
 
-    Google.requestCredential({
-      requestPermissions: ['https://picasaweb.google.com/data/'],
-      requestOfflineToken: 'true'
-    }, function (credentialToken) {
-      //console.log(credentialToken);
-      var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
-      if (credentialToken && credentialSecret) {
-        Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
-        //Meteor.call('updateRecentPhotos', 'Google Photos');
-        // Open and init the Auto Archive
-        Meteor.call('openAutoCloudArchive', 'Google Photos', function (err, archiveId) {
-          //console.log(archiveId);
-          Session.set('openArchiveId', archiveId);
-          Meteor.call('initAutoCloudArchive', 'Google Photos', archiveId, function (err, res) {});
-        });
-        // Start the timer for displaying some photos
-        Session.set('googleConnecting', true);
-        Router.go('mdCloudGoogleStartArchive');
-        Meteor.setTimeout(function () {
-          Session.set('googleConnecting', false);
-          Session.set('googleConnected', true);
-        }, 5000);
+    googlePhotos.requestCredential(function (credentialToken) {
+      if (credentialToken) {
+        //console.log(credentialToken);
+        var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
+        if (credentialSecret) {
+          Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
+          //Meteor.call('updateRecentPhotos', 'Google Photos');
+          // Open and init the Auto Archive
+          Meteor.call('openAutoCloudArchive', 'Google Photos', function (err, archiveId) {
+            //console.log(archiveId);
+            Session.set('openArchiveId', archiveId);
+            Meteor.call('initAutoCloudArchive', 'Google Photos', archiveId, function (err, res) {
+            });
+          });
+          // Start the timer for displaying some photos
+          Session.set('googleConnecting', true);
+          Router.go('mdCloudGoogleStartArchive');
+          Meteor.setTimeout(function () {
+            Session.set('googleConnecting', false);
+            Session.set('googleConnected', true);
+          }, 5000);
+        }
       }
     });
   }
