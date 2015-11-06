@@ -273,23 +273,13 @@ Meteor.methods({
       case "Google Photos":
           if (credential) {
             var client = new gPhotos(credential.credential.serviceData);
-            var res = client.refreshAccessToken();
-            if (res) {
-              var credentialDetail = credential.credential;
-              credentialDetail.serviceData.accessToken = res.access_token;
-              credentialDetail.serviceData.idToken = res.id_token;
-              credentialDetail.serviceData.expiresAt = Date.now() + (res.expires_in*1000);
-              MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
+            if (client.refreshAccessToken()) {
               return true;
             } else {
-                //Mark as expired
-                var credentialDetail = credential.credential;
-                credentialDetail.serviceData.expiresAt = Date.now();
-                MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
-                throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
+              throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
             }
           } else {
-              throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
+            throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
           }
           break;
     }
