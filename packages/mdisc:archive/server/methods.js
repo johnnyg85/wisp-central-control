@@ -33,6 +33,9 @@ Meteor.methods({
   setArchiveTitle: function (title, archiveId) {
     MdArchive.collection.update({_id: archiveId}, {$set: {title: title}});
   },
+  setArchiveNasDir: function (dir, archiveId) {
+    MdArchive.collection.update({_id: archiveId}, {$set: {nasDir: dir}});
+  },
   pushArchiveScanned: function (archiveId, diskIndex) {
     MdArchive.collection.update({_id: archiveId}, {$push: {scanned: {diskIndex: diskIndex, time: new Date(), userId: Meteor.userId()}}});
     return MdArchive.collection.findOne({_id: archiveId});

@@ -2,9 +2,39 @@
   <div class="bg-secondary app-page">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
-          <h4>Archive Orders</h4><hr />
+        <div class="col-sm-6">
+          <h4>Archive Orders</h4>
         </div>
+        <div class="col-sm-3">
+          <strong>Date </strong>
+          <select class="form-control type-sel" id="selDate">
+            <option value="0"          >All</option>
+            <option value="1" selected >Today</option>
+            <option value="3"          >Three Days</option>
+            <option value="7"          >One Week</option>
+            <option value="30"         >One Month</option>
+          </select>              
+        </div>
+        <div class="col-sm-3">
+          <strong>Status </strong>
+          <select class="form-control type-sel" id="selStatus">
+            <option value="All"            >All</option>
+            <option value="Ordered"        >Ordered</option>
+            <option value="Downloading"    >Downloading</option>
+            <option value="Downloaded"     >Downloaded</option>
+            <option value="Moving"         >Moving</option>
+            <option value="Ready" selected >Ready</option>
+            <option value="Queued"         >Queued</option>
+            <option value="Recording"      >Recording</option>
+            <option value="Recorded"       >Recorded</option>
+            <option value="Docked"         >Docked</option>
+            <option value="Shipped"        >Shipped</option>
+          </select>          
+        </div>
+        <hr />
+      </div>
+      <div class="row">
+        <div class="col-sm-12"><hr /></div>
       </div>
       <div class="row">
         <div class="col-xs-12">
@@ -24,6 +54,7 @@
         <th>Disks</th>
         <th>Size</th>
         <th>Status</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +65,11 @@
           <td>{{disks}}</td>
           <td>{{size}}</td>
           <td>{{status}}</td>
+          <td>
+            {{#if isReady status}}
+              <button type="button" class="btn btn-default send-to-aru" value="{{_id}}">Send to ARU</button>
+            {{/if}}
+          </td>
         </tr>
       {{/each}}
     </tbody>
