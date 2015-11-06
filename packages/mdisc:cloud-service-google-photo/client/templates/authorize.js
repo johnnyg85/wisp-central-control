@@ -3,6 +3,13 @@ Template.mdCloudGoogleAuthorizeNavButton.events({
   'click #authorizeGooglePhoto': function(e, t) {
     e.preventDefault();
 
+    if (!Meteor.userId()) {
+      // User not logged in.
+      $('#atFormModal').modal('show'); 
+      Session.set('afterLoginDoArchive', true);
+      return;     
+    }
+
     Google.requestCredential({
       requestPermissions: ['https://picasaweb.google.com/data/'],
       requestOfflineToken: 'true'

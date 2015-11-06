@@ -1,5 +1,3 @@
-
-
 Template.mdMyAccount.helpers({
   orders: function() {
     return MdArchive.collection.find().fetch();
@@ -7,17 +5,74 @@ Template.mdMyAccount.helpers({
   user: function() {
     return Meteor.user();
   },
+  showTrack: function() {
+    if(Session.get('showTrack'))
+      return true;
+    else
+      return false;
+  }
+});
+
+Template.mdMyAccount.events({
+  'click #btSignOut':function(event){
+     event.preventDefault();
+     Meteor.logout();
+  }
 });
 
 Template.mdMyAccountOrder.helpers({
-  show: function(status) {
+  show: function(status) { 
     if (status == 'Open') {
       return false;
     } else {
       return true;
     }
+  },
+  shipStatus: function(status) {
+    var stats=MdArchive.collection.find().fetch();
+      if(stats[0].status=="Shipped") {
+        console.log(stats[0].status);
+        return true;
+      } else {
+       return false
+      } 
+  },
+  isEqual: function(status,checkstat){
+    if(status==checkstat)
+      return true;
+    else
+      return false;
   }
 });
+
+Template.mdMyAccountOrder.events({
+  'click a': function(e,t){
+     Session.set('Spinner',true);
+     Session.set('track',false);
+     Session.set('showTrack',true);
+     Session.set('trackerr',false);
+     trackCode = $(e.target).attr("value");
+     Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
+       {
+        if(response) {
+           Session.set('Spinner',false);
+           Session.set('trackerr',false);
+           Session.set('track',response);
+         }
+         else
+         {
+           Session.set('Spinner',false);
+           Session.set('trackerr',true);
+         }
+                
+       });
+   
+    
+     $('#mdTrack').modal('show');
+     
+  }
+});
+
 
 Template.mdMyAccountShippingForm.helpers({
   user: function() {
@@ -69,7 +124,6 @@ Template.mdMyAccountShippingForm.events({
 
 Template.mdMyAccountUserForm.rendered=function()
 {
- 
   Session.set('pwdsuccess',false);
   Session.set('passmatch',false);
   Session.set('pwdstrength',false);
@@ -143,5 +197,94 @@ Template.mdMyAccountUserForm.events({
         
      }
   }
- 
+});
+
+Template.mdMyAccountDataPermissions.helpers({
+  isConnected: function() {
+    var credential = MdCloudServices.credentials.findOne();
+    if (credential) {
+      if (credential.credential.serviceData.expiresAt <= Date.now()) {
+        if (Session.get('googleTokenRefreshStatus') != 'Started') {
+          Session.set('googleTokenRefreshRequired', true);
+        }
+      } else {
+        if (Session.get('googleTokenRefreshRequired') || Session.get('googleTokenRefreshStatus') == 'Started') {
+          Session.set('googleTokenRefreshResult', false);
+        } else {
+          Session.set('googleTokenRefreshResult', true);
+        }
+      }
+      if (Session.get('googleTokenRefreshRequired')) {
+        Session.set('googleTokenRefreshStatus', 'Started');
+        Session.set('googleTokenRefreshRequired', false);
+        Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
+          Session.set('googleTokenRefreshStatus', 'Completed');
+          if(res) {
+            Session.set('googleTokenRefreshResult', true);
+          } else {
+            Session.set('googleTokenRefreshResult', false);
+          }
+        });
+      }
+      return Session.get('googleTokenRefreshResult');
+    } else {
+      return false;
+    }
+  }
+});
+
+Template.mdMyAccountDataPermissions.events({
+  'click #connectNow': function (e) {
+    e.preventDefault();
+    
+    Google.requestCredential({
+      requestPermissions: ['https://picasaweb.google.com/data/'],
+      requestOfflineToken: 'true'
+    }, function (credentialToken) {
+      var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
+      if (credentialToken && credentialSecret) {
+        Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
+      }
+    });
+  }
+});
+
+
+
+Template.mdTrack.rendered=function(){
+  Session.set('trackerr',false);
+  Session.set('track',false);
+  Session.set('Spinner',true);
+};
+
+Template.mdTrack.helpers({
+  trackerror: function() {
+    return Session.get('trackerr');
+  },
+  trackdata: function() {
+    trackdata = Session.get('track');
+    return trackdata;
+  },
+  showspinner: function() {
+    if(Session.get('Spinner')) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  },
+  statusFormat: function(status){
+    if(status=="in_transit")
+      return "Dispatched";
+    else
+      return status;
+  },
+  formatdeliverydate: function(est_delivery_date) {
+    var deliverydate = WtDateFormat(est_delivery_date, "shortDate");
+    return deliverydate;
+  },
+  formatlastupdate: function(updated_at) {
+    var lastupdate = WtDateFormat(updated_at, "shortDate");
+    return lastupdate;
+  }
 });

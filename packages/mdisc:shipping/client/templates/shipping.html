@@ -1,64 +1,68 @@
 <template name="mdShipping">
-    <div class="col-md-12">
-        <h2>Create Shipping Label</h2>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default scanSection">
-            <div class="panel-heading">QR Scanner</div>
-            <div class="panel-body scanArea" style="min-height: 275px;">
-                {{> qrScanner w=1024 h=768}}
-                <div style="min-height: 20px; float: left; width: 100%; text-align: center;">
-                    {{qrCode}}
+    <div class="bg-secondary app-page">
+        <div class="container">
+            <div class="col-md-12">
+                <h4>Create Shipping Label</h4><hr />
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default scanSection">
+                    <div class="panel-heading">QR Scanner</div>
+                    <div class="panel-body scanArea" style="min-height: 275px;">
+                        {{> qrScanner w=1024 h=768}}
+                        <div style="min-height: 20px; float: left; width: 100%; text-align: center;">
+                            {{qrCode}}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-8">
-        <div class="panel panel-default lastScanned">
-            <div class="panel-heading">Last Scanned</div>
-            <div class="panel-body" style="min-height: 290px;">
-                {{#with lastScanned.archive}}
-                    {{> mdShippingQRDetail}}
+            <div class="col-md-8">
+                <div class="panel panel-default lastScanned">
+                    <div class="panel-heading">Last Scanned</div>
+                    <div class="panel-body" style="min-height: 290px;">
+                        {{#with lastScanned.archive}}
+                            {{> mdShippingQRDetail}}
+                        {{/with}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                {{#with lastScanned}}
+                {{#if scanCompleted archive.disks}}
+                    {{> spinner}}
+                {{/if}}
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Scanned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{archive.type}}</td>
+                            <td>{{archive.service}}</td>
+                            <td>{{archive.status}}</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="4" style="width: {{progressBarWidth scannedDiskCount archive.disks}}%;">
+                                        <span class="sr-only">Disk {{scannedDiskCount}} of {{archive.disks}}</span>
+                                    </div>
+                                </div>
+                                Disk {{scannedDiskCount}} of {{archive.disks}}<br><br>
+                                {{#if diskCountKnown archive.disks}}
+                                    {{#each scannedDisks archive.disks}}
+                                    Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned{{else}}Pending...{{/if}}</span><br>
+                                    {{/each}}
+                                {{/if}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 {{/with}}
             </div>
         </div>
-    </div>
-    <div class="col-md-12">
-        {{#with lastScanned}}
-        {{#if scanCompleted archive.disks}}
-            {{> spinner}}
-        {{/if}}
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Service</th>
-                    <th>Status</th>
-                    <th>Scanned</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{archive.type}}</td>
-                    <td>{{archive.service}}</td>
-                    <td>{{archive.status}}</td>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="4" style="width: {{progressBarWidth scannedDiskCount archive.disks}}%;">
-                                <span class="sr-only">Disk {{scannedDiskCount}} of {{archive.disks}}</span>
-                            </div>
-                        </div>
-                        Disk {{scannedDiskCount}} of {{archive.disks}}<br><br>
-                        {{#if diskCountKnown archive.disks}}
-                            {{#each scannedDisks archive.disks}}
-                            Disk {{index}} : <span style="color:{{#if status}}green{{else}}red{{/if}};">{{#if status}}Scanned{{else}}Pending...{{/if}}</span><br>
-                            {{/each}}
-                        {{/if}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        {{/with}}
     </div>
 </template>
 
