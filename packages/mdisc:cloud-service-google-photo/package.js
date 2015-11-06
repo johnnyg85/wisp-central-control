@@ -32,6 +32,8 @@ Package.onUse(function(api) {
 
   // Client only files
   api.addFiles([
+    'client/templates/connect.html',
+    'client/templates/connect.css',
     'client/templates/authorize.html',
     'client/templates/authorize.js',
     'client/menu.js'
