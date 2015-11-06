@@ -273,25 +273,58 @@ Meteor.methods({
       case "Google Photos":
           if (credential) {
             var client = new gPhotos(credential.credential.serviceData);
-            var res = client.refreshAccessToken();
-            if (res) {
-              var credentialDetail = credential.credential;
-              credentialDetail.serviceData.accessToken = res.access_token;
-              credentialDetail.serviceData.idToken = res.id_token;
-              credentialDetail.serviceData.expiresAt = Date.now() + (res.expires_in*1000);
-              MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
+            if (client.refreshAccessToken()) {
               return true;
             } else {
-                //Mark as expired
-                var credentialDetail = credential.credential;
-                credentialDetail.serviceData.expiresAt = Date.now();
-                MdCloudServices.credentials.update({_id: credential._id}, {$set: {credential: credentialDetail}});
-                throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
+              throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
             }
           } else {
-              throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
+            throw new Meteor.Error('refresh-credential', 'Failed to refresh credentials.');
           }
           break;
+    }
+  },
+  mdCloudServiceIsConnected: function (service) {
+    var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
+
+    switch (service) {
+      case "Google Photos":
+        if (credential) {
+          if (credential.credential.serviceData.expiresAt > Date.now()) {
+            var client = new gPhotos(credential.credential.serviceData);
+            var myFuture = new Future();
+            client.__getAlbums(Meteor.bindEnvironment(function(err, res) {
+              if (err) {
+                myFuture.return("false");
+              } else {
+                myFuture.return("true");
+              }
+            }));
+            var result = myFuture.wait();
+            if (result === "true") {
+              return true;
+            }
+          }
+          
+          var myFuture = new Future();
+          Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
+            console.log('Token Refresh');
+            if (!err) {
+              myFuture.return("true");
+            } else {
+              myFuture.return("false");
+            }
+          });
+          var result = myFuture.wait();
+          if (result === "true") {
+            return true;
+          } else {
+            throw new Meteor.Error('google-photos', 'Not connected to Google Photos services.');
+          }
+        } else {
+          throw new Meteor.Error('google-photos', 'Not connected to Google Photos services.');
+        }
+        break;
     }
   }
 });

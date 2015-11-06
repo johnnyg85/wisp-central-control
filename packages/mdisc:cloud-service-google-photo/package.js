@@ -36,6 +36,7 @@ Package.onUse(function(api) {
     'client/templates/connect.css',
     'client/templates/authorize.html',
     'client/templates/authorize.js',
+    'client/google-photos.js',
     'client/menu.js'
     ], 'client');
 
@@ -45,6 +46,7 @@ Package.onUse(function(api) {
     ], ['server', 'client']);
   
   api.export('gPhotos', 'server');  
+  api.export('googlePhotos', 'client');
 });
 
 Package.onTest(function(api) {
