@@ -29,6 +29,9 @@ Package.onUse(function(api) {
     ], ['server','client']);
 
   api.addFiles([
+    'client/templates/connecting-menu.css',
+    'client/templates/connecting-menu.html',
+    'client/templates/connecting-menu.js',
     'client/templates/show-few-photos.html',
     'client/templates/show-few-photos.js'
     ], ['client']);

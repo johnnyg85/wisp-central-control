@@ -164,7 +164,7 @@ gPhotos = (function () {
     var _callback = callback;
 
     // First check if the account has standard recent photos
-    _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&v=2&max-results=5&feilds=entry/content/src', function (err, res) {
+    _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&v=2&max-results=15&feilds=entry/content/src', function (err, res) {
       if (!err) {
         // We have normal recent photos
         _callback(err, res);
@@ -190,7 +190,7 @@ gPhotos = (function () {
             albumId = res.feed.entry[x].gphoto$id.$t;
           }
         }
-        _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?kind=photo&v=2&max-results=5&feilds=entry/content/src', _callback);
+        _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?kind=photo&v=2&max-results=15&feilds=entry/content/src', _callback);
       });
     });
 
