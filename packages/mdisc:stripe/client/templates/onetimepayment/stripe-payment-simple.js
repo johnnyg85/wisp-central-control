@@ -76,10 +76,11 @@ var stripeResponseHandlerSimple = function StripeResponseHandler(status, respons
 
                 // Jump to this-order
                 //Router.go('mdArchiveThisOrder');
+                Session.set('cloudConnectingStep', 4); // update menu to next step
                 Meteor.setTimeout(function () {
                     WtTabPage.enable('arch_confirm');
                     WtTabPage.show('arch_confirm');
-                }, 3000);
+                }, 1500);
 
             }
         });

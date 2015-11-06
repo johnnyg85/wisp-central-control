@@ -1,3 +1,7 @@
+Template.mdMyAccount.onRendered(function() {
+  Session.set('isCloudConnecting', false);
+});
+
 Template.mdMyAccount.helpers({
   orders: function() {
     return MdArchive.collection.find().fetch();

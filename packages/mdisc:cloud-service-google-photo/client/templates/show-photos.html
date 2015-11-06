@@ -1,0 +1,42 @@
+<template name="mdCloudGoogleShowPhotos">
+  <div class="bg-secondary app-page">
+    <div class="container" style="min-height: 600px; padding-top: 60px;">
+      <div class="row" style="position: absolute; top: -100px; left: -100px; width: 125%;">
+        <div class="col-xs-6 col-sm-3">
+          {{#each urls}}
+            <div class="polar"><img src="{{url}}" alt="photo" class="img-responsive center-block"></div>
+          {{/each}}    
+        </div>
+        <div class="col-xs-6 col-sm-3">
+          {{#each urls}}
+            <div class="polar"><img src="{{url}}" alt="photo" class="img-responsive center-block"></div>
+          {{/each}}    
+        </div>
+        <div class="col-xs-6 col-sm-3">
+          {{#each urls}}
+            <div class="polar"><img src="{{url}}" alt="photo" class="img-responsive center-block"></div>
+          {{/each}}    
+        </div>
+        <div class="col-xs-6 col-sm-3">
+          {{#each urls}}
+            <div class="polar"><img src="{{url}}" alt="photo" class="img-responsive center-block"></div>
+          {{/each}}    
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-offset-2 col-sm-8">
+          <div class="trans-box">
+            <center>
+              <h4>Here are a few of your photos for verification.</h4>
+              <div style='margin: 30px;'>
+                <button type="button" id="mdCloudGoogleContinue" class="btn btn-filled">
+                  Continue <i class="fa fa-angle-double-right"></i>
+                </button>
+              </div>
+            </center>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

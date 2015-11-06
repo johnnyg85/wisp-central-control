@@ -9,3 +9,13 @@ Router.route('/google-connect/', {
   template: 'mdCloudGoogleConnectAccount'
 });
 
+Router.route('/google-show/', {
+  name: 'mdCloudGoogleShowPhotos', 
+  template: 'mdCloudGoogleShowPhotos'
+});
+
+Router.route('/google-finalize/', {
+  name: 'mdCloudGoogleFinalizeOrder', 
+  template: 'mdCloudGoogleFinalizeOrder'
+});
+
