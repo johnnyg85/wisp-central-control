@@ -47,7 +47,7 @@ Template.mdArchiveAll.helpers({
 
     var data= MdArchive.collection.find(search).fetch();
     if(data == "") {
-      WtGrowl.fail("No Results"));
+      WtGrowl.fail("No Results");
     }
     return data;
   },
