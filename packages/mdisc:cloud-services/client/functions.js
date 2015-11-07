@@ -8,7 +8,7 @@ MdCloudServices.getCredential = function (service, skipAsk, callback) {
 
   if (credential) {
     // Test the credentials
-    Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
+    Meteor.call('mdCloudServiceIsConnected', service, function (err, res) {
       if (err) {
         if (skipAsk) {
           callback('Credentials Failed', null);
