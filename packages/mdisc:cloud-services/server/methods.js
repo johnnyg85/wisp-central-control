@@ -18,8 +18,6 @@ Meteor.methods({
       credentialDetail.serviceData.idToken && (data.idToken = credentialDetail.serviceData.idToken);
     }
 
-    console.log(credentialDetail);
-    console.log(data);
     var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
     if (credential) {
       MdCloudServices.credentials.update({_id: credential._id}, {$set: data});

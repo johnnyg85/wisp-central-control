@@ -4,8 +4,8 @@ gPhotos = (function () {
 
   function gPhotos(credential) {
     this._id = credential._id;
-    this.accessToken = MdAES.decrypt(credential.accessToken);
-    this.refreshToken = MdAES.decrypt(credential.refreshToken);
+    this.accessToken = credential.accessToken && (MdAES.decrypt(credential.accessToken));
+    this.refreshToken = credential.refreshToken && (MdAES.decrypt(credential.refreshToken));
     this.expiresAt = credential.expiresAt;
     this.idToken = credential.idToken;
   };
