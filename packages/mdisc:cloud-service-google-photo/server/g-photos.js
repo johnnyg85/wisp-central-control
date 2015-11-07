@@ -2,12 +2,12 @@ Future = Npm.require('fibers/future');
 
 gPhotos = (function () {
 
-  function gPhotos(serviceData) {
-    this.id = serviceData.id;
-    this.accessToken = serviceData.accessToken;
-    this.idToken = serviceData.idToken;
-    this.expiresAt = serviceData.expiresAt;
-    this.refreshToken = serviceData.refreshToken;
+  function gPhotos(credential) {
+    this._id = credential._id;
+    this.accessToken = MdAES.decrypt(credential.accessToken);
+    this.refreshToken = MdAES.decrypt(credential.refreshToken);
+    this.expiresAt = credential.expiresAt;
+    this.idToken = credential.idToken;
   };
 
   gPhotos.prototype.refreshAccessToken = function () {
@@ -43,34 +43,25 @@ gPhotos = (function () {
       this.idToken = result.data.id_token;
       this.expiresAt = Date.now() + (result.data.expires_in * 1000);
       MdCloudServices.credentials.update(
-        {'credential.serviceData.id': this.id},
+        {'_id': this._id},
         {$set: {
-          'credential.serviceData.accessToken': this.accessToken,
-          'credential.serviceData.idToken': this.idToken,
-          'credential.serviceData.expiresAt': this.expiresAt
+          'accessToken': MdAES.encrypt(this.accessToken),
+          'idToken': this.idToken,
+          'expiresAt': this.expiresAt
         }}
       );
       return true;
     } else {
       this.expiresAt = Date.now();
       MdCloudServices.credentials.update(
-        {'credential.serviceData.id': this.id},
+        {'_id': this.id},
         {$set: {
-          'credential.serviceData.expiresAt': this.expiresAt
+          'expiresAt': this.expiresAt
         }}
       );
       throw new Meteor.Error(result.statusCode, 'Unable to exchange google refresh token.', result);
     }
 
-  };
-
-  gPhotos.prototype.updateAccessToken = function (json) {
-    /*
-    console.log(json);
-    if (json.accessToken) {
-      setAccessToken(json.accessToken);
-    }
-    */
   };
 
   gPhotos.prototype.getFeed = function (url, callback) {
@@ -215,9 +206,13 @@ gPhotos = (function () {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?v=2&feilds=feed/gphoto:quotacurrent', callback);
   };
   
+  gPhotos.prototype.testAccess = function (callback) {
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&max-results=1&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)', callback);
+  };
+
   /* This functions works without refreshing the token to ensure the access token is still valid */
   gPhotos.prototype.__getAlbums = function (callback) {
-    var url = 'https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)';
+    var url = 'https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&max-results=1&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)';
     var options = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

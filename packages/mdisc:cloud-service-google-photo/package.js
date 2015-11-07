@@ -22,7 +22,9 @@ Package.onUse(function(api) {
     'meteorhacks:async',
     'wisptools:menu',
     'mdisc:busy',
-    'mdisc:archive'
+    'mdisc:archive',
+    'mdisc:aes',
+    'wisptools:growl'
   ]);  
 
   // Server only files

@@ -17,11 +17,12 @@ Package.onUse(function(api) {
     'meteor',
     'templating',
     'oauth',
+    'meteorhacks:async@1.0.0',
     'mdisc:cloud-service-google-photo',
     'mdisc:cloud-service-dropbox',
     'wisptools:collection',
-    'meteorhacks:async',
-    'mdisc:archive'
+    'mdisc:archive',
+    'mdisc:aes'
   ]);  
 
   api.addFiles([
@@ -33,7 +34,8 @@ Package.onUse(function(api) {
     'client/templates/connecting-menu.html',
     'client/templates/connecting-menu.js',
     'client/templates/show-few-photos.html',
-    'client/templates/show-few-photos.js'
+    'client/templates/show-few-photos.js',
+    'client/functions.js'
     ], ['client']);
 
 

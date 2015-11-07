@@ -203,19 +203,20 @@ Template.mdMyAccountUserForm.events({
   }
 });
 
+Template.mdMyAccountDataPermissions.onRendered(function() {
+  Session.set('googleChecking', true);
+  Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
+    if (!err) {
+      Session.set('googleConnected', true);
+    } else {
+      Session.set('googleConnected', false);
+    }
+    Session.set('googleChecking', false);
+  });
+});
+
 Template.mdMyAccountDataPermissions.helpers({
   isConnected: function() {
-    Session.set('googleChecking', true);
-
-    Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
-      if (!err) {
-        Session.set('googleConnected', true);
-      } else {
-        Session.set('googleConnected', false);
-      }
-      Session.set('googleChecking', false);
-    });
-    
     if (Session.get('googleConnected')===true) {
       return true;
     } else {
@@ -225,17 +226,9 @@ Template.mdMyAccountDataPermissions.helpers({
 });
 
 Template.mdMyAccountDataPermissions.events({
-  'click #connectNow': function (e) {
+  'click #connectNowGoogle': function (e) {
     e.preventDefault();
-    
-    googlePhotos.requestCredential(function (credentialToken) {
-      if (credentialToken) {
-        var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
-        if (credentialSecret) {
-          Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
-        }
-      }
-    });
+    MdCloudServices.askCredential('Google Photos', function () {});
   }
 });
 

@@ -17,35 +17,38 @@ Template.mdCloudGoogleConnectAccount.events({
   'click #authorizeGooglePhotoAccount': function(e, t) {
     e.preventDefault();
 
-    googlePhotos.requestCredential(function (credentialToken) {
-      if (credentialToken) {
-        var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
-        if (credentialSecret) {
-          // Save credentials
-          Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
-
-          // Pull recent photos
-          Meteor.call('getRecentPhotos', 'Google Photos', function (err, res) {
-            Session.set('recentUrls', res);
-          });    
-
-          // Open and init the Auto Archive
-          Meteor.call('openAutoCloudArchive', 'Google Photos', function (err, archiveId) {
-            //console.log(archiveId);
-            Session.set('openArchiveId', archiveId);
-            Meteor.call('initAutoCloudArchive', 'Google Photos', archiveId, function (err, res) {
-            });
-          });
-
-          // Simulate some connecting time
-          Session.set('mdCloudAuhenticating', true);
-          Meteor.setTimeout(function () {
-            Session.set('mdCloudAuhenticating', false);
-            Session.set('cloudConnectingStep', 2); // update menu to next step
-            Router.go('mdCloudGoogleShowPhotos');
-          }, 3500);
-        }
+    MdCloudServices.getCredential('Google Photos', false, function (err, res) {
+      if (err) {
+        WtGrowl.fail("There is a problem connecting to Google Photos");
+        return;
       }
+      Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
+        if (err) {
+          WtGrowl.fail("There is a problem accessing Google Photos");
+          return;
+        }
+
+        // Pull recent photos
+        Meteor.call('getRecentPhotos', 'Google Photos', function (err, res) {
+          Session.set('recentUrls', res);
+        });    
+
+        // Open and init the Auto Archive
+        Meteor.call('openAutoCloudArchive', 'Google Photos', function (err, archiveId) {
+          //console.log(archiveId);
+          Session.set('openArchiveId', archiveId);
+          Meteor.call('initAutoCloudArchive', 'Google Photos', archiveId, function (err, res) {
+          });
+        });
+
+        // Simulate some connecting time
+        Session.set('mdCloudAuhenticating', true);
+        Meteor.setTimeout(function () {
+          Session.set('mdCloudAuhenticating', false);
+          Session.set('cloudConnectingStep', 2); // update menu to next step
+          Router.go('mdCloudGoogleShowPhotos');
+        }, 3500);
+      });
     });
   }
 });
