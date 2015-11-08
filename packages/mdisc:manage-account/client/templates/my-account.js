@@ -46,6 +46,10 @@ Template.mdMyAccountOrder.helpers({
       return true;
     else
       return false;
+  },
+  filter: function(status) {
+    if (status == 'Ordered' || status == 'Shipped') return status;
+    return "Processing";
   }
 });
 
