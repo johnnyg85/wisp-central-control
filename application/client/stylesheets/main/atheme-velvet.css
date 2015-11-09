@@ -1866,7 +1866,7 @@ nav.dismiss-active {
 }
 .features-7 img {
   position: absolute;
-  top: 50%;
+  top: 38%;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
@@ -1883,12 +1883,12 @@ nav.dismiss-active {
 }
 @media all and (max-width: 890px) {
   .features-7 img {
-    right: -80px;
+    //right: -80px;
   }
 }
 @media all and (max-width: 767px) {
   .features-7 img {
-    display: none;
+    //display: none;
   }
 }
 .features-8 h3 {
