@@ -21,7 +21,8 @@ Package.onUse(function(api) {
     'mdisc:accounts',
     'mdisc:address-ui',
     'wisptools:growl',
-    'google',
+    'mdisc:cloud-service-google-photo',
+    'mdisc:cloud-services',
     'mdisc:easypost',
     'wisptools:date-format'
   ]);

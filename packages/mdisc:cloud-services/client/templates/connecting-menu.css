@@ -1,0 +1,56 @@
+.md-connect {
+  position: relative;
+  color: #fff;
+  background: #d3d6d7;
+  height: 20px;
+  float: left;
+  height: 55px;
+  line-height: 53px;
+  font-size: 18px;
+  font-weight: 800;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 0 50px;
+  border: 1px solid #c2c4c6;
+  text-align: center;
+  margin-left: -30px;
+  margin-top: 11px;
+}
+
+div.long .md-connect {
+  display: block;
+}
+div.short .md-connect {
+  display: none;
+}
+.md-connect.current {
+  background: #36a9e1;
+}
+
+.md-connect .fa-check {
+  visibility: hidden;
+  margin-left: 20px;
+  margin-right: -20px;
+}
+.md-connect.done .fa-check {
+  visibility: visible;
+}
+
+.md-connect.done {
+  background: #1c3660;
+}
+
+.md-connect.first {
+  margin-left: 0px;
+  z-index: 3;
+}
+.md-connect.second {
+  padding-left: 70px;
+  z-index: 2;
+}
+.md-connect.third {
+  padding-left: 70px;
+  z-index: 1;
+}

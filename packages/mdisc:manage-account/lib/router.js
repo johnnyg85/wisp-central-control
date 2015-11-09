@@ -4,13 +4,8 @@ Router.route('/account/', {
   onBeforeAction: function () {
     if (Session.get('afterLoginDoArchive')) {
       Session.set('afterLoginDoArchive', false); // clear session var
-
-      // Simulate clicking the archive now button
-      var e = $.Event('click');
-      $('#authorizeGooglePhoto').trigger(e);
-
-      // render home
-      this.render('home');
+      // render connect page
+      Router.go('mdCloudGoogleConnectAccount');
     } else {
       this.next();
     }

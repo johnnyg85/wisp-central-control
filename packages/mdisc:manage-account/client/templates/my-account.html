@@ -51,9 +51,9 @@
       <td>{{archiveType}}</td>
       <td>${{price}}</td> 
         {{#if isEqual status "Shipped"}}
-          <td><a href="#" value="{{trackingId}}" >{{status}}</a></td>
+          <td><a href="#" value="{{trackingId}}" >{{filter status}}</a></td>
         {{else}}
-          <td>{{status}}</td>
+          <td>{{filter status}}</td>
         {{/if}}
     </tr>
   {{/if}}
@@ -169,7 +169,7 @@
       {{#if isConnected}}
         <a href="https://security.google.com/settings/security/permissions" target="_blank">Revoke Permissions</a>
       {{else}}
-        <a href="#" id="connectNow">Connect Now</a>
+        <a href="#" id="connectNowGoogle">Connect Now</a>
       {{/if}}
     </div>
   </div>

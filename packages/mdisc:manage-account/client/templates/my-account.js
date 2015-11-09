@@ -1,3 +1,7 @@
+Template.mdMyAccount.onRendered(function() {
+  Session.set('isCloudConnecting', false);
+});
+
 Template.mdMyAccount.helpers({
   orders: function() {
     return MdArchive.collection.find().fetch();
@@ -42,6 +46,10 @@ Template.mdMyAccountOrder.helpers({
       return true;
     else
       return false;
+  },
+  filter: function(status) {
+    if (status == 'Ordered' || status == 'Shipped') return status;
+    return "Processing";
   }
 });
 
@@ -199,34 +207,22 @@ Template.mdMyAccountUserForm.events({
   }
 });
 
+Template.mdMyAccountDataPermissions.onRendered(function() {
+  Session.set('googleChecking', true);
+  Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
+    if (!err) {
+      Session.set('googleConnected', true);
+    } else {
+      Session.set('googleConnected', false);
+    }
+    Session.set('googleChecking', false);
+  });
+});
+
 Template.mdMyAccountDataPermissions.helpers({
   isConnected: function() {
-    var credential = MdCloudServices.credentials.findOne();
-    if (credential) {
-      if (credential.credential.serviceData.expiresAt <= Date.now()) {
-        if (Session.get('googleTokenRefreshStatus') != 'Started') {
-          Session.set('googleTokenRefreshRequired', true);
-        }
-      } else {
-        if (Session.get('googleTokenRefreshRequired') || Session.get('googleTokenRefreshStatus') == 'Started') {
-          Session.set('googleTokenRefreshResult', false);
-        } else {
-          Session.set('googleTokenRefreshResult', true);
-        }
-      }
-      if (Session.get('googleTokenRefreshRequired')) {
-        Session.set('googleTokenRefreshStatus', 'Started');
-        Session.set('googleTokenRefreshRequired', false);
-        Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
-          Session.set('googleTokenRefreshStatus', 'Completed');
-          if(res) {
-            Session.set('googleTokenRefreshResult', true);
-          } else {
-            Session.set('googleTokenRefreshResult', false);
-          }
-        });
-      }
-      return Session.get('googleTokenRefreshResult');
+    if (Session.get('googleConnected')===true) {
+      return true;
     } else {
       return false;
     }
@@ -234,17 +230,16 @@ Template.mdMyAccountDataPermissions.helpers({
 });
 
 Template.mdMyAccountDataPermissions.events({
-  'click #connectNow': function (e) {
+  'click #connectNowGoogle': function (e) {
     e.preventDefault();
-    
-    Google.requestCredential({
-      requestPermissions: ['https://picasaweb.google.com/data/'],
-      requestOfflineToken: 'true'
-    }, function (credentialToken) {
-      var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
-      if (credentialToken && credentialSecret) {
-        Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
-      }
+    MdCloudServices.askCredential('Google Photos', function (err, res) {
+      Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
+        if (!err) {
+          Session.set('googleConnected', true);
+        } else {
+          Session.set('googleConnected', false);
+        }
+      });
     });
   }
 });
