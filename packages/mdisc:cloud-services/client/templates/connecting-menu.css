@@ -54,3 +54,60 @@ div.short .md-connect {
   padding-left: 70px;
   z-index: 1;
 }
+
+@media only screen and (max-width: 600px) {
+  .md-connect.first label {
+    display:none;
+  }
+  .md-connect.second label {
+    display:none;
+  }
+  .md-connect.third label {
+    display:none;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .md-connect.first label {
+    display:none;
+  }
+  .md-connect.second label {
+    display:none;
+  }
+  .md-connect.third label {
+    display:none;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .col-sm-6 {
+    width: 30%;
+  }
+  .col-xs-8 {
+    width: 66.6667%;
+  }
+  .md-connect.first label {
+    display:none;
+  }
+  .md-connect.second label {
+    display:none;
+  }
+  .md-connect.third label {
+    display:none;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .col-sm-6 {
+    width: 30%;
+  }
+  .col-xs-8 {
+    width: 66.6667%;
+  }
+  .md-connect.first label {
+    display:none;
+  }
+  .md-connect.second label {
+    display:none;
+  }
+  .md-connect.third label {
+    display:none;
+  }
+}
