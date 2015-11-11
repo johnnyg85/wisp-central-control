@@ -55,59 +55,70 @@ div.short .md-connect {
   z-index: 1;
 }
 
-@media only screen and (max-width: 600px) {
-  .md-connect.first label {
-    display:none;
+@media only screen and (max-width: 530px) {
+  #mdlabel {
+    display: none !Important
   }
-  .md-connect.second label {
-    display:none;
-  }
-  .md-connect.third label {
-    display:none;
+  #mdlabelsmall {
+    display:none !Important
   }
 }
-@media only screen and (max-width: 700px) {
-  .md-connect.first label {
-    display:none;
+@media only screen and (max-width: 566px) {
+  .md-connect {
+    font-size: 13px;
   }
-  .md-connect.second label {
-    display:none;
+  #mdfirst.md-connect.first {
+    margin-left: -25px !Important;
   }
-  .md-connect.third label {
-    display:none;
+  #mdlabel {
+    display: none !Important
   }
-}
-@media only screen and (max-width: 900px) {
-  .col-sm-6 {
-    width: 30%;
+  #mdlabelsmall {
+    display:inline
   }
-  .col-xs-8 {
-    width: 66.6667%;
+  .md-connect.second {
+    margin-left: -60px;
   }
-  .md-connect.first label {
-    display:none;
-  }
-  .md-connect.second label {
-    display:none;
-  }
-  .md-connect.third label {
-    display:none;
+  .md-connect.third {
+    margin-left: -60px;
   }
 }
-@media only screen and (max-width: 1000px) {
-  .col-sm-6 {
-    width: 30%;
+@media only screen and (max-width: 767px) {
+  #mdlabel {
+    display: none
   }
-  .col-xs-8 {
-    width: 66.6667%;
+  #mdlabelsmall {
+    display:inline
   }
-  .md-connect.first label {
-    display:none;
+  .md-connect.first {
+    margin-left: -70px !Important;
+    padding-left: 10px ;
+    padding-right: 23px ;
   }
-  .md-connect.second label {
-    display:none;
+  .md-connect.second {
+    margin-left: -60px;
+    padding-right: 23px;
+    padding-left: 70px;
   }
-  .md-connect.third label {
-    display:none;
+  .md-connect.third {
+    margin-left: -60px;
+    padding-right: 23px ;
+  }
+}
+@media only screen and (max-width: 990px) {
+  #mdlabel {
+    display: none
+  }
+  #mdlabelsmall {
+    display:inline
+  }
+  .md-connect.first {
+    margin-left: -200px;
+  }
+  .md-connect.second {
+    margin-left: -60px;
+  }
+  .md-connect.third {
+    margin-left: -60px;
   }
 }
