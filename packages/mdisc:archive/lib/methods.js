@@ -4,7 +4,14 @@ Meteor.methods({
     var name = 'My Photos';
     if (Meteor.user().profile) {
       if (Meteor.user().profile.firstname) {
-        name = Meteor.user().profile.firstname + "'s Photos";
+        name = Meteor.user().profile.firstname;
+        lastchar = name[name.length - 1];
+        if (lastchar == 's') {
+          name = name + "' Photos";
+        }
+        else {
+          name = name + "'s Photos";
+        }
       }
     }
 
