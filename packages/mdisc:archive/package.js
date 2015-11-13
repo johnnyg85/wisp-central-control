@@ -41,7 +41,8 @@ Package.onUse(function(api) {
   api.addFiles([
     'lib/collection.js',
     'lib/methods.js',
-    'lib/router.js'
+    'lib/router.js',
+    'lib/functions.js'
     ], ['server','client']);
 
   api.addFiles([
