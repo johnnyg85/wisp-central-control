@@ -4,7 +4,8 @@ Meteor.methods({
     var name = 'My Photos';
     if (Meteor.user().profile) {
       if (Meteor.user().profile.firstname) {
-        name = Meteor.user().profile.firstname + "'s Photos";
+        name = Meteor.user().profile.firstname;
+        name = mdArchiveName(name);
       }
     }
 
