@@ -5,13 +5,7 @@ Meteor.methods({
     if (Meteor.user().profile) {
       if (Meteor.user().profile.firstname) {
         name = Meteor.user().profile.firstname;
-        lastchar = name[name.length - 1];
-        if (lastchar == 's') {
-          name = name + "' Photos";
-        }
-        else {
-          name = name + "'s Photos";
-        }
+        name = mdArchiveName(name);
       }
     }
 
