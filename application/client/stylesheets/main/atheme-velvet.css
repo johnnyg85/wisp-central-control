@@ -315,16 +315,19 @@ p.text-white a {
 .btn:hover {
   background-color: #FB596E;
 }
+.btn-default,
 .btn-filled {
   background: #FF7789;
   color: #fff;
   border: 0px solid #FF7789;
 }
+.btn-default:hover,
 .btn-filled:hover,
 .btn:hover {
   color: #fff;
   border-color: #FB596E;
 }
+.btn-default:hover,
 .btn-filled:hover {
   background: #FB596E;
 }
