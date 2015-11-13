@@ -44,7 +44,8 @@ Package.onUse(function(api) {
   //Client Only Files
   api.addFiles([
     'client/templates/modal.html',
-    'client/templates/modal.js'
+    'client/templates/modal.js',
+    'client/templates/at_bootstrap.css'
     ], ['client']);
 
   api.export('Accounts');
