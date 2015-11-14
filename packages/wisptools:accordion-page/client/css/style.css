@@ -1,3 +1,7 @@
+.wt-accodion-panel {
+  background-color: rgb(246, 248, 250);
+} 
+
 .accordion-page-title {
   color: #999;
   text-align: right;
@@ -27,3 +31,4 @@
 .wt-accodion-body {
   background: #f8f8f8;
 }
+
