@@ -22,13 +22,14 @@ Package.onUse(function(api) {
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:growl',
-    'wisptools:tab-page',
+    'wisptools:accordion-page',
     'mdisc:jobs',
     'mdisc:accounts',
     'mdisc:address-ui'
   ]);
 
   api.addFiles([
+    'client/css/style.css',
     'client/templates/admin-view.html',
     'client/templates/admin-view.js',
     'client/templates/check-out/name.html',
