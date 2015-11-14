@@ -20,6 +20,7 @@ Package.onUse(function(api) {
     'iron:router',
     'google',
     'meteorhacks:async',
+    'wisptools:accordion-page',
     'wisptools:menu',
     'mdisc:busy',
     'mdisc:archive',

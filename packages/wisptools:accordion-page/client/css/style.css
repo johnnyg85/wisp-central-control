@@ -1,4 +1,29 @@
-div.accordion-page-title {
+.accordion-page-title {
   color: #999;
   text-align: right;
+}
+
+.wt-accodion-heading {
+  color: #fff;
+  background: #b0b1b3;
+  text-align: center;
+  height: 45px;
+  padding-top: 9px;
+}
+
+.wt-accodion-heading.above {
+  background: #1c3660;
+}
+
+.wt-accodion-heading.active {
+  background: #36a9e1;
+}
+
+.wt-accodion-panel {
+  margin-top: 0px !important;
+  border-width: 0px 0px 1px 0px !important;
+}
+
+.wt-accodion-body {
+  background: #f8f8f8;
 }

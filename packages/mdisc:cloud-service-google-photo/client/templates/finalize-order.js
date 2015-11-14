@@ -1,25 +1,35 @@
 
 Template.mdCloudGoogleFinalizeOrder.helpers({
-  showOrderForm: function() {
-    if (Session.get('isCloudConnecting')) {
-      return true;
-    }
-    return false;
-  },
-  showAccountSize: function() {
-    if (Session.get('accountSize')) {
-      return true;
-    }
-    return false;
-  },
-  accountSize: function() {
-    var bytes = Session.get('accountSize');
-     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-     if (bytes == 0) return '0 Byte';
-     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-  },
-  recentPhotos: function() {
-    return Session.get('recentUrls');
+  tabData: {
+    showTitle: false,
+    title: "Order",
+    pages: [
+      {
+        tabName: "1. ARCHIVE DETAILS",
+        tabId: "arch_name",
+        tabTemplate: "mdArchiveName",
+        tabOpen: "true"
+      },{
+        tabName: "2. CHOOSE SUBSCRIPTION PLAN",
+        tabId: "arch_plan",
+        tabTemplate: "mdArchivePlan",
+        tabOpen: "false"
+      },{
+        tabName: "3. YOUR SHIPPING INFO",
+        tabId: "arch_shipping",
+        tabTemplate: "mdArchiveShipping",
+        tabOpen: "false"
+      },{
+        tabName: "4. ENTER PAYMENT DETAILS",
+        tabId: "arch_pay",
+        tabTemplate: "mdArchivePayment",
+        tabOpen: "false"
+      },{
+        tabName: "5. REVIEW YOUR ORDER",
+        tabId: "arch_review",
+        tabTemplate: "mdArchiveReview",
+        tabOpen: "false"
+      }
+    ]
   }
 });
