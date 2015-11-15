@@ -22,17 +22,39 @@
 }
 
 .sub-offer .offer {
-  border: 3px solid #FF7789;
+  position: relative;
+  color: #d7d7d7;
+  border: 3px solid #d7d7d7;
   border-radius: 15px;
   background: #fff;
   padding: 25px;
   height: 340px;
   width: 380px;
+  cursor: pointer; cursor: hand;
+  z-index: 1;
+}
+
+.sub-offer .offer.selected {
+  color: #424242;
+  border: 3px solid #FF7789;
+  background: -webkit-linear-gradient(#fff, #fff0f2); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fff, #fff0f2); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fff, #fff0f2); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#fff, #fff0f2); /* Standard syntax */
+  z-index: 2;
+}
+.sub-offer .offer.selected h5 {
+  color: #424242;
+}
+
+.sub-offer .offer.selected .price-feature {
+  color: #7fb632;
 }
 
 .sub-offer .offer h5 {
   margin-bottom: 25px;
   letter-spacing: 3px;
+  color: #d7d7d7;
 }
 
 .sub-offer .pricing span.sign {
@@ -47,6 +69,7 @@
 .sub-offer .pricing span.time {
   font-size: 20px;
 }
+
 
 .sub-offer .price-feature {
   font-size: 12px;

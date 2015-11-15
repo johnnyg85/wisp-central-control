@@ -13,7 +13,8 @@ Template.mdArchiveName.events({
     } else {
       var data = {
         archiveName: e.target[0].value,
-        active: false
+        active: false,
+        version: '0.0.1'
       }
       MdArchive.subscription.insert(data);
     }
