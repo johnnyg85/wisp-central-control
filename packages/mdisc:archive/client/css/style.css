@@ -4,5 +4,52 @@
 }
 
 .btn-continue {
+  margin-top: 35px;
+}
+
+.sub-offer {
+  text-align: center;
+}
+
+.sub-offer .left {
+  float: right;
+  margin-right: -16px;
+}
+
+.sub-offer .right {
+  float: left;
+  margin-left: -16px;
+}
+
+.sub-offer .offer {
+  border: 3px solid #FF7789;
+  border-radius: 15px;
+  background: #fff;
   padding: 25px;
+  height: 340px;
+  width: 380px;
+}
+
+.sub-offer .offer h5 {
+  margin-bottom: 25px;
+  letter-spacing: 3px;
+}
+
+.sub-offer .pricing span.sign {
+  font-size: 20px;
+  vertical-align: 115%;
+}
+
+.sub-offer .pricing span.price {
+  font-size: 60px;
+}
+
+.sub-offer .pricing span.time {
+  font-size: 20px;
+}
+
+.sub-offer .price-feature {
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-bottom: 25px;
 }
