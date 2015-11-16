@@ -1,6 +1,7 @@
 ChargeBeeMeteor = {};
 
 ChargeBeeAPI = Npm.require('chargebee');
+Future = Npm.require('fibers/future');
 
 ChargeBeeAPI.configure({
   site: Meteor.settings.chargebee.site,
@@ -8,10 +9,42 @@ ChargeBeeAPI.configure({
 });
 
 ChargeBeeMeteor.createCustomer = function (firstName, lastName, email, billingAddress, callback) {
+  if (!firstName || !lastName || !email || !billingAddress) {
+    throw new Meteor.Error("chargebee-error", 'ChargeBee create customer - Invalid parameters.');
+  }
   ChargeBeeAPI.customer.create({
     first_name: firstName,
     last_name: lastName,
     email: email,
+    billing_address: {
+      first_name: billingAddress.firstName,
+      last_name: billingAddress.lastName,
+      line1: billingAddress.address1,
+      line2: billingAddress.address2,
+      city: billingAddress.city,
+      state: billingAddress.state,
+      zip: billingAddress.zip,
+      country: billingAddress.country
+    }
+  }).request(callback);
+};
+
+ChargeBeeMeteor.updateCustomer = function (customerId, firstName, lastName, email, callback) {
+  if (!customerId || !firstName || !lastName || !email) {
+    throw new Meteor.Error("chargebee-error", 'ChargeBee update customer - Invalid parameters.');
+  }
+  ChargeBeeAPI.customer.update(customerId, {
+    first_name: firstName,
+    last_name: lastName,
+    email: email
+  }).request(callback);
+};
+
+ChargeBeeMeteor.updateBillingInfoForCustomer = function (customerId, billingAddress, callback) {
+  if (!customerId || !billingAddress) {
+    throw new Meteor.Error("chargebee-error", 'ChargeBee update billing info - Invalid parameters.');
+  }
+  ChargeBeeAPI.customer.update_billing_info(customerId, {
     billing_address: {
       first_name: billingAddress.firstName,
       last_name: billingAddress.lastName,
