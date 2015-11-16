@@ -25,6 +25,7 @@ Template.mdArchiveShipping.events({
 
     MdArchive.subscription.update({_id: subscription._id}, {$set: {shipTo: shipTo}});
 
+    WtAccordionPage.enable('arch_pay');
     WtAccordionPage.show('arch_pay');
 
     // Update the account address

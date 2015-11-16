@@ -18,6 +18,7 @@ Template.mdArchiveName.events({
       }
       MdArchive.subscription.insert(data);
     }
+    WtAccordionPage.enable('arch_plan');
     WtAccordionPage.show('arch_plan');
   }  
 });

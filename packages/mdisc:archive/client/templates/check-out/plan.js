@@ -21,6 +21,7 @@ Template.mdArchivePlan.events({
     var selectedPlan = Session.get('selectedPlan');
     var subscription = MdArchive.subscription.findOne({owner: Meteor.userId()});
     MdArchive.subscription.update({_id: subscription._id}, {$set: {subscriptionPlan: selectedPlan}});
+    WtAccordionPage.enable('arch_shipping');
     WtAccordionPage.show('arch_shipping');
   }
 });

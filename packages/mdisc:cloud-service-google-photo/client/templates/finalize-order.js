@@ -33,3 +33,10 @@ Template.mdCloudGoogleFinalizeOrder.helpers({
     ]
   }
 });
+
+Template.mdCloudGoogleFinalizeOrder.onRendered(function () {
+  WtAccordionPage.disable('arch_plan');  
+  WtAccordionPage.disable('arch_shipping');  
+  WtAccordionPage.disable('arch_pay');  
+  WtAccordionPage.disable('arch_review');  
+});
