@@ -1,3 +1,21 @@
 <template name="mdArchiveReview">
-  <h1>REVIEW</h1>
+  <div class='order-sub-page'>
+    <table class="table">
+      <tbody>
+        <tr><td><strong>Archive Name</strong></td><td>{{subscription.archiveName}}</td></tr>
+        <tr><td><strong>Plan</strong></td><td>{{subscription.subscriptionPlan}}</td></tr>
+        <tr><td><strong>Name</strong></td><td>{{subscription.shipTo.name}}</td></tr>
+        <tr><td><strong>Address</strong></td><td>{{subscription.shipTo.address}}</td></tr>
+        <tr><td><strong>City</strong></td><td>{{subscription.shipTo.city}}</td></tr>
+        <tr><td><strong>State</strong></td><td>{{subscription.shipTo.state}}</td></tr>
+        <tr><td><strong>Zip</strong></td><td>{{subscription.shipTo.zip}}</td></tr>
+        <tr><td><strong>Card</strong></td><td>{{subscription.payment.last}}</td></tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4">
+        <a href="#" class="btn btn-filled btn-block">Submit Order</a>
+      </div>
+    </div>   
+  </div>
 </template>
