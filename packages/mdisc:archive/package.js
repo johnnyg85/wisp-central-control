@@ -25,7 +25,8 @@ Package.onUse(function(api) {
     'wisptools:accordion-page',
     'mdisc:jobs',
     'mdisc:accounts',
-    'mdisc:address-ui'
+    'mdisc:address-ui',
+    'mdisc:dates'
   ]);
 
   api.addFiles([
