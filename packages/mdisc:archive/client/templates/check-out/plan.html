@@ -1,0 +1,50 @@
+<template name="mdArchivePlan">
+  <div class="order-sub-page">
+    <div class="row sub-offer">
+      <div class="col-sm-6">
+        <div class="offer left annual {{selected 'annual'}}">
+        <h5>ANNUAL</h5>
+          <div class="pricing">
+            <span class="sign">$</span>
+            <span class="price">99</span>
+            <span class="time">/yr</span>
+          </div>
+          <div class="price-feature">
+            25% SAVINGS
+          </div>
+          <ul class="offer-features">
+            <li><strong>Peace of mind for one, easy payment</strong></li>
+            <li>Complete archive + monthly updates</li>
+            <li>Includes premium archive album</li>
+            <li>No initial setup fee</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="offer right monthly {{selected 'monthly'}}">
+          <h5>MONTHLY</h5>
+          <div class="pricing">
+            <span class="sign">$</span>
+            <span class="price">9</span>
+            <span class="time">/mo</span>
+          </div>
+          <div class="price-feature">
+            + $25 SETUP FEE
+          </div>
+          <ul class="offer-features">
+            <li><strong>Flexible, pay-as-you go</strong></li>
+            <li>Setup includes complete archive and album</li>
+            <li>Monthly archive updates</li>
+          </ul>
+        </div>
+      </div>
+      <form action="" method="POST" id="archive-plan-form" class="form-horizontal col-md-12">
+        <div class="form-group">
+          <div class="btn-continue col-md-offset-4 col-md-4">
+            <button type="submit" class="btn btn-filled btn-block">Continue <i class="fa fa-angle-double-right"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>

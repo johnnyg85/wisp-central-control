@@ -25,7 +25,7 @@ Package.onUse(function(api) {
     'client/accordion-page.js'
     ], 'client');
 
-  api.export('WtTabPage', ['client']);
+  api.export('WtAccordionPage', ['client']);
 });
 
 Package.onTest(function(api) {

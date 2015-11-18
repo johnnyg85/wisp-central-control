@@ -9,7 +9,7 @@
     {{/if}}
     <div class="panel-group" id="wt_accordion_page" role="tablist" aria-multiselectable="true">
       {{#each pages}}
-        <div class="panel panel-default">
+        <div class="panel wt-accodion-panel">
           {{> wtAccordionPageTab}}
           {{> wtAccordionPageContent}}
         </div>      
@@ -19,18 +19,18 @@
 </template>
 
 <template name="wtAccordionPageTab">
-  <div class="panel-heading" role="tab" id="wt_heading_{{tabId}}">
-    <h4 class="panel-title">
+  <div class="wt-accodion-heading" role="tab" id="wt_heading_{{tabId}}">
+    <h5 class="panel-title">
       <a role="button" data-toggle="collapse" data-parent="#wt_accordion_page" href="#wt_collapse_{{tabId}}" aria-expanded="{{tabOpen}}" aria-controls="wt_collapse_{{tabId}}">
         {{tabName}}
       </a>
-    </h4>
+    </h5>
   </div>
 </template>
 
 <template name="wtAccordionPageContent">
   <div id="wt_collapse_{{tabId}}" class="panel-collapse collapse {{in tabOpen}}" role="tabpanel" aria-labelledby="wt_heading_{{tabId}}">
-    <div class="panel-body">
+    <div class="panel-body wt-accodion-body">
       {{> Template.dynamic template=tabTemplate}}
     </div>
   </div>

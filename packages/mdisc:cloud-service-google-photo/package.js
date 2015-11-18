@@ -20,6 +20,7 @@ Package.onUse(function(api) {
     'iron:router',
     'google',
     'meteorhacks:async',
+    'wisptools:accordion-page',
     'wisptools:menu',
     'mdisc:busy',
     'mdisc:archive',
@@ -42,6 +43,7 @@ Package.onUse(function(api) {
     'client/templates/show-photos.js',
     'client/templates/finalize-order.html',
     'client/templates/finalize-order.js',
+    'client/templates/finalize-order.css',
     'client/google-photos.js',
     'client/menu.js'
     ], 'client');
