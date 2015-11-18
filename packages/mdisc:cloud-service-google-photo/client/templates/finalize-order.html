@@ -1,27 +1,7 @@
 <template name="mdCloudGoogleFinalizeOrder">
   <div class="bg-secondary app-page">
     <div class="container">
-      <h4>Google Photo full archive</h4>
-      {{#if showOrderForm}}
-        <div class="row">
-          <div class="col-xs-12">
-            <br />
-            {{> mdArchiveName}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <h5>Order Details</h5>
-            {{#if showAccountSize}}
-              <h6>(Estimated Size: {{accountSize}})</h6>
-            {{/if}}
-            {{> mdArchiveOrder}}
-          </div>
-        </div>
-      {{/if}}
-      {{#unless showOrderForm}}
-        <br /><div class="alert alert-danger" role="alert"><strong>Yikes!</strong> Looks like you came to this page from the wrong place.</div>
-      {{/unless}}
+      {{> wtAccordionPage tabData=tabData}}
     </div>
   </div>
 </template>

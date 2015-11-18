@@ -22,19 +22,27 @@ Package.onUse(function(api) {
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:growl',
-    'wisptools:tab-page',
+    'wisptools:accordion-page',
     'mdisc:jobs',
     'mdisc:accounts',
-    'mdisc:address-ui'
+    'mdisc:address-ui',
+    'mdisc:dates'
   ]);
 
   api.addFiles([
+    'client/css/style.css',
     'client/templates/admin-view.html',
     'client/templates/admin-view.js',
-    'client/templates/place-order.html',
-    'client/templates/place-order.js',
-    'client/templates/this-order.html',
-    'client/templates/this-order.js',
+    'client/templates/check-out/name.html',
+    'client/templates/check-out/name.js',
+    'client/templates/check-out/payment.html',
+    'client/templates/check-out/payment.js',
+    'client/templates/check-out/plan.html',
+    'client/templates/check-out/plan.js',
+    'client/templates/check-out/review.html',
+    'client/templates/check-out/review.js',
+    'client/templates/check-out/shipping.html',
+    'client/templates/check-out/shipping.js',
     'client/menu.js'
     ], ['client']);
 
