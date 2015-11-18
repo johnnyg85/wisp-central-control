@@ -61,6 +61,7 @@ mdisc:address-ui@0.0.1
 mdisc:aes@0.0.1
 mdisc:archive@0.0.1
 mdisc:busy@0.0.1
+mdisc:chargebee@0.0.1
 mdisc:cloud-service-dropbox@0.0.1
 mdisc:cloud-service-google-photo@0.0.1
 mdisc:cloud-services@0.0.1

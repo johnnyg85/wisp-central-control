@@ -17,7 +17,8 @@ Package.onUse(function (api) {
     'wisptools:collection',
     'wisptools:growl',
     'mdisc:address-ui',
-    'mdisc:dates'
+    'mdisc:dates',
+    'mdisc:aes'
   ]);
   
   api.export('ChargeBeeMeteor');

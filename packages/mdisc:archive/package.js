@@ -26,7 +26,8 @@ Package.onUse(function(api) {
     'mdisc:jobs',
     'mdisc:accounts',
     'mdisc:address-ui',
-    'mdisc:dates'
+    'mdisc:dates',
+    'mdisc:chargebee'
   ]);
 
   api.addFiles([

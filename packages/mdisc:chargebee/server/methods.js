@@ -2,11 +2,11 @@ Meteor.methods({
   //Creates a new ChargeBee customer if current user does not have a customer entry.
   //Updates the customer entry if the current user already has a ChargeBee customer entry.
   //Returns customer object.
-  cbCreateCustomer: function (firstName, lastName, email, billingAddress) {
+  cbCreateCustomer: function (firstName, lastName, billingAddress) {
     var cbCustomer = MdChargeBeeMeteor.customers.findOne({owner: this.userId});
     if (cbCustomer) {
       var myFuture = new Future();
-      ChargeBeeMeteor.updateCustomer(cbCustomer.customerId, firstName, lastName, email, Meteor.bindEnvironment(function (err, result) {
+      ChargeBeeMeteor.updateCustomer(cbCustomer.customerId, firstName, lastName, Meteor.bindEnvironment(function (err, result) {
         if (err) {
           myFuture.return({status: "error", msg: err.message});
         } else {
@@ -39,7 +39,7 @@ Meteor.methods({
       return cbCustomer;
     } else {
       var myFuture = new Future();
-      ChargeBeeMeteor.createCustomer(firstName, lastName, email, billingAddress, Meteor.bindEnvironment(function (err, result) {
+      ChargeBeeMeteor.createCustomer(firstName, lastName, billingAddress, Meteor.bindEnvironment(function (err, result) {
         if (err) {
           myFuture.return({status: "error", msg: err.message});
         } else {
@@ -63,6 +63,13 @@ Meteor.methods({
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
     }
+    if (!cardDetails || (cardDetails && (!cardDetails.number || !cardDetails.expMonth || !cardDetails.expYear || !cardDetails.cvv))) {
+      throw new Meteor.Error("chargebee-error", 'ChargeBee update card info - Invalid parameters.');
+    }
+    cardDetails.number = MdAES.decrypt(cardDetails.number);
+    cardDetails.expMonth = MdAES.decrypt(cardDetails.expMonth);
+    cardDetails.expYear = MdAES.decrypt(cardDetails.expYear);
+    cardDetails.cvv = MdAES.decrypt(cardDetails.cvv);
     var myFuture = new Future();
     ChargeBeeMeteor.updateCardForCustomer(customerId, cardDetails, Meteor.bindEnvironment(function (err, result) {
       if (err) {

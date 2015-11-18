@@ -8,14 +8,16 @@ ChargeBeeAPI.configure({
   api_key: Meteor.settings.chargebee.apiKey
 });
 
-ChargeBeeMeteor.createCustomer = function (firstName, lastName, email, billingAddress, callback) {
-  if (!firstName || !lastName || !email || !billingAddress) {
+ChargeBeeMeteor.createCustomer = function (firstName, lastName, billingAddress, callback) {
+  if (!firstName || !lastName || !billingAddress) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee create customer - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
   ChargeBeeAPI.customer.create({
     first_name: firstName,
     last_name: lastName,
-    email: email,
     billing_address: {
       first_name: billingAddress.firstName,
       last_name: billingAddress.lastName,
@@ -29,20 +31,25 @@ ChargeBeeMeteor.createCustomer = function (firstName, lastName, email, billingAd
   }).request(callback);
 };
 
-ChargeBeeMeteor.updateCustomer = function (customerId, firstName, lastName, email, callback) {
-  if (!customerId || !firstName || !lastName || !email) {
+ChargeBeeMeteor.updateCustomer = function (customerId, firstName, lastName, callback) {
+  if (!customerId || !firstName || !lastName) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee update customer - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
   ChargeBeeAPI.customer.update(customerId, {
     first_name: firstName,
-    last_name: lastName,
-    email: email
+    last_name: lastName
   }).request(callback);
 };
 
 ChargeBeeMeteor.updateBillingInfoForCustomer = function (customerId, billingAddress, callback) {
   if (!customerId || !billingAddress) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee update billing info - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
   ChargeBeeAPI.customer.update_billing_info(customerId, {
     billing_address: {
@@ -65,6 +72,9 @@ ChargeBeeMeteor.updateCardForCustomer = function (customerId, cardDetails, callb
   if (cardDetails && (!cardDetails.number || !cardDetails.expMonth || !cardDetails.expYear || !cardDetails.cvv)) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee update card info - Invalid parameters.');
   }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
+  }
   ChargeBeeAPI.card.update_card_for_customer(customerId, {
     gateway: "chargebee",
     number: cardDetails.number,
@@ -78,6 +88,9 @@ ChargeBeeMeteor.createSubscriptionForCustomer = function (customerId, planId, ca
   if (!customerId || !planId) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee create subscription - Invalid parameters.');
   }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
+  }
   ChargeBeeAPI.subscription.create_for_customer(customerId, {
     plan_id: planId
   }).request(callback);
@@ -89,6 +102,9 @@ ChargeBeeMeteor.listSubscriptionsForCustomer = function (customerId, limit, call
   }
   if (limit && (limit<1 || limit>100)) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee create subscription - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
   ChargeBeeAPI.subscription.subscriptions_for_customer(customerId, {
     limit: limit
