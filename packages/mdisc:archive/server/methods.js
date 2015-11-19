@@ -79,5 +79,41 @@ Meteor.methods({
         throw new Meteor.Error("easypost-error", "Failed to create shipping label.");
       }
     }
+  },
+  createInitialCloudArchive: function (service, forUserId) {
+    // Check if calling user is admin
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      throw new Meteor.Error("create-archive", "Not authorized");
+    }
+    var subscription = MdArchive.subscription.findOne({owner: forUserId});
+    var id = MdArchive.collection.insert({
+      type: 'Auto Cloud Archive',
+      version: '0.0.2',
+      service: service,
+      status: 'Ordered',
+      size: 'Unknown',
+      diskType: 'Unknown',
+      disks: 'Unknown',
+      archiveName: subscription.archiveName,
+      archiveType: 'Initial Archive (' + service + ')'
+    });
+    // update the ownerId
+    MdArchive.collection.update({_id: id}, {$set:{owner: forUserId}});
+
+    // Get a unique order number and update the archive
+    Meteor.call('mdCreateOrderNumber', function(err, res) {
+        var orderNumber;
+        if (err) {
+            orderNumber = 'DEFAULT';
+        } else {
+            orderNumber = res;
+        }
+        MdArchive.collection.update({_id: id}, {$set: {orderNumber: orderNumber}});
+    });
+
+    // start the download
+    Meteor.call('downloadArchive', id);
+    
   }
+
 });

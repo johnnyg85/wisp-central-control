@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'mdisc:jobs',
+  name: 'mdisc:jobs-subscriptions',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -11,9 +11,10 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.1');
 
   api.use([
+    'ecmascript',
     'templating',
     'iron:router@1.0.7',
     'wisptools:menu',
@@ -23,28 +24,20 @@ Package.onUse(function(api) {
   ]);    
 
   api.addFiles([
-    'client/templates/admin-view.html',
-    'client/templates/admin-view.js',
-    'client/menu.js',
-    ], ['client']);
-
-  api.addFiles([
-    'lib/jobs.js',
-    'lib/router.js'
+    'lib/jobs-subscriptions.js'
     ], ['server','client']);
 
   api.addFiles([
     'server/methods.js'
     ], ['server']);
-  
-  api.export('Jobs');
-  api.export('JobCollection');
-  api.export('MdJobs');
+
+  api.export('MdJobsSubscriptions');
 
 });
 
 Package.onTest(function(api) {
+  api.use('ecmascript');
   api.use('tinytest');
-  api.use('mdisc:jobs');
-  api.addFiles('jobs-tests.js');
+  api.use('mdisc:jobs-subscriptions');
+  api.addFiles('jobs-subscriptions-tests.js');
 });
