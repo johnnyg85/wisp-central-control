@@ -111,14 +111,15 @@ Meteor.methods({
     return result.data;
   },
   
-  cbListSubscriptions: function (customerId) {
+  cbListSubscriptions: function () {
     var cbCustomer = MdChargeBeeMeteor.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
+      return;
     }
     var myFuture = new Future();
     //NOTE: Need to add code that hanldles more than 100 subscriptions.
-    ChargeBeeMeteor.listSubscriptionsForCustomer(customerId, 100, Meteor.bindEnvironment(function (err, result) {
+    ChargeBeeMeteor.listSubscriptionsForCustomer(cbCustomer.customerId, 100, Meteor.bindEnvironment(function (err, result) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {

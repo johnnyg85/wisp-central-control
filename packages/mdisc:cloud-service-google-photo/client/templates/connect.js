@@ -64,6 +64,17 @@ Template.mdCloudGoogleConnectAccountStart.events({
       $('#atFormModal').modal('show'); 
       return;     
     }
+    
+    /*Meteor.call('cbListSubscriptions', function (err, res) {
+      var hasActiveSubscription = false;
+      if (res && res.length>0) {
+        for (i in res) {
+          if (res[i].subscription.status == 'active') {
+            hasActiveSubscription = true;
+          }
+        }
+      }
+    });*/
 
     Router.go('mdCloudGoogleConnectAccount');
   }
