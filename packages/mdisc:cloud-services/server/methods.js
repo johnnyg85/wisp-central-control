@@ -138,6 +138,7 @@ Meteor.methods({
     throw new Meteor.Error('get-token', 'Not connected to "' + service + '" service.');
 
   },
+  // No longer used.  This functionality has been moved to the Download Server
   initAutoCloudArchive: function(service, archiveId) {
     // Get all the files to be used in the archive
     console.log(archiveId);

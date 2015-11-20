@@ -24,7 +24,8 @@ Package.onUse(function(api) {
     'mdisc:cloud-service-google-photo',
     'mdisc:cloud-services',
     'mdisc:easypost',
-    'wisptools:date-format'
+    'wisptools:date-format',
+    'mdisc:archive'
   ]);
   
   api.addFiles([

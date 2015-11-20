@@ -80,14 +80,28 @@ Meteor.methods({
       }
     }
   },
-  createInitialCloudArchive: function (service, forUserId) {
+  getArchiveLastShippedDate: function (service, userId) {
+    // Check if calling user is admin
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      throw new Meteor.Error("ship-date-archive", "Not authorized");
+    }
+    var archive = MdArchive.collection.findOne({$query: {service: service, owner: userId, status: 'Shipped'}, $orderby: {createdAt: -1}});
+    if (archive) {
+      var date = new Date(archive.createdAt);
+      return date.getTime(); // return epoch
+    } else {
+      return null;
+    }
+  },
+  // type = Full or Monthly
+  createCloudArchive: function (service, type, forUserId) {
     // Check if calling user is admin
     if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
       throw new Meteor.Error("create-archive", "Not authorized");
     }
     var subscription = MdArchive.subscription.findOne({owner: forUserId});
     var id = MdArchive.collection.insert({
-      type: 'Auto Cloud Archive',
+      type: type,
       version: '0.0.2',
       service: service,
       status: 'Ordered',
@@ -95,7 +109,7 @@ Meteor.methods({
       diskType: 'Unknown',
       disks: 'Unknown',
       archiveName: subscription.archiveName,
-      archiveType: 'Initial Archive (' + service + ')'
+      archiveType: type + ' Archive (' + service + ')'
     });
     // update the ownerId
     MdArchive.collection.update({_id: id}, {$set:{owner: forUserId}});

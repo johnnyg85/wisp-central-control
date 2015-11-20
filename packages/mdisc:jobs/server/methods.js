@@ -4,11 +4,9 @@ Meteor.methods({
     if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
       throw new Meteor.Error("download-archive", "Not authorized");
     }
-    var archive = MdArchive.collection.findOne({_id: archiveId});
     var job = new Job(MdJobs.jc, 'downloadArchive', 
       {
-        archiveId: archiveId,
-        userId: archive.owner
+        archiveId: archiveId
       }
     );
     job.priority('normal').retry({retries: 5, wait: 5*60*1000}).save();
