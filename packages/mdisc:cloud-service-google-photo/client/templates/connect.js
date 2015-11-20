@@ -65,18 +65,25 @@ Template.mdCloudGoogleConnectAccountStart.events({
       return;     
     }
     
-    /*Meteor.call('cbListSubscriptions', function (err, res) {
+    Meteor.call('cbListSubscriptions', function (err, res) {
+      if (err) {
+        WtGrowl.fail("An error has occurred. Please try again later.");
+        return;
+      }
       var hasActiveSubscription = false;
       if (res && res.length>0) {
-        for (i in res) {
-          if (res[i].subscription.status == 'active') {
+        for (var i=0; i<res.length; i++) {
+          if (res[i].subscription.status && res[i].subscription.status == 'active') {
             hasActiveSubscription = true;
           }
         }
       }
-    });*/
-
-    Router.go('mdCloudGoogleConnectAccount');
+      if (hasActiveSubscription) {
+        Router.go('mdChargeBeeCheckSubscription');
+      } else {
+        Router.go('mdCloudGoogleConnectAccount');
+      }
+    });
   }
 });
 

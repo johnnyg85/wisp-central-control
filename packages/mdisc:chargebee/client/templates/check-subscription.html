@@ -1,0 +1,25 @@
+<template name="mdChargeBeeCheckSubscription">
+  {{#if checking}}
+    {{> spinner}}
+  {{else}}
+    {{#if hasSubscription}}
+      <h4>You already have an active Subscription.</h4>
+      {{#each getSubscriptions}}
+      <div class="row">
+        <ul>
+          <li>Plan ID : {{subscription.plan_id}}</li>
+          <li>Status : {{subscription.status}}</li>
+          <li>Created At : {{formatDate subscription.created_at}}</li>
+        </ul>
+      </div>
+      {{/each}}
+      <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+          <button class="btn btn-filled btn-block accountBtn">Account</button>
+        </div>
+      </div>   
+    {{else}}
+      <h4>You don't have an active Subscription.</h4>
+    {{/if}}
+  {{/if}}
+</template>

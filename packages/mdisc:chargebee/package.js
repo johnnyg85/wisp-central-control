@@ -25,7 +25,9 @@ Package.onUse(function (api) {
   api.export('MdChargeBeeMeteor');
   
   api.addFiles([
-    'client/subscriptions.js'
+    'client/subscriptions.js',
+    'client/templates/check-subscription.html',
+    'client/templates/check-subscription.js'
   ], 'client');
 
   api.addFiles([
@@ -35,6 +37,7 @@ Package.onUse(function (api) {
   ], 'server');
 
   api.addFiles([
-    'lib/collections.js'
+    'lib/collections.js',
+    'lib/router.js'
   ], ['server', 'client']);
 });

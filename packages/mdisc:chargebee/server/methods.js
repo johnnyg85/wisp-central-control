@@ -114,8 +114,9 @@ Meteor.methods({
   cbListSubscriptions: function () {
     var cbCustomer = MdChargeBeeMeteor.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
-      throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
-      return;
+      //throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
+      //Returns false instead of throwing an error indicating that subscription does not exist.
+      return false;
     }
     var myFuture = new Future();
     //NOTE: Need to add code that hanldles more than 100 subscriptions.
