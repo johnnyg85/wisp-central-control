@@ -2,7 +2,7 @@ Meteor.methods({
   //Creates a new ChargeBee customer if current user does not have a customer entry.
   //Updates the customer entry if the current user already has a ChargeBee customer entry.
   //Returns customer object.
-  cbCreateCustomer: function (firstName, lastName, billingAddress) {
+  mdChargeBeeCreateCustomer: function (firstName, lastName, billingAddress) {
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (cbCustomer) {
       var myFuture = new Future();
@@ -58,7 +58,7 @@ Meteor.methods({
     }
   },
   
-  cbUpdateCardInfo: function (customerId, cardDetails) {
+  mdChargeBeeUpdateCardInfo: function (customerId, cardDetails) {
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
@@ -85,7 +85,7 @@ Meteor.methods({
     return result.data;
   },
   
-  cbCreateSubscription: function (customerId, planId) {
+  mdChargeBeeCreateSubscription: function (customerId, planId) {
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
@@ -108,7 +108,7 @@ Meteor.methods({
     return result.data;
   },
   
-  cbListSubscriptions: function () {
+  mdChargeBeeListSubscriptions: function () {
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       //throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');

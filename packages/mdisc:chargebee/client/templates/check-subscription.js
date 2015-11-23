@@ -29,7 +29,7 @@ Template.mdChargeBeeCheckSubscription.onRendered(function () {
 
 function get_subscriptions() {
   Session.set('cb_fetching_subscription', true);
-  Meteor.call('cbListSubscriptions', function (err, res) {
+  Meteor.call('mdChargeBeeListSubscriptions', function (err, res) {
     Session.set('cb_fetching_subscription', false);
     if (!err) {
       var hasActiveSubscription = false;

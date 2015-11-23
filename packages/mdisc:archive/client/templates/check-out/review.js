@@ -17,7 +17,7 @@ Template.mdArchiveReview.events({
       state: subscription.shipTo.state,
       zip: subscription.shipTo.zip
     };
-    Meteor.call('cbCreateCustomer', subscription.shipTo.name, ' ', billingAddress, function (err, res) {
+    Meteor.call('mdChargeBeeCreateCustomer', subscription.shipTo.name, ' ', billingAddress, function (err, res) {
       if (err) {
         WtGrowl.fail("Failed to create/update ChargeBee customer.");
         console.log(err.reason);
@@ -30,7 +30,7 @@ Template.mdArchiveReview.events({
           expYear: subscription.payment.expYear,
           cvv: subscription.payment.cvc
         };
-        Meteor.call('cbUpdateCardInfo', customerId, cardDetails, function (err, res) {
+        Meteor.call('mdChargeBeeUpdateCardInfo', customerId, cardDetails, function (err, res) {
           if (err) {
             WtGrowl.fail("Failed to update Card info for the customer.");
             console.log(err.reason);
@@ -43,7 +43,7 @@ Template.mdArchiveReview.events({
             if (subscription.subscriptionPlan == 'annual') {
               planId = 'archive-service-annual';
             }
-            Meteor.call('cbCreateSubscription', customerId, planId, function (err, res) {
+            Meteor.call('mdChargeBeeCreateSubscription', customerId, planId, function (err, res) {
               if (err) {
                 WtGrowl.fail("Failed to create subscription for the customer.");
                 console.log(err.reason);

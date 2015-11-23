@@ -65,7 +65,7 @@ Template.mdCloudGoogleConnectAccountStart.events({
       return;     
     }
     
-    Meteor.call('cbListSubscriptions', function (err, res) {
+    Meteor.call('mdChargeBeeListSubscriptions', function (err, res) {
       if (err) {
         WtGrowl.fail("An error has occurred. Please try again later.");
         return;
