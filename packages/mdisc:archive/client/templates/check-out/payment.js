@@ -17,6 +17,8 @@ Template.mdArchivePayment.events({
   'submit': function(e, t) {
     e.preventDefault();
     e.stopPropagation();
+    var subBtn = $(e.target).find('button');
+    subBtn.prop('disabled', true);
 
     var subscription = MdArchive.subscription.findOne({owner: Meteor.userId()});
     var formData = {};
@@ -62,8 +64,25 @@ Template.mdArchivePayment.events({
             }
             payment.expMonth = r;
             MdArchive.subscription.update({_id: subscription._id}, {$set: {payment: payment}});
-            WtAccordionPage.enable('arch_review');
-            WtAccordionPage.show('arch_review');
+            
+            var cbCustomer = MdChargeBee.customers.findOne({owner: Meteor.userId()});
+            var cardDetails = {
+              number: payment.card,
+              expMonth: payment.expMonth,
+              expYear: payment.expYear,
+              cvv: payment.cvc
+            };
+            Meteor.call('mdChargeBeeUpdateCardInfo', cbCustomer.customerId, cardDetails, function (err, res) {
+              subBtn.prop('disabled', false);
+              if (err) {
+                WtGrowl.fail("Failed to update Card info for the customer.");
+                console.log(err.reason);
+              } else {
+                WtAccordionPage.enable('arch_review');
+                WtAccordionPage.show('arch_review');
+              }
+            });
+            
           });
         });
       });

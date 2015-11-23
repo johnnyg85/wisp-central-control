@@ -9,53 +9,27 @@ Template.mdArchiveReview.events({
     e.preventDefault();
     $(e.target).prop('disabled', true);
     var subscription = MdArchive.subscription.findOne({owner: Meteor.userId()});
-    var billingAddress = {
-      first_name: subscription.shipTo.name,
-      line1: subscription.shipTo.address,
-      line2: subscription.shipTo.address2,
-      city: subscription.shipTo.city,
-      state: subscription.shipTo.state,
-      zip: subscription.shipTo.zip
-    };
-    Meteor.call('mdChargeBeeCreateCustomer', subscription.shipTo.name, ' ', billingAddress, function (err, res) {
+    var cbCustomer = MdChargeBee.customers.findOne({owner: Meteor.userId()});
+    var planId = '';
+    if (subscription.subscriptionPlan == 'monthly') {
+      planId = 'archive-service-monthly';
+    }
+    if (subscription.subscriptionPlan == 'annual') {
+      planId = 'archive-service-annual';
+    }
+    Meteor.call('mdChargeBeeCreateSubscription', cbCustomer.customerId, planId, function (err, res) {
       if (err) {
-        WtGrowl.fail("Failed to create/update ChargeBee customer.");
+        WtGrowl.fail("Failed to create subscription for the customer.");
         console.log(err.reason);
         $(e.target).prop('disabled', false);
       } else {
-        var customerId = res.customerId;
-        var cardDetails = {
-          number: subscription.payment.card,
-          expMonth: subscription.payment.expMonth,
-          expYear: subscription.payment.expYear,
-          cvv: subscription.payment.cvc
-        };
-        Meteor.call('mdChargeBeeUpdateCardInfo', customerId, cardDetails, function (err, res) {
-          if (err) {
-            WtGrowl.fail("Failed to update Card info for the customer.");
-            console.log(err.reason);
-            $(e.target).prop('disabled', false);
-          } else {
-            var planId = '';
-            if (subscription.subscriptionPlan == 'monthly') {
-              planId = 'archive-service-monthly';
-            }
-            if (subscription.subscriptionPlan == 'annual') {
-              planId = 'archive-service-annual';
-            }
-            Meteor.call('mdChargeBeeCreateSubscription', customerId, planId, function (err, res) {
-              if (err) {
-                WtGrowl.fail("Failed to create subscription for the customer.");
-                console.log(err.reason);
-                $(e.target).prop('disabled', false);
-              } else {
-                WtGrowl.success("Payment Complete - Thank You!");
-                Router.go('mdCloudGoogleOrderPlaced');
-              }
-            });
-          }
-        });
+        WtGrowl.success("Payment Complete - Thank You!");
+        Router.go('mdCloudGoogleOrderPlaced');
       }
     });
+          
+        
+      
+
   }
 });
