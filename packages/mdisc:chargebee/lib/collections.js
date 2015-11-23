@@ -1,3 +1,3 @@
-MdChargeBeeMeteor = {};
+MdChargeBee = {};
 
-MdChargeBeeMeteor.customers = WtCollection('md_chargebee_customers');
+MdChargeBee.customers = WtCollection('md_chargebee_customers');

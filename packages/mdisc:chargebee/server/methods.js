@@ -3,14 +3,14 @@ Meteor.methods({
   //Updates the customer entry if the current user already has a ChargeBee customer entry.
   //Returns customer object.
   cbCreateCustomer: function (firstName, lastName, billingAddress) {
-    var cbCustomer = MdChargeBeeMeteor.customers.findOne({owner: this.userId});
+    var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (cbCustomer) {
       var myFuture = new Future();
-      ChargeBeeMeteor.updateCustomer(cbCustomer.customerId, firstName, lastName, Meteor.bindEnvironment(function (err, result) {
+      ChargeBeeAPI.updateCustomer(cbCustomer.customerId, firstName, lastName, Meteor.bindEnvironment(function (err, result) {
         if (err) {
           myFuture.return({status: "error", msg: err.message});
         } else {
-          MdChargeBeeMeteor.customers.update({customerId: result.customer.id}, {$set: {
+          MdChargeBee.customers.update({customerId: result.customer.id}, {$set: {
             customer: result.customer
           }});
           myFuture.return({status: "success"});
@@ -22,11 +22,11 @@ Meteor.methods({
       }
       
       var myFuture = new Future();
-      ChargeBeeMeteor.updateBillingInfoForCustomer(cbCustomer.customerId, billingAddress, Meteor.bindEnvironment(function (err, result) {
+      ChargeBeeAPI.updateBillingInfoForCustomer(cbCustomer.customerId, billingAddress, Meteor.bindEnvironment(function (err, result) {
         if (err) {
           myFuture.return({status: "error", msg: err.message});
         } else {
-          MdChargeBeeMeteor.customers.update({customerId: result.customer.id}, {$set: {
+          MdChargeBee.customers.update({customerId: result.customer.id}, {$set: {
             customer: result.customer
           }});
           myFuture.return({status: "success"});
@@ -39,11 +39,11 @@ Meteor.methods({
       return cbCustomer;
     } else {
       var myFuture = new Future();
-      ChargeBeeMeteor.createCustomer(firstName, lastName, billingAddress, Meteor.bindEnvironment(function (err, result) {
+      ChargeBeeAPI.createCustomer(firstName, lastName, billingAddress, Meteor.bindEnvironment(function (err, result) {
         if (err) {
           myFuture.return({status: "error", msg: err.message});
         } else {
-          MdChargeBeeMeteor.customers.insert({
+          MdChargeBee.customers.insert({
             customerId: result.customer.id,
             customer: result.customer
           });
@@ -59,7 +59,7 @@ Meteor.methods({
   },
   
   cbUpdateCardInfo: function (customerId, cardDetails) {
-    var cbCustomer = MdChargeBeeMeteor.customers.findOne({owner: this.userId});
+    var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
     }
@@ -71,13 +71,10 @@ Meteor.methods({
     cardDetails.expYear = MdAES.decrypt(cardDetails.expYear);
     cardDetails.cvv = MdAES.decrypt(cardDetails.cvv);
     var myFuture = new Future();
-    ChargeBeeMeteor.updateCardForCustomer(customerId, cardDetails, Meteor.bindEnvironment(function (err, result) {
+    ChargeBeeAPI.updateCardForCustomer(customerId, cardDetails, Meteor.bindEnvironment(function (err, result) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {
-        MdChargeBeeMeteor.customers.update({customerId: result.customer.id}, {$set: {
-          card: result.card
-        }});
         myFuture.return({status: "success", data: result.card});
       }
     }));
@@ -89,16 +86,16 @@ Meteor.methods({
   },
   
   cbCreateSubscription: function (customerId, planId) {
-    var cbCustomer = MdChargeBeeMeteor.customers.findOne({owner: this.userId});
+    var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
     }
     var myFuture = new Future();
-    ChargeBeeMeteor.createSubscriptionForCustomer(customerId, planId, Meteor.bindEnvironment(function (err, result) {
+    ChargeBeeAPI.createSubscriptionForCustomer(customerId, planId, Meteor.bindEnvironment(function (err, result) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {
-        MdChargeBeeMeteor.customers.update({customerId: result.customer.id}, {$set: {
+        MdChargeBee.customers.update({customerId: result.customer.id}, {$set: {
           subscription: result.subscription
         }});
         myFuture.return({status: "success", data: result.subscription});
@@ -112,7 +109,7 @@ Meteor.methods({
   },
   
   cbListSubscriptions: function () {
-    var cbCustomer = MdChargeBeeMeteor.customers.findOne({owner: this.userId});
+    var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       //throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
       //Returns false instead of throwing an error indicating that subscription does not exist.
@@ -120,7 +117,7 @@ Meteor.methods({
     }
     var myFuture = new Future();
     //NOTE: Need to add code that hanldles more than 100 subscriptions.
-    ChargeBeeMeteor.listSubscriptionsForCustomer(cbCustomer.customerId, 100, Meteor.bindEnvironment(function (err, result) {
+    ChargeBeeAPI.listSubscriptionsForCustomer(cbCustomer.customerId, 100, Meteor.bindEnvironment(function (err, result) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {

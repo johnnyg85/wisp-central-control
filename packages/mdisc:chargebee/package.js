@@ -21,8 +21,8 @@ Package.onUse(function (api) {
     'mdisc:aes'
   ]);
   
-  api.export('ChargeBeeMeteor');
-  api.export('MdChargeBeeMeteor');
+  api.export('ChargeBeeAPI');
+  api.export('MdChargeBee');
   
   api.addFiles([
     'client/subscriptions.js',

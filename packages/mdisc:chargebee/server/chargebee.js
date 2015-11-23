@@ -1,21 +1,21 @@
-ChargeBeeMeteor = {};
+ChargeBeeAPI = {};
 
-ChargeBeeAPI = Npm.require('chargebee');
+ChargeBee = Npm.require('chargebee');
 Future = Npm.require('fibers/future');
 
-ChargeBeeAPI.configure({
+ChargeBee.configure({
   site: Meteor.settings.chargebee.site,
   api_key: Meteor.settings.chargebee.apiKey
 });
 
-ChargeBeeMeteor.createCustomer = function (firstName, lastName, billingAddress, callback) {
+ChargeBeeAPI.createCustomer = function (firstName, lastName, billingAddress, callback) {
   if (!firstName || !lastName || !billingAddress) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee create customer - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
-  ChargeBeeAPI.customer.create({
+  ChargeBee.customer.create({
     first_name: firstName,
     last_name: lastName,
     billing_address: {
@@ -31,27 +31,27 @@ ChargeBeeMeteor.createCustomer = function (firstName, lastName, billingAddress, 
   }).request(callback);
 };
 
-ChargeBeeMeteor.updateCustomer = function (customerId, firstName, lastName, callback) {
+ChargeBeeAPI.updateCustomer = function (customerId, firstName, lastName, callback) {
   if (!customerId || !firstName || !lastName) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee update customer - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
-  ChargeBeeAPI.customer.update(customerId, {
+  ChargeBee.customer.update(customerId, {
     first_name: firstName,
     last_name: lastName
   }).request(callback);
 };
 
-ChargeBeeMeteor.updateBillingInfoForCustomer = function (customerId, billingAddress, callback) {
+ChargeBeeAPI.updateBillingInfoForCustomer = function (customerId, billingAddress, callback) {
   if (!customerId || !billingAddress) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee update billing info - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
-  ChargeBeeAPI.customer.update_billing_info(customerId, {
+  ChargeBee.customer.update_billing_info(customerId, {
     billing_address: {
       first_name: billingAddress.firstName,
       last_name: billingAddress.lastName,
@@ -65,7 +65,7 @@ ChargeBeeMeteor.updateBillingInfoForCustomer = function (customerId, billingAddr
   }).request(callback);
 };
 
-ChargeBeeMeteor.updateCardForCustomer = function (customerId, cardDetails, callback) {
+ChargeBeeAPI.updateCardForCustomer = function (customerId, cardDetails, callback) {
   if (!customerId || !cardDetails) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee update card info - Invalid parameters.');
   }
@@ -75,7 +75,7 @@ ChargeBeeMeteor.updateCardForCustomer = function (customerId, cardDetails, callb
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
-  ChargeBeeAPI.card.update_card_for_customer(customerId, {
+  ChargeBee.card.update_card_for_customer(customerId, {
     gateway: "chargebee",
     number: cardDetails.number,
     expiry_month: cardDetails.expMonth,
@@ -84,19 +84,19 @@ ChargeBeeMeteor.updateCardForCustomer = function (customerId, cardDetails, callb
   }).request(callback);
 };
 
-ChargeBeeMeteor.createSubscriptionForCustomer = function (customerId, planId, callback) {
+ChargeBeeAPI.createSubscriptionForCustomer = function (customerId, planId, callback) {
   if (!customerId || !planId) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee create subscription - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
-  ChargeBeeAPI.subscription.create_for_customer(customerId, {
+  ChargeBee.subscription.create_for_customer(customerId, {
     plan_id: planId
   }).request(callback);
 };
 
-ChargeBeeMeteor.listSubscriptionsForCustomer = function (customerId, limit, callback) {
+ChargeBeeAPI.listSubscriptionsForCustomer = function (customerId, limit, callback) {
   if (!customerId || !limit) {
     throw new Meteor.Error("chargebee-error", 'ChargeBee create subscription - Invalid parameters.');
   }
@@ -106,7 +106,7 @@ ChargeBeeMeteor.listSubscriptionsForCustomer = function (customerId, limit, call
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
-  ChargeBeeAPI.subscription.subscriptions_for_customer(customerId, {
+  ChargeBee.subscription.subscriptions_for_customer(customerId, {
     limit: limit
   }).request(callback);
 };
