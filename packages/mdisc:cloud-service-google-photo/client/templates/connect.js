@@ -19,11 +19,13 @@ Template.mdCloudGoogleConnectAccount.events({
 
     MdCloudServices.getCredential('Google Photos', false, function (err, res) {
       if (err) {
-        WtGrowl.fail("There is a problem connecting to Google Photos");
+        console.log(err);
+        WtGrowl.fail("There is a problem authenticating with Google Photos");
         return;
       }
       Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
         if (err) {
+          console.log(err);
           WtGrowl.fail("There is a problem accessing Google Photos");
           return;
         }
@@ -31,8 +33,9 @@ Template.mdCloudGoogleConnectAccount.events({
         // Pull recent photos
         Meteor.call('getRecentPhotos', 'Google Photos', function (err, res) {
           Session.set('recentUrls', res);
-        });    
-
+        });
+        
+        /*
         // Open and init the Auto Archive
         Meteor.call('openAutoCloudArchive', 'Google Photos', function (err, archiveId) {
           //console.log(archiveId);
@@ -40,6 +43,7 @@ Template.mdCloudGoogleConnectAccount.events({
           Meteor.call('initAutoCloudArchive', 'Google Photos', archiveId, function (err, res) {
           });
         });
+        */
 
         // Simulate some connecting time
         Session.set('mdCloudAuhenticating', true);

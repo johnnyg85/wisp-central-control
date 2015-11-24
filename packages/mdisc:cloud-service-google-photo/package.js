@@ -19,7 +19,7 @@ Package.onUse(function(api) {
     'templating',
     'iron:router',
     'google',
-    'meteorhacks:async',
+    'meteorhacks:async@1.0.0',
     'wisptools:accordion-page',
     'wisptools:menu',
     'mdisc:busy',

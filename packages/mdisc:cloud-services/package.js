@@ -21,6 +21,7 @@ Package.onUse(function(api) {
     'mdisc:cloud-service-google-photo',
     'mdisc:cloud-service-dropbox',
     'wisptools:collection',
+    'wisptools:roles',
     'mdisc:archive',
     'mdisc:aes'
   ]);  

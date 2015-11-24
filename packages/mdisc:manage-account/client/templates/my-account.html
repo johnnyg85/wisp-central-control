@@ -6,7 +6,7 @@
         <div class="col-md-2"><button id="btSignOut" class="btn btn-default">Sign out</button></div>
       </div>
       <div class="row">
-        <div class="col-xs-12"><h5>Your Orders</h5><hr /></div>
+        <div class="col-xs-12"><h5>Your Archives</h5><hr /></div>
       </div>
       <div class="row">
         <div class="col-xs-12">
@@ -47,14 +47,13 @@
   {{#if show status}}
     <tr>
       <td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
-      <td>Order {{orderNumber}}</td>
+      <td>Archive: {{orderNumber}}</td>
       <td>{{archiveType}}</td>
-      <td>${{price}}</td> 
-        {{#if isEqual status "Shipped"}}
-          <td><a href="#" value="{{trackingId}}" >{{filter status}}</a></td>
-        {{else}}
-          <td>{{filter status}}</td>
-        {{/if}}
+      {{#if isEqual status "Shipped"}}
+        <td><a href="#" value="{{trackingId}}" >{{filter status}}</a></td>
+      {{else}}
+        <td>{{filter status}}</td>
+      {{/if}}
     </tr>
   {{/if}}
 </template>

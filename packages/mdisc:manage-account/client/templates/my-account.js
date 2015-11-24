@@ -120,7 +120,14 @@ Template.mdMyAccountShippingForm.events({
       else
         WtGrowl.success("Shipping Information updated");
     });
-
+    // Update subscription shipping address
+    var subscription = MdArchive.subscription.findOne({});
+    if (subscription) {
+      MdArchive.subscription.update({_id: subscription._id}, {$set:{shipTo: shipTo}}, function (err, res) {
+        if (err)
+          WtGrowl.fail("Could not update Shipping Information on Subscription");
+      });
+    }
     // Update the first name
     var name = shipTo.name.trim();
     if (name.indexOf(' ') > 0)

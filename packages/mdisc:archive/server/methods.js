@@ -79,5 +79,55 @@ Meteor.methods({
         throw new Meteor.Error("easypost-error", "Failed to create shipping label.");
       }
     }
+  },
+  getArchiveLastShippedDate: function (service, userId) {
+    // Check if calling user is admin
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      throw new Meteor.Error("ship-date-archive", "Not authorized");
+    }
+    var archive = MdArchive.collection.findOne({$query: {service: service, owner: userId, status: 'Shipped'}, $orderby: {createdAt: -1}});
+    if (archive) {
+      var date = new Date(archive.createdAt);
+      return date.getTime(); // return epoch
+    } else {
+      return null;
+    }
+  },
+  // type = Full or Monthly
+  createCloudArchive: function (service, type, forUserId) {
+    // Check if calling user is admin
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      throw new Meteor.Error("create-archive", "Not authorized");
+    }
+    var subscription = MdArchive.subscription.findOne({owner: forUserId});
+    var id = MdArchive.collection.insert({
+      type: type,
+      version: '0.0.2',
+      service: service,
+      status: 'Ordered',
+      size: 'Unknown',
+      diskType: 'Unknown',
+      disks: 'Unknown',
+      archiveName: subscription.archiveName,
+      archiveType: type + ' Archive (' + service + ')'
+    });
+    // update the ownerId
+    MdArchive.collection.update({_id: id}, {$set:{owner: forUserId}});
+
+    // Get a unique order number and update the archive
+    Meteor.call('mdCreateOrderNumber', function(err, res) {
+        var orderNumber;
+        if (err) {
+            orderNumber = 'DEFAULT';
+        } else {
+            orderNumber = res;
+        }
+        MdArchive.collection.update({_id: id}, {$set: {orderNumber: orderNumber}});
+    });
+
+    // start the download
+    Meteor.call('downloadArchive', id);
+    
   }
+
 });

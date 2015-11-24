@@ -69,6 +69,7 @@ mdisc:dates@0.0.1
 mdisc:easypost@0.0.1
 mdisc:img-to-pdf@0.0.1
 mdisc:jobs@0.0.1
+mdisc:jobs-subscriptions@0.0.1
 mdisc:manage-account@0.0.1
 mdisc:mandrill@0.0.1
 mdisc:order-number@0.0.1

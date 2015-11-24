@@ -97,6 +97,48 @@ Meteor.methods({
     }
     return [];
   },
+  getAccessToken: function(service, userId) {
+    // Check user access level
+    if (!Roles.userIsInRole(this.userId, ['admin'])) {
+      throw new Meteor.Error('get-token', 'Access denied.');
+    }
+
+    // Get the credentials 
+    var credential = MdCloudServices.credentials.findOne({owner: userId, service: service});
+    if (!credential) {
+      throw new Meteor.Error('get-token', 'No credentials found.');
+    }
+
+    // Check the credentials
+    switch (service) {
+      case 'Google Photos':
+        var client = new gPhotos(credential);
+        var myFuture = new Future();
+        client.testAccess(Meteor.bindEnvironment(function(err, res) {
+          if (err) {
+            myFuture.return("false");
+          } else {
+            myFuture.return("true");
+          }
+        }));
+        var result = myFuture.wait();
+        if (result === "true") {
+          // pull credential again, incase it was renewed.
+          credential = MdCloudServices.credentials.findOne({owner: userId, service: service});
+          token = {
+            accessToken: credential.accessToken && (MdAES.decrypt(credential.accessToken)),
+            expiresAt: credential.expiresAt
+          }
+          return token;
+        }
+        break;
+    }
+
+    // catch all
+    throw new Meteor.Error('get-token', 'Not connected to "' + service + '" service.');
+
+  },
+  // No longer used.  This functionality has been moved to the Download Server
   initAutoCloudArchive: function(service, archiveId) {
     // Get all the files to be used in the archive
     console.log(archiveId);

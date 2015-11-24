@@ -23,6 +23,7 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'wisptools:growl',
     'wisptools:accordion-page',
+    'wisptools:roles',
     'mdisc:jobs',
     'mdisc:accounts',
     'mdisc:address-ui',
@@ -49,7 +50,6 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'lib/collection.js',
-    'lib/methods.js',
     'lib/router.js',
     'lib/functions.js'
     ], ['server','client']);

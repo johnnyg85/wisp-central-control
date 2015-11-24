@@ -27,48 +27,6 @@ if (Meteor.isServer) {
     return MdJobs.jc.startJobServer();
   });
 
-  Meteor.methods({
-    downloadArchive: function (archiveId) {
-      var job = new Job(MdJobs.jc, 'downloadArchive', 
-        {
-          archiveId: archiveId
-        }
-      );
-      job.priority('normal').retry({retries: 5, wait: 5*60*1000}).save();
-    },
-    moveArchiveToNAS: function (server, data) {
-      var job = new Job(MdJobs.jc, 'moveArchiveToNAS-' + server, data);
-      job.priority('normal').retry({retries: 5, wait: 5*60*1000}).save();
-      //TODO: check if moveArchiveToNAS is paused
-    },
-    recordArchiveOnARU: function (aru, archiveId) {
-      var job = new Job(MdJobs.jc, 'recordArchiveOnARU-' + aru, 
-        {
-          archiveId: archiveId
-        }
-      );
-      job.priority('normal').retry({retries: 5, wait: 5*60*1000}).save();
-      Meteor.call('setArchiveStatus', 'Queued', archiveId);
-    },
-    pauseArchiveToNAS: function () {
-      MdJobs.paused.update({jobType: 'moveArchiveToNAS'}, {$set: {paused: true}}, {upsert: true});
-      //TODO: find all type moveArchiveToNAS jobs that are waiting or ready then call MdJobs.jc.pauseJobs()
-    },
-    resumeArchiveToNAS: function () {
-      MdJobs.paused.update({jobType: 'moveArchiveToNAS'}, {$set: {paused: true}}, {upsert: false});
-      //TODO: find all type moveArchiveToNAS jobs that are waiting or ready then call MdJobs.jc.resumeJobs()
-    }
-  });
-
-  // Not implemented at this time...
-  MdJobs.initAutoCloudArchive = function (archiveId) {
-      var job = new Job(MdJobs.jc, 'initAutoCloudArchive', 
-        {
-          archiveId: archiveId
-        }
-      );
-      job.priority('normal').save();    
-  }
 }
 
 if (Meteor.isClient) {

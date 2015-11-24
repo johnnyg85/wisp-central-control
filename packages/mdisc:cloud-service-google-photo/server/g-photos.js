@@ -8,6 +8,7 @@ gPhotos = (function () {
     this.refreshToken = credential.refreshToken && (MdAES.decrypt(credential.refreshToken));
     this.expiresAt = credential.expiresAt;
     this.idToken = credential.idToken;
+    this.isTesting = false;
   };
 
   gPhotos.prototype.refreshAccessToken = function () {
@@ -66,8 +67,14 @@ gPhotos = (function () {
 
   gPhotos.prototype.getFeed = function (url, callback) {
     /* Check and refresh token if required */
-    var require_refresh = true;
-    if (this.expiresAt > Date.now()) {
+    var require_refresh = false;
+    if (this.expiresAt < Date.now()) {
+      // expired, needs refresh
+      require_refresh = true;
+    }
+
+    if (this.expiresAt > Date.now() && this.isTesting) {
+      // We are testing the connection, so do extended texting before running real result.
       var myFuture = new Future();
       this.__getAlbums(Meteor.bindEnvironment(function (err, res) {
         if (err) {
@@ -207,7 +214,9 @@ gPhotos = (function () {
   };
   
   gPhotos.prototype.testAccess = function (callback) {
+    this.isTesting = true;
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&max-results=1&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)', callback);
+    this.isTesting = false;
   };
 
   /* This functions works without refreshing the token to ensure the access token is still valid */
