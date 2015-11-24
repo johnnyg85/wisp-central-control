@@ -38,6 +38,8 @@ Package.onUse(function(api) {
     'client/templates/connect.css',
     'client/templates/connect.html',
     'client/templates/connect.js',
+    'client/templates/no-photos.css',
+    'client/templates/no-photos.html',
     'client/templates/show-photos.css',
     'client/templates/show-photos.html',
     'client/templates/show-photos.js',

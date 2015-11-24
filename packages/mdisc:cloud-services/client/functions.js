@@ -33,16 +33,24 @@ MdCloudServices.getCredential = function (service, skipAsk, callback) {
 
 // Bring up browser prompt for the credential
 MdCloudServices.askCredential = function (service, callback) {
+  var cb = callback;
   switch (service) {
     case 'Google Photos':
       googlePhotos.requestCredential(function (credentialToken) {
         if (credentialToken) {
           var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
           if (credentialSecret) {
-            Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
+            Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret, function (err, res) {
+              if (err) {
+                cb(err, res);
+              } else {
+                MdCloudServices.getCredential(service, true, cb);
+              }
+            });
+          } else {
+            callback('Credentials Failed', null);
           }
         }
-        MdCloudServices.getCredential(service, true, callback);
       });
       break;
     default:

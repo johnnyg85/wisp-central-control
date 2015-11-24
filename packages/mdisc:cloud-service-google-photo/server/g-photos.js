@@ -68,17 +68,25 @@ gPhotos = (function () {
   gPhotos.prototype.getFeed = function (url, callback) {
     /* Check and refresh token if required */
     var require_refresh = false;
+    var testing = false;
+    if (this.isTesting) testing = true; // save for end callback
+
     if (this.expiresAt < Date.now()) {
       // expired, needs refresh
       require_refresh = true;
     }
 
-    if (this.expiresAt > Date.now() && this.isTesting) {
+    if (this.expiresAt > Date.now() && testing) {
       // We are testing the connection, so do extended texting before running real result.
       var myFuture = new Future();
       this.__getAlbums(Meteor.bindEnvironment(function (err, res) {
         if (err) {
-          myFuture.return("false");
+          if (res.content == 'Unknown user.') {
+            // We are connected, but the user doesn't have any albumns
+            myFuture.return("true");
+          } else {
+            myFuture.return("false");
+          }
         } else {
           myFuture.return("true");
         }
@@ -112,7 +120,12 @@ gPhotos = (function () {
     HTTP.get(url, options, function (err, res) {
       //console.log(err);
       if (err) {
-        callback(err, res);
+        if (res.content == 'Unknown user.' && testing) {
+          // We are connected, but the user doesn't have any albumns
+          callback(null, null);
+        } else {
+          callback(err, res);
+        }
         return;
       }
       callback(err, res.data);

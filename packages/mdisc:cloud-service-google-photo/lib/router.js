@@ -14,6 +14,11 @@ Router.route('/google-show/', {
   template: 'mdCloudGoogleShowPhotos'
 });
 
+Router.route('/google-no-photos/', {
+  name: 'mdCloudGoogleNoPhotos', 
+  template: 'mdCloudGoogleNoPhotos'
+});
+
 Router.route('/google-finalize/', {
   name: 'mdCloudGoogleFinalizeOrder', 
   template: 'mdCloudGoogleFinalizeOrder'
