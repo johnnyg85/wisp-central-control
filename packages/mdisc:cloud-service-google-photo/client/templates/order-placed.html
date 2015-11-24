@@ -1,6 +1,31 @@
 <template name="mdCloudGoogleOrderPlaced">
-  <center>
-    <h3>Thank You!</h3>
-    <p>Your order has been placed.</p>
-  </center>
+  <div class="bg-secondary app-page">
+    <div class="container">
+      <center>
+        <h3>Thank you for your order.</h3>
+        <br />
+      </center>
+      <div class="row">
+        <div class='col-sm-offset-2 col-sm-8'>
+          <p>
+            Congratulations on taking your first step toward preserving your digital memories!
+          </p>
+          <p>
+            Your subscription number is SUBSCRIPTION-NUMBER. We’ll be sending you an email shortly with more
+            information about your archive order and shipment details. You can also review and makes
+            changes to your account <a href="{{pathFor 'mdMyAccount'}}">here</a>.
+          </p>
+          <p>
+            Check out our blog for great resources on photography and data storage.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+          <br />
+          <a href="http://www.mdisc.com/category/blog/" class="btn btn-filled btn-block submit-order-btn">Go to MDISC Blog <i class="fa fa-angle-double-right"></i></a>
+        </div>
+      </div>   
+    </div>
+  </div>
 </template>

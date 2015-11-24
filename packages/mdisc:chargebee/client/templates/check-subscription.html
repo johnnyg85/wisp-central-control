@@ -1,25 +1,32 @@
 <template name="mdChargeBeeCheckSubscription">
-  {{#if checking}}
-    {{> spinner}}
-  {{else}}
-    {{#if hasSubscription}}
-      <h4>You already have an active Subscription.</h4>
-      {{#each getSubscriptions}}
-      <div class="row">
-        <ul>
-          <li>Plan ID : {{subscription.plan_id}}</li>
-          <li>Status : {{subscription.status}}</li>
-          <li>Created At : {{formatDate subscription.created_at}}</li>
-        </ul>
-      </div>
-      {{/each}}
-      <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-          <button class="btn btn-filled btn-block accountBtn">Account</button>
-        </div>
-      </div>   
-    {{else}}
-      <h4>You don't have an active Subscription.</h4>
-    {{/if}}
-  {{/if}}
+  <div class="bg-secondary app-page">
+    <div class="container">
+      {{#if checking}}
+        {{> spinner}}
+        <br /><br /><br /><br />
+      {{else}}
+        {{#if hasSubscription}}
+          <center><h4>You already have an active Subscription.</h4></center>
+          {{#each getSubscriptions}}
+          <div class="row">
+            <div class="col-md-offset-3 col-md-5">
+              <ul>
+                <li>Plan ID : {{subscription.plan_id}}</li>
+                <li>Status : {{subscription.status}}</li>
+                <li>Created At : {{formatDate subscription.created_at}}</li>
+              </ul>
+            </div>
+          </div>
+          {{/each}}
+          <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+              <button class="btn btn-filled btn-block accountBtn">Account</button>
+            </div>
+          </div>   
+        {{else}}
+          <center><h4>You don't have an active Subscription.</h4></center>
+        {{/if}}
+      {{/if}}
+    </div>
+    </div>
 </template>

@@ -1,6 +1,14 @@
 Template.mdArchiveReview.helpers({
   subscription: function () {
     return MdArchive.subscription.findOne({owner: Meteor.userId()});
+  },
+  isAnnual: function (plan) {
+    if (plan == 'annual') return true;
+    return false;
+  },
+  isMonthly: function (plan) {
+    if (plan == 'monthly') return true;
+    return false;
   }
 });
 
