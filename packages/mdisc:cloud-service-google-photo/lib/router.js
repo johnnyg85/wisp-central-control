@@ -19,3 +19,8 @@ Router.route('/google-finalize/', {
   template: 'mdCloudGoogleFinalizeOrder'
 });
 
+Router.route('/google-complete/', {
+  name: 'mdCloudGoogleOrderPlaced', 
+  template: 'mdCloudGoogleOrderPlaced'
+});
+

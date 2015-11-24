@@ -64,8 +64,26 @@ Template.mdCloudGoogleConnectAccountStart.events({
       $('#atFormModal').modal('show'); 
       return;     
     }
-
-    Router.go('mdCloudGoogleConnectAccount');
+    
+    Meteor.call('mdChargeBeeListSubscriptions', function (err, res) {
+      if (err) {
+        WtGrowl.fail("An error has occurred. Please try again later.");
+        return;
+      }
+      var hasActiveSubscription = false;
+      if (res && res.length>0) {
+        for (var i=0; i<res.length; i++) {
+          if (res[i].subscription.status && res[i].subscription.status == 'active') {
+            hasActiveSubscription = true;
+          }
+        }
+      }
+      if (hasActiveSubscription) {
+        Router.go('mdChargeBeeCheckSubscription');
+      } else {
+        Router.go('mdCloudGoogleConnectAccount');
+      }
+    });
   }
 });
 

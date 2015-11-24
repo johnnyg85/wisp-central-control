@@ -44,6 +44,8 @@ Package.onUse(function(api) {
     'client/templates/finalize-order.html',
     'client/templates/finalize-order.js',
     'client/templates/finalize-order.css',
+    'client/templates/order-placed.html',
+    'client/templates/order-placed.js',
     'client/google-photos.js',
     'client/menu.js'
     ], 'client');
