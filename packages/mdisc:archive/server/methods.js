@@ -128,6 +128,23 @@ Meteor.methods({
     // start the download
     Meteor.call('downloadArchive', id);
     
+  },
+  increaseAvailableArchives: function (userId, numArchives) {
+    // Check if calling user is admin
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      throw new Meteor.Error("ship-date-archive", "Not authorized");
+    }
+    MdArchive.subscription.update({owner: userId}, {
+      $inc: {availableArchives: numArchives},
+    });
+  },
+  decreaseAvailableArchives: function (userId, numArchives) {
+    // Check if calling user is admin
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      throw new Meteor.Error("ship-date-archive", "Not authorized");
+    }
+    MdArchive.subscription.update({owner: userId}, {
+      $inc: {availableArchives: -numArchives},
+    });
   }
-
 });
