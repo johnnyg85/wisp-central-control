@@ -83,11 +83,15 @@ Meteor.methods({
             myFuture.return([]);
             return;
           }
-          var len = res.feed.entry.length;
+
           var urls = [];
-          for (var x = 0; x < len; x++) {
-            //console.log(res.feed.entry[x].content.src);
-            urls.push(res.feed.entry[x].content.src);
+          // check that we have some photos
+          if (res.feed.openSearch$totalResults.$t != 0) {
+            var len = res.feed.entry.length;
+            for (var x = 0; x < len; x++) {
+              //console.log(res.feed.entry[x].content.src);
+              urls.push(res.feed.entry[x].content.src);
+            }
           }
           myFuture.return(urls);
           return;
