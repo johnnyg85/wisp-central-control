@@ -20,8 +20,9 @@ if (Meteor.isServer) {
       if (Roles.userIsInRole(this.userId, ['admin'])) return MdJobs.jc.find({});  // is admin
       return false; // everyone else;
     });
-    if (Meteor.settings.mdisc.isJobServer) {
+    if (Meteor.settings.isJobServer || process.env.IS_JOB_SERVER) {
       // Start the queue running
+      console.log('Job Server Started');
       return MdJobs.jc.startJobServer();
     }
   });
