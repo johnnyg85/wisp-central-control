@@ -43,6 +43,17 @@ Template.mdMandrillTest.events({
       console.log('email address not set');
     }
   },
+  'click a#btn-ship': function(e, t) {
+    e.preventDefault();
+
+    var email = document.getElementById('email').value;
+    if (email != '') {
+      Meteor.call('sendEmail','concierge-preparing-monthly-archive',email);
+      console.log('concierge-preparing-monthly-archive email sent');
+    } else {
+      console.log('email address not set');
+    }
+  },
   'click a#btn-pass': function(e, t) {
     e.preventDefault();
 

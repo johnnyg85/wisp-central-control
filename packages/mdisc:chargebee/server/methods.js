@@ -3,6 +3,7 @@ Meteor.methods({
   //Updates the customer entry if the current user already has a ChargeBee customer entry.
   //Returns customer object.
   mdChargeBeeCreateCustomer: function (firstName, lastName, billingAddress) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (cbCustomer) {
       var myFuture = new Future();
@@ -59,6 +60,7 @@ Meteor.methods({
   },
   
   mdChargeBeeUpdateCardInfo: function (customerId, cardDetails) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
@@ -86,6 +88,7 @@ Meteor.methods({
   },
   
   mdChargeBeeCreateSubscription: function (customerId, planId) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
@@ -109,6 +112,7 @@ Meteor.methods({
   },
   
   mdChargeBeeListSubscriptions: function () {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
     var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
     if (!cbCustomer) {
       //throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');

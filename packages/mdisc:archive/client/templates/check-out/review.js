@@ -27,11 +27,12 @@ Template.mdArchiveReview.events({
     }
     Meteor.call('mdChargeBeeCreateSubscription', cbCustomer.customerId, planId, function (err, res) {
       if (err) {
-        WtGrowl.fail("Failed to create subscription for the customer.");
+        WtGrowl.fail("Failed to create subscription.");
         console.log(err.reason);
         $(e.target).prop('disabled', false);
       } else {
-        WtGrowl.success("Payment Complete - Thank You!");
+        Meteor.call('monitorSubscription'); // start the monitoring job schedule
+        WtGrowl.success("Archive Subscription Created - Thank You!");
         Router.go('mdCloudGoogleOrderPlaced');
       }
     });
