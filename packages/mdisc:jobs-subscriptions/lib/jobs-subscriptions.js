@@ -14,8 +14,10 @@ if (Meteor.isServer) {
   });
 
   Meteor.startup(function () {
-    // Start the queue running
-    return MdJobsSubscriptions.jc.startJobServer();
+    if (Meteor.settings.mdisc.isJobServer) {
+      // Start the queue running
+      return MdJobsSubscriptions.jc.startJobServer();
+    }
   });
 
 }

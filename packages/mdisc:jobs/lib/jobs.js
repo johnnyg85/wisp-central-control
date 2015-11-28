@@ -1,7 +1,6 @@
 
 MdJobs = {
-  jc:     JobCollection('md_jobs'),
-  paused: WtCollection('md_jobs_paused')
+  jc:     JobCollection('md_jobs')
 };
 
 if (Meteor.isServer) {
@@ -18,13 +17,13 @@ if (Meteor.isServer) {
     // Normal Meteor publish call, the server always
     // controls what each client can see
     Meteor.publish('allJobs', function () {
-      if (!this.userId) return false; // Not logged in
       if (Roles.userIsInRole(this.userId, ['admin'])) return MdJobs.jc.find({});  // is admin
       return false; // everyone else;
     });
-
-    // Start the queue running
-    return MdJobs.jc.startJobServer();
+    if (Meteor.settings.mdisc.isJobServer) {
+      // Start the queue running
+      return MdJobs.jc.startJobServer();
+    }
   });
 
 }
