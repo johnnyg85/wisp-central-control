@@ -1,6 +1,6 @@
 var easypost = Easypost(Meteor.settings.easypost.apiKey);
 Future = Npm.require('fibers/future');
- exec = Npm.require('child_process').exec;
+exec = Npm.require('child_process').exec;
 // verify address
 Meteor.methods({
     mdEasypostVerifyAddress: function(fromAddress) {
@@ -32,6 +32,7 @@ Meteor.methods({
 
 
     mdEasypostSetParsel: function(length, width, height, weight) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
         var future = new Future();
         easypost.Parcel.create({
             // predefined_package: "LargeFlatRateBox",
@@ -54,6 +55,7 @@ Meteor.methods({
     },
     // create Rates
     mdEasypostShowRates: function(toAddress, fromAddress, pid) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
         console.log(pid);
         var future = new Future();
         easypost.Shipment.create({
@@ -75,6 +77,7 @@ Meteor.methods({
     },
     //Create rates without verified addresses
     mdEasypostShowRate: function(toAddress, fromAddress, pid) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
         console.log(pid);
         var future = new Future();
         easypost.Shipment.create({
@@ -97,6 +100,7 @@ Meteor.methods({
     //Create Shipment
 
     mdEasypostCreateShipmentLabel: function(rateId, shipId) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
         var future = new Future();
         easypost.Shipment.retrieve({
             id: shipId
@@ -126,6 +130,7 @@ Meteor.methods({
         return future.wait();
     },
     mdEasypostTrackShipment: function(trackId) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
         var future = new Future();
         easypost.Tracker.create({
             tracking_code: trackId
@@ -139,6 +144,7 @@ Meteor.methods({
     },
     
     mdEasypostCreateShipment: function (toAddress, fromAddress, parcel) {
+        if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
         var future = new Future();
         easypost.Shipment.create({
             to_address: toAddress,

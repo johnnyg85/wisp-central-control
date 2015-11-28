@@ -75,7 +75,7 @@ Template.mdArchivePayment.events({
             Meteor.call('mdChargeBeeUpdateCardInfo', cbCustomer.customerId, cardDetails, function (err, res) {
               subBtn.prop('disabled', false);
               if (err) {
-                WtGrowl.fail("Failed to update Card info for the customer.");
+                WtGrowl.fail("Card Failed");
                 console.log(err.reason);
               } else {
                 WtAccordionPage.enable('arch_review');

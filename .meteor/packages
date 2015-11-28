@@ -18,7 +18,6 @@ wisptools:roles
 mdisc:archive
 mdisc:cloud-services
 mdisc:accounts
-mdisc:stripe
 mdisc:mandrill
 mdisc:shipping
 standard-minifiers
