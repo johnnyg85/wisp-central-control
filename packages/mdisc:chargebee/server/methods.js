@@ -133,5 +133,13 @@ Meteor.methods({
       throw new Meteor.Error("chargebee-error", result.msg);
     }
     return result.data;
+  },
+  
+  getChargeBeeCustomerByCustomerId: function (customerId) {
+    return MdChargeBee.customers.findOne({customerId: customerId});
+  },
+  
+  getSubscriptionByUserId: function (userId) {
+    return MdArchive.subscription.findOne({owner: userId});
   }
 });
