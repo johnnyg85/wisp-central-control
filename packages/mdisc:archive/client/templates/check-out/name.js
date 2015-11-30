@@ -14,7 +14,8 @@ Template.mdArchiveName.events({
       var data = {
         archiveName: e.target[0].value,
         active: false,
-        version: '0.0.1'
+        version: '0.0.1',
+        subscriptionPlan: 'annual'
       }
       MdArchive.subscription.insert(data);
     }
