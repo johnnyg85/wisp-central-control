@@ -91,17 +91,43 @@ ChargeBeeAPI.createSubscriptionForCustomer = function (customerId, planId, callb
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
   }
-  ChargeBee.subscription.create_for_customer(customerId, {
-    plan_id: planId
-  }).request(callback);
+  
+  var myFuture = new Future();
+  ChargeBeeAPI.listSubscriptionsForCustomer(customerId, 100, function (err, result) {
+    if (err) {
+      myFuture.return({status: "error", msg: err.message});
+    } else {
+      var hasActiveSubscription = "false";
+      if (result.list && result.list.length>0) {
+        for (var i = 0; i < result.list.length; i++) {
+          if (result.list[i].subscription.status && result.list[i].subscription.status == 'active') {
+            hasActiveSubscription = "true";
+          }
+        }
+      }
+      myFuture.return({status: "success", data: hasActiveSubscription});
+    }
+  });
+  var result = myFuture.wait();
+  if (result.status == "error") {
+    throw new Meteor.Error("chargebee-error", 'An error has occurred.');
+  } else {
+    if (result.data == "true") {
+      throw new Meteor.Error("chargebee-error", 'You already have an active subscription.');
+    } else {
+      ChargeBee.subscription.create_for_customer(customerId, {
+        plan_id: planId
+      }).request(callback);
+    }
+  }
 };
 
 ChargeBeeAPI.listSubscriptionsForCustomer = function (customerId, limit, callback) {
   if (!customerId || !limit) {
-    throw new Meteor.Error("chargebee-error", 'ChargeBee create subscription - Invalid parameters.');
+    throw new Meteor.Error("chargebee-error", 'ChargeBee list subscription - Invalid parameters.');
   }
   if (limit && (limit<1 || limit>100)) {
-    throw new Meteor.Error("chargebee-error", 'ChargeBee create subscription - Invalid parameters.');
+    throw new Meteor.Error("chargebee-error", 'ChargeBee list subscription - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
