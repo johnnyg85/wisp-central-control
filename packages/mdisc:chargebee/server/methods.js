@@ -141,5 +141,11 @@ Meteor.methods({
   
   getSubscriptionByUserId: function (userId) {
     return MdArchive.subscription.findOne({owner: userId});
+  },
+  
+  mdChargeBeePushInvoice: function (userId, invoice) {
+    MdArchive.subscription.update({owner: userId}, {
+      $push: {invoices: invoice}
+    });
   }
 });
