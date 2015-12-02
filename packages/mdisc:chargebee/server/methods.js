@@ -133,5 +133,22 @@ Meteor.methods({
       throw new Meteor.Error("chargebee-error", result.msg);
     }
     return result.data;
+  },
+  
+  getChargeBeeCustomerByCustomerId: function (customerId) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+    return MdChargeBee.customers.findOne({customerId: customerId});
+  },
+  
+  getSubscriptionByUserId: function (userId) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+    return MdArchive.subscription.findOne({owner: userId});
+  },
+  
+  mdChargeBeePushInvoice: function (userId, invoice) {
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+    MdArchive.subscription.update({owner: userId}, {
+      $push: {invoices: invoice}
+    });
   }
 });
