@@ -189,7 +189,7 @@ gPhotos = (function () {
           _callback(err, res);
           return;
         }
-        if (typeof res == 'string') {
+        if (typeof res == 'string' || !res.feed || !res.feed.entry || !res.feed.entry.length) {
           // didn't get the expected JSON object.
           console.log('Error in gPhotos.prototype.getAllAlbums: ' + res);
           _callback(true, res);
