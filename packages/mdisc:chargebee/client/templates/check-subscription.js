@@ -33,16 +33,18 @@ function get_subscriptions() {
     Session.set('cb_fetching_subscription', false);
     if (!err) {
       var hasActiveSubscription = false;
+      var activeSubscriptions = new Array;
       if (res && res.length > 0) {
         for (var i = 0; i < res.length; i++) {
           if (res[i].subscription.status && res[i].subscription.status == 'active') {
             hasActiveSubscription = true;
+            activeSubscriptions.push(res[i]);
           }
         }
       }
       if (hasActiveSubscription) {
         Session.set('cb_has_subscription', true);
-        Session.set('cb_subscriptions', res);
+        Session.set('cb_subscriptions', activeSubscriptions);
       }
     }
   });
