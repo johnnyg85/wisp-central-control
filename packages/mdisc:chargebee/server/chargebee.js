@@ -136,3 +136,13 @@ ChargeBeeAPI.listSubscriptionsForCustomer = function (customerId, limit, callbac
     limit: limit
   }).request(callback);
 };
+
+ChargeBeeAPI.cancelSubscription = function (subscriptionId, callback) {
+  if (!subscriptionId) {
+    throw new Meteor.Error("chargebee-error", 'ChargeBee cancel subscription - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("chargebee-error", 'Callback should be a function.');
+  }
+  ChargeBee.subscription.cancel(subscriptionId).request(callback);
+};
