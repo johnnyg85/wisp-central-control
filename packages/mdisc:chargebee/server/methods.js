@@ -135,6 +135,57 @@ Meteor.methods({
     return result.data;
   },
   
+  mdChargeBeeCancelSubscription: function (subscriptionId) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
+    var cbCustomer = MdChargeBee.customers.findOne({owner: this.userId});
+    if (!cbCustomer) {
+      throw new Meteor.Error("chargebee-error", 'ChargeBee customer does not exist');
+    }
+    
+    //Check if subscription belongs to logged in user.
+    var validSubscriptionId = false;
+    var myFuture = new Future();
+    //NOTE: Need to add code that hanldles more than 100 subscriptions.
+    ChargeBeeAPI.listSubscriptionsForCustomer(cbCustomer.customerId, 100, Meteor.bindEnvironment(function (err, result) {
+      if (err) {
+        myFuture.return({status: "error", msg: err.message});
+      } else {
+        myFuture.return({status: "success", data: result.list});
+      }
+    }));
+    var result = myFuture.wait();
+    if (result.status == "error") {
+      throw new Meteor.Error("chargebee-error", result.msg);
+    }
+    if (result.status == "success") {
+      if (result.data && result.data.length > 0) {
+        for (var i = 0; i < result.data.length; i++) {
+          if (result.data[i].subscription.status && result.data[i].subscription.id == subscriptionId && result.data[i].subscription.status == 'active') {
+            validSubscriptionId = true;
+          }
+        }
+      }
+    }
+    
+    if (validSubscriptionId) {
+      var myFuture = new Future();
+      ChargeBeeAPI.cancelSubscription(subscriptionId, Meteor.bindEnvironment(function (err, result) {
+        if (err) {
+          myFuture.return({status: "error", msg: err.message});
+        } else {
+          myFuture.return({status: "success", data: result});
+        }
+      }));
+      var result = myFuture.wait();
+      if (result.status == "error") {
+        throw new Meteor.Error("chargebee-error", result.msg);
+      }
+      return result.data;
+    } else {
+      throw new Meteor.Error("chargebee-error", 'ChargeBee subscription id is not valid.');
+    }
+  },
+  
   getChargeBeeCustomerByCustomerId: function (customerId) {
     if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
     return MdChargeBee.customers.findOne({customerId: customerId});
