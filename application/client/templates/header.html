@@ -34,5 +34,7 @@
       </div>
     </div>
   </nav>
-  {{> atFormModal}}
+  {{#unless currentUser}}
+    {{> atFormModal}}
+  {{/unless}}
 </template>
