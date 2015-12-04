@@ -49,33 +49,7 @@ Template.mdCloudGoogleConnectAccount.events({
 Template.mdCloudGoogleConnectAccountStart.events({
   'click #startGooglePhoto': function(e, t) {
     e.preventDefault();
-
-    if (!Meteor.userId()) {
-      // User not logged in.
-      Session.set('afterLoginDoArchive', true);
-      $('#atFormModal').modal('show'); 
-      return;     
-    }
-    
-    Meteor.call('mdChargeBeeListSubscriptions', function (err, res) {
-      if (err) {
-        WtGrowl.fail("An error has occurred. Please try again later.");
-        return;
-      }
-      var hasActiveSubscription = false;
-      if (res && res.length>0) {
-        for (var i=0; i<res.length; i++) {
-          if (res[i].subscription.status && res[i].subscription.status == 'active') {
-            hasActiveSubscription = true;
-          }
-        }
-      }
-      if (hasActiveSubscription) {
-        Router.go('mdChargeBeeCheckSubscription');
-      } else {
-        Router.go('mdCloudGoogleConnectAccount');
-      }
-    });
+    Router.go('mdCloudGoogleConnectAccount');
   }
 });
 

@@ -19,8 +19,10 @@ Template.mdMyAccount.helpers({
 
 Template.mdMyAccount.events({
   'click #btSignOut':function(event){
-     event.preventDefault();
-     Meteor.logout();
+      event.preventDefault();
+      Meteor.logout(function (e) {
+        Router.go('home');
+      });
   }
 });
 
