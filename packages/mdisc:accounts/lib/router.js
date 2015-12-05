@@ -4,6 +4,12 @@ Router.plugin('ensureSignedIn', {
 });
 */
 
+Router.route('/login/', {
+  name: 'mdAccountLogin', 
+  template: 'mdAccountLogin'
+});
+
+
 /*
 //Routes
 AccountsTemplates.configureRoute('changePwd', {

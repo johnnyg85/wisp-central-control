@@ -36,7 +36,7 @@ Template.menu.events({
   'click #at-nav-sign-in': function(e, t) {
     e.preventDefault();
     var url = Router.url('mdMyAccount');
-    Meteor.loginWithGoogle({loginStyle: 'redirect', redirectUrl: url});
+    MdAccounts.signIn(url);
   }
 });
 

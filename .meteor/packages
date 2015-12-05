@@ -17,7 +17,6 @@ wisptools:menu
 wisptools:roles
 mdisc:archive
 mdisc:cloud-services
-mdisc:accounts
 mdisc:mandrill
 mdisc:shipping
 standard-minifiers
@@ -43,3 +42,4 @@ slam310:smooth-scroll
 jrudio:videojs
 mdisc:jobs-subscriptions
 meteorhacks:kadira-profiler
+mdisc:accounts

@@ -4,8 +4,8 @@ gPhotos = (function () {
 
   function gPhotos(credential) {
     this._id = credential._id;
-    this.accessToken = credential.accessToken && (MdAES.decrypt(credential.accessToken));
-    this.refreshToken = credential.refreshToken && (MdAES.decrypt(credential.refreshToken));
+    this.accessToken = credential.accessToken;
+    this.refreshToken = credential.refreshToken;
     this.expiresAt = credential.expiresAt;
     this.idToken = credential.idToken;
     this.isTesting = false;
@@ -43,12 +43,12 @@ gPhotos = (function () {
       this.accessToken = result.data.access_token;
       this.idToken = result.data.id_token;
       this.expiresAt = Date.now() + (result.data.expires_in * 1000);
-      MdCloudServices.credentials.update(
+      Meteor.user.update(
         {'_id': this._id},
         {$set: {
-          'accessToken': MdAES.encrypt(this.accessToken),
-          'idToken': this.idToken,
-          'expiresAt': this.expiresAt
+          'services.google.accessToken': MdAES.encrypt(this.accessToken),
+          'services.google.idToken': this.idToken,
+          'services.google.expiresAt': this.expiresAt
         }}
       );
       return true;
@@ -57,7 +57,7 @@ gPhotos = (function () {
       MdCloudServices.credentials.update(
         {'_id': this.id},
         {$set: {
-          'expiresAt': this.expiresAt
+          'services.google.expiresAt': this.expiresAt
         }}
       );
       throw new Meteor.Error(result.statusCode, 'Unable to exchange google refresh token.', result);

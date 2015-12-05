@@ -4,9 +4,20 @@ Router.route('/google-start/', {
 });
 
 
+
 Router.route('/google-connect/', {
   name: 'mdCloudGoogleConnectAccount', 
   template: 'mdCloudGoogleConnectAccount'
+});
+
+Router.route('/google-connect-login/', {
+  name: 'mdCloudGoogleConnectCheckLogin', 
+  template: 'mdCloudGoogleConnectCheckLogin'
+});
+
+Router.route('/google-connect-check/', {
+  name: 'mdCloudGoogleConnectCheckToken', 
+  template: 'mdCloudGoogleConnectCheckToken'
 });
 
 Router.route('/google-show/', {

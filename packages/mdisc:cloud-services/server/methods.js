@@ -1,42 +1,16 @@
 Future = Npm.require('fibers/future');
 
 Meteor.methods({
-  addCredential: function(service, credentialToken, credentialSecret) {
-    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
-    var credentialDetail = OAuth.retrieveCredential(credentialToken, credentialSecret);
-
-    var data = {
-      service: service,
-      credentialToken: MdAES.encrypt(credentialToken),
-      credentialSecret: MdAES.encrypt(credentialSecret)
-    };
-
-    // set other data if we have it.
-    if (credentialDetail.serviceData) {
-      credentialDetail.serviceData.refreshToken && (data.refreshToken = MdAES.encrypt(credentialDetail.serviceData.refreshToken));
-      credentialDetail.serviceData.accessToken && (data.accessToken = MdAES.encrypt(credentialDetail.serviceData.accessToken));
-      credentialDetail.serviceData.expiresAt && (data.expiresAt = credentialDetail.serviceData.expiresAt);
-      credentialDetail.serviceData.idToken && (data.idToken = credentialDetail.serviceData.idToken);
-    }
-
-    var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
-    if (credential) {
-      MdCloudServices.credentials.update({_id: credential._id}, {$set: data});
-    } else {
-      MdCloudServices.credentials.insert(data);
-    }
-  },
   getAccountSize: function(service) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
+    var user = Meteor.user();
+    if (!user.services) throw new Meteor.Error('user', "no services"); 
     var estimatedSize;
-    var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
-    if (!credential) {
-      throw new Meteor.Error('recent-photos', 'No credentials found.');
-    }
 
     switch (service) {
       case 'Google Photos':
-        var client = new gPhotos(credential);
+        if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
+        var client = new gPhotos(user.services.google);
         var myFuture = new Future();
         client.getQuota(Meteor.bindEnvironment(function(err, res) {
           if (err) {
@@ -65,14 +39,13 @@ Meteor.methods({
   },
   getRecentPhotos: function(service) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
-    var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
-    if (!credential) {
-      throw new Meteor.Error('recent-photos', 'No credentials found.');
-    }
+    var user = Meteor.user();
+    if (!user.services) throw new Meteor.Error('user', "no services"); 
 
     switch (service) {
       case 'Google Photos':
-        var client = new gPhotos(credential);
+        if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
+        var client = new gPhotos(user.services.google);
         var myFuture = new Future();
         client.getRecent(Meteor.bindEnvironment(function(err, res) {
           if (err) {
@@ -112,15 +85,14 @@ Meteor.methods({
     }
 
     // Get the credentials 
-    var credential = MdCloudServices.credentials.findOne({owner: userId, service: service});
-    if (!credential) {
-      throw new Meteor.Error('get-token', 'No credentials found.');
-    }
+    var user = Meteor.users.findOne({_id: userId});
+    if (!user.services) throw new Meteor.Error('user', "no services"); 
 
     // Check the credentials
     switch (service) {
       case 'Google Photos':
-        var client = new gPhotos(credential);
+        if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
+        var client = new gPhotos(user.services.google);
         var myFuture = new Future();
         client.testAccess(Meteor.bindEnvironment(function(err, res) {
           if (err) {
@@ -132,10 +104,10 @@ Meteor.methods({
         var result = myFuture.wait();
         if (result === "true") {
           // pull credential again, incase it was renewed.
-          credential = MdCloudServices.credentials.findOne({owner: userId, service: service});
+          user = Meteor.users.findOne({_id: userId});
           token = {
-            accessToken: credential.accessToken && (MdAES.decrypt(credential.accessToken)),
-            expiresAt: credential.expiresAt
+            accessToken: user.services.google.accessToken,
+            expiresAt: user.services.google.expiresAt
           }
           return token;
         }
@@ -148,14 +120,13 @@ Meteor.methods({
   },
   mdCloudServiceIsConnected: function (service) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
-    var credential = MdCloudServices.credentials.findOne({owner: this.userId, service: service});
-    if (!credential) {
-      throw new Meteor.Error('cloud-service', 'No credentials found.');
-    }
+    var user = Meteor.user();
+    if (!user.services) throw new Meteor.Error('user', "no services"); 
 
     switch (service) {
-      case "Google Photos":
-        var client = new gPhotos(credential);
+      case 'Google Photos':
+        if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
+        var client = new gPhotos(user.services.google);
         var myFuture = new Future();
         client.testAccess(Meteor.bindEnvironment(function(err, res) {
           if (err) {

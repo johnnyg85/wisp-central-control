@@ -307,15 +307,8 @@ Template.mdMyAccountDataPermissions.helpers({
 Template.mdMyAccountDataPermissions.events({
   'click #connectNowGoogle': function (e) {
     e.preventDefault();
-    MdCloudServices.askCredential('Google Photos', function (err, res) {
-      Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
-        if (!err) {
-          Session.set('googleConnected', true);
-        } else {
-          Session.set('googleConnected', false);
-        }
-      });
-    });
+    var url = Router.url('mdMyAccount');
+    MdCloudServices.askCredential('Google Photos', url);
   }
 });
 

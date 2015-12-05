@@ -1,6 +1,3 @@
-/*
-Moved to Google Photo package
-// Set up login services
 Meteor.startup(function() {
   ServiceConfiguration.configurations.upsert(
     { service: "google" },
@@ -13,4 +10,3 @@ Meteor.startup(function() {
     }
   );
 });
-*/
