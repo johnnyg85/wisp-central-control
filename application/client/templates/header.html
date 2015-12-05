@@ -10,15 +10,21 @@
           </div>
           {{#unless isCloudConnecting}}
             <div class="col-md-2 text-right col-sm-6 col-md-push-7 col-xs-8">
-              <div class="mobile-toggle">
-                <div class="upper"></div>
-                <div class="middle"></div>
-                <div class="lower"></div>
-              </div>
-              <div style="position: relative; z-index: 100;">
-                {{#unless isInRole 'admin'}}
-                  {{> mdCloudGoogleConnectAccountStart blue='yes' text='Archive now'}}
-                {{/unless}}
+              <div class="row">
+                <div class="col-xs-8">
+                  <div style="position: relative; z-index: 100;">
+                    {{#unless isInRole 'admin'}}
+                      {{> mdCloudGoogleConnectAccountStart blue='yes' text='Archive now'}}
+                    {{/unless}}
+                  </div>
+                </div>
+                <div class="col-xs-4">
+                  <div class="mobile-toggle">
+                    <div class="upper"></div>
+                    <div class="middle"></div>
+                    <div class="lower"></div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-md-8 text-center col-md-pull-2 col-sm-12 col-xs-12">
@@ -27,11 +33,11 @@
               </ul>
             </div>
           {{/unless}}
-          <div class="text-center col-md-10 col-sm-6 col-xs-8">
-            {{#if isCloudConnecting}}
+          {{#if isCloudConnecting}}
+            <div class="text-center col-md-10 col-sm-6 col-xs-8">
               {{> mdCloudServiceConnectingStepsMenu}}
-            {{/if}}
-          </div>
+            </div>
+          {{/if}}
         </div>
       </div>
     </div>

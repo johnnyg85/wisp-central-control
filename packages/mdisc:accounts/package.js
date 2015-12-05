@@ -28,18 +28,19 @@ Package.onUse(function(api) {
     //,'splendido:accounts-meld@1.3.1'
   ]);
 
-  api.addFiles([
-    'lib/config/accounts_t9n.js',
-    'lib/config/at_config.js',
-    'lib/router.js' //important that this loads after at_config.js
-    ], ['server','client']);
-
   //Server Only Files
   api.addFiles([
     'server/config/service_configuration.js',
     'server/functions.js'
     //,'server/config/accounts_meld.js'
     ], ['server']);
+
+  api.addFiles([
+    'lib/config/accounts_t9n.js',
+    'lib/config/at_config.js',
+    'lib/router.js' //important that this loads after at_config.js
+    ], ['server','client']);
+
 
   //Client Only Files
   api.addFiles([

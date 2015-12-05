@@ -2,17 +2,23 @@ Future = Npm.require('fibers/future');
 
 gPhotos = (function () {
 
-  function gPhotos(credential) {
-    this._id = credential._id;
-    this.accessToken = credential.accessToken;
-    this.refreshToken = credential.refreshToken;
-    this.expiresAt = credential.expiresAt;
-    this.idToken = credential.idToken;
+  // user = Accounts.users.findOne()
+  function gPhotos(user) {
+    this._id = user._id;
+    
+    // do we have the oauth data?
+    if (!user.services) throw new Meteor.Error('user', "no services"); 
+    if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
+
+    // initialize
+    this.accessToken = user.services.google.accessToken;
+    this.refreshToken = user.services.google.refreshToken;
+    this.expiresAt = user.services.google.expiresAt;
+    this.idToken = user.services.google.idToken;
     this.isTesting = false;
   };
 
   gPhotos.prototype.refreshAccessToken = function () {
-
 
     /*
     FROM: https://developers.google.com/oauthplayground
@@ -39,27 +45,21 @@ gPhotos = (function () {
       throw new Meteor.Error(code, 'Unable to exchange google refresh token..', e.response)
     }
     
+
     if (result.statusCode === 200) {
       this.accessToken = result.data.access_token;
       this.idToken = result.data.id_token;
       this.expiresAt = Date.now() + (result.data.expires_in * 1000);
-      Meteor.user.update(
+      Accounts.users.update(
         {'_id': this._id},
         {$set: {
-          'services.google.accessToken': MdAES.encrypt(this.accessToken),
+          'services.google.accessToken': this.accessToken,
           'services.google.idToken': this.idToken,
           'services.google.expiresAt': this.expiresAt
         }}
       );
       return true;
     } else {
-      this.expiresAt = Date.now();
-      MdCloudServices.credentials.update(
-        {'_id': this.id},
-        {$set: {
-          'services.google.expiresAt': this.expiresAt
-        }}
-      );
       throw new Meteor.Error(result.statusCode, 'Unable to exchange google refresh token.', result);
     }
 

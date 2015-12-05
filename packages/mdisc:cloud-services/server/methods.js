@@ -10,7 +10,7 @@ Meteor.methods({
     switch (service) {
       case 'Google Photos':
         if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
-        var client = new gPhotos(user.services.google);
+        var client = new gPhotos(user);
         var myFuture = new Future();
         client.getQuota(Meteor.bindEnvironment(function(err, res) {
           if (err) {
@@ -45,7 +45,7 @@ Meteor.methods({
     switch (service) {
       case 'Google Photos':
         if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
-        var client = new gPhotos(user.services.google);
+        var client = new gPhotos(user);
         var myFuture = new Future();
         client.getRecent(Meteor.bindEnvironment(function(err, res) {
           if (err) {
@@ -92,7 +92,7 @@ Meteor.methods({
     switch (service) {
       case 'Google Photos':
         if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
-        var client = new gPhotos(user.services.google);
+        var client = new gPhotos(user);
         var myFuture = new Future();
         client.testAccess(Meteor.bindEnvironment(function(err, res) {
           if (err) {
@@ -126,7 +126,7 @@ Meteor.methods({
     switch (service) {
       case 'Google Photos':
         if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
-        var client = new gPhotos(user.services.google);
+        var client = new gPhotos(user);
         var myFuture = new Future();
         client.testAccess(Meteor.bindEnvironment(function(err, res) {
           if (err) {

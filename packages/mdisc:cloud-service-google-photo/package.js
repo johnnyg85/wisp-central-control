@@ -20,8 +20,6 @@ Package.onUse(function(api) {
     'iron:router',
     'oauth',
     'google',
-    'accounts-base',
-    'service-configuration',
     'meteorhacks:async@1.0.0',
     'wisptools:accordion-page',
     'wisptools:menu',
@@ -33,7 +31,6 @@ Package.onUse(function(api) {
 
   // Server only files
   api.addFiles([
-    'server/startup.js',
     'server/g-photos.js'
     ], 'server');
 
