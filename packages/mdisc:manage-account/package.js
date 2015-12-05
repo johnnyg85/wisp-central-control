@@ -29,18 +29,15 @@ Package.onUse(function(api) {
   ]);
   
   api.addFiles([
-    
     'client/templates/my-account.css',
     'client/templates/my-account.html',
     'client/templates/my-account.js'
-    
-  ], 'client'),
-  api.addFiles([
-    'server/publication.js'    
-  ],'server'),  
+    ], 'client');
+
   api.addFiles([
     'lib/router.js'
-  ], ['client', 'server']);
+    ], ['client', 'server']);
+
 });
 
 Package.onTest(function(api) {

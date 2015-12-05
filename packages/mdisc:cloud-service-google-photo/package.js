@@ -41,8 +41,6 @@ Package.onUse(function(api) {
     'client/templates/connect.js',
     'client/templates/connect-check-login.html',
     'client/templates/connect-check-login.js',
-    'client/templates/connect-check-token.html',
-    'client/templates/connect-check-token.js',
     'client/templates/no-photos.css',
     'client/templates/no-photos.html',
     'client/templates/show-photos.css',

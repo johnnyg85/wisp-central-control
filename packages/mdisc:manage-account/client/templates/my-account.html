@@ -2,14 +2,8 @@
   <div class="bg-secondary app-page">
     <div class="container">
       <div class="row">
-        <div class="col-md-10"><h4>Hi, {{user.services.google.given_name}}!</h4></div>
+        <div class="col-md-10"><h4>Hi, {{firstname}}!</h4></div>
         <div class="col-md-2"><button id="btSignOut" class="btn btn-default">Sign out</button></div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <h5>Your Subscription</h5><hr />
-          {{> mdMyAccountYourSubscription}}
-        </div>
       </div>
       <div class="row">
         <div class="col-xs-12"><h5>Your Archives</h5><hr /></div>
@@ -30,8 +24,8 @@
       <br />
       <div class="row">
         <div class="col-sm-5">
-          <h5>Account Information</h5><hr />
-          {{> mdMyAccountUserForm}}
+          <h5>Your Subscription</h5><hr />
+          {{> mdMyAccountYourSubscription}}
         </div>
         <div class="col-sm-7">
           <h5>Shipping Information</h5><hr />
@@ -62,7 +56,8 @@
       {{/each}}
       {{> mdMyAccountCancelSubModal}}
     {{else}}
-      You don't have an active Subscription.<br><br>
+      You are currently not archiving your data.<br><br>
+      {{> mdCloudGoogleConnectAccountStart text='Get started'}}
     {{/if}}
   {{/if}}
 </template>

@@ -1,6 +1,21 @@
+Template.mdArchiveName.onRendered(function() {
+  Meteor.call('getFirstname', function(err, res) {
+    if (err) return;
+    Session.set('archiveName', mdArchiveName(res));
+  });
+});
+
+
 Template.mdArchiveName.helpers({
   subscription: function() {
     return MdArchive.subscription.findOne({owner: Meteor.userId()});
+  },
+  archiveName: function() {
+    var archive = MdArchive.subscription.findOne({owner: Meteor.userId()});
+    if (archive && archive.archiveName != "") {
+      return archive.archiveName;
+    }
+    return Session.get('archiveName');
   }
 });
 

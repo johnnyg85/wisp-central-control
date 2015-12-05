@@ -1,13 +1,16 @@
 Template.mdMyAccount.onRendered(function() {
   Session.set('isCloudConnecting', false);
+  Meteor.call('getFirstname', function(err, res) {
+    if (!err) Session.set('firstname', res);
+  });
 });
 
 Template.mdMyAccount.helpers({
   orders: function() {
     return MdArchive.collection.find().fetch();
   },
-  user: function() {
-    return Meteor.user();
+  firstname: function() {
+    return Session.get('firstname');
   },
   showTrack: function() {
     if(Session.get('showTrack'))
@@ -216,9 +219,7 @@ Template.mdMyAccountUserForm.rendered=function()
 Template.mdMyAccountUserForm.helpers({
   userdet:function()
   {
-    Meteor.subscribe('userlog',Meteor.userId());
-    var data = Meteor.users.findOne({_id: Meteor.userId()});
-    return data;
+    // TODO: make method call and set session var to tell how account logs in.
   },
   showcurrerror:function()
   {    

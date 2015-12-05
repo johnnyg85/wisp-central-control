@@ -23,8 +23,8 @@ Meteor.methods({
       return null;
     }
 
-    var firstname = MdAccounts.getFirstname();
-    var email = MdAccounts.getEmail();
+    var firstname = Meteor.call('getFirstname');
+    var email = Meteor.call('getEmail');
 
     Mandrill.messages.sendTemplate({
       template_name: 'new-account',

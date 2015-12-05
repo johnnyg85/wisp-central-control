@@ -15,11 +15,6 @@ Router.route('/google-connect-login/', {
   template: 'mdCloudGoogleConnectCheckLogin'
 });
 
-Router.route('/google-connect-check/', {
-  name: 'mdCloudGoogleConnectCheckToken', 
-  template: 'mdCloudGoogleConnectCheckToken'
-});
-
 Router.route('/google-show/', {
   name: 'mdCloudGoogleShowPhotos', 
   template: 'mdCloudGoogleShowPhotos'

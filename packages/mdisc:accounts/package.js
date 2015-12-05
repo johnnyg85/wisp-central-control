@@ -31,7 +31,7 @@ Package.onUse(function(api) {
   //Server Only Files
   api.addFiles([
     'server/config/service_configuration.js',
-    'server/functions.js'
+    'server/methods.js'
     //,'server/config/accounts_meld.js'
     ], ['server']);
 
