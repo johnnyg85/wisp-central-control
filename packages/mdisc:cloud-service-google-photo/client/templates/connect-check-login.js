@@ -22,9 +22,26 @@ var checkGoogleCredentials = function () {
   }
   
   // Check if user already has subscription
-
-  // Get Google Photos creditentials.
-  var url = Router.url('mdCloudGoogleConnectCheckToken');
-  MdCloudServices.askCredential('Google Photos', url);
+  Meteor.call('mdChargeBeeListSubscriptions', function (err, res) {
+    if (err) {
+      WtGrowl.fail("An error has occurred. Please try again later.");
+      return;
+    }
+    var hasActiveSubscription = false;
+    if (res && res.length>0) {
+      for (var i=0; i<res.length; i++) {
+        if (res[i].subscription.status && res[i].subscription.status == 'active') {
+          hasActiveSubscription = true;
+        }
+      }
+    }
+    if (hasActiveSubscription) {
+      Router.go('mdChargeBeeCheckSubscription');
+    } else {
+      // Get Google Photos creditentials.
+      var url = Router.url('mdCloudGoogleConnectCheckToken');
+      MdCloudServices.askCredential('Google Photos', url);        
+    }
+  });
 };
 
