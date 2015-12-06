@@ -4,7 +4,7 @@
 }
 
 .btn-continue {
-  margin-top: 35px;
+  margin-top: 30px;
 }
 
 .sub-offer {
@@ -14,6 +14,34 @@
 .sub-offer .left {
   float: right;
   margin-right: -16px;
+}
+
+.sub-offer .left:hover {
+  color: #d9d9d9;
+  border: 3px solid #ffe3e7;
+  background: -webkit-linear-gradient(#fff, #fffcfc); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fff, #fffcfc); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fff, #fffcfc); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#fff, #fffcfc); /* Standard syntax */
+  z-index: 1;
+}
+
+.sub-offer .right:hover {
+  color: #d9d9d9;
+  border: 3px solid #ffe3e7;
+  background: -webkit-linear-gradient(#fff, #fffcfc); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fff, #fffcfc); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fff, #fffcfc); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#fff, #fffcfc); /* Standard syntax */
+  z-index: 1;
+}
+
+.sub-offer .right:hover h5 {
+  color: #d9d9d9;
+}
+
+.sub-offer .left:hover h5 {
+  color: #d9d9d9;
 }
 
 .sub-offer .right {
@@ -70,9 +98,35 @@
   font-size: 20px;
 }
 
-
 .sub-offer .price-feature {
   font-size: 12px;
   letter-spacing: 4px;
   margin-bottom: 25px;
+}
+
+@media all and (max-width: 768px) {
+  .sub-offer .offer {
+    width: 100%;
+    height: auto;
+  }
+  .sub-offer {
+    padding: 0px;
+    margin: 0px;
+  }  
+
+  .sub-offer .right {
+    float: left;
+    margin-top: -3px;
+    margin-left: 0px;
+  }
+  .sub-offer .left {
+    float: left;
+    margin-bottom: -1px;
+    margin-right: 0px;
+  }
+
+  .btn-continue {
+    margin-top: 10px;
+  }
+
 }
