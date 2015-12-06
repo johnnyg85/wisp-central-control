@@ -7,20 +7,10 @@
       {{else}}
         {{#if hasSubscription}}
           <center><h4>You already have an active Subscription.</h4></center>
-          {{#each getSubscriptions}}
-          <div class="row">
-            <div class="col-md-offset-3 col-md-5">
-              <ul>
-                <li>Plan ID : {{subscription.plan_id}}</li>
-                <li>Status : {{subscription.status}}</li>
-                <li>Created At : {{formatDate subscription.created_at}}</li>
-              </ul>
-            </div>
-          </div>
-          {{/each}}
+          <br />
           <div class="row">
             <div class="col-md-offset-4 col-md-4">
-              <button class="btn btn-filled btn-block accountBtn">Account</button>
+              <button class="btn btn-filled btn-block accountBtn">Goto account page <i class="fa fa-angle-double-right"></i></button>
             </div>
           </div>   
         {{else}}

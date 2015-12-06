@@ -5,9 +5,10 @@ Meteor.startup(function() {
     {
       $set: {
         clientId: Meteor.settings.google.clientId,
-        loginStyle: "popup",
+        loginStyle: "redirect",
         secret: Meteor.settings.google.secret
       }
     }
   );
 });
+

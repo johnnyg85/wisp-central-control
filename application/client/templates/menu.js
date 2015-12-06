@@ -29,7 +29,14 @@ Template.menu.onRendered(function() {
 Template.menu.events({
   'click #at-nav-sign-out': function(e, t) {
     e.preventDefault();
-    Meteor.logout();
+    Meteor.logout(function (e) {
+      Router.go('home');
+    });
+  },
+  'click #at-nav-sign-in': function(e, t) {
+    e.preventDefault();
+    var url = Router.url('mdMyAccount');
+    MdAccounts.signIn(url);
   }
 });
 

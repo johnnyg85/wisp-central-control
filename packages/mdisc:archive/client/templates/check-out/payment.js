@@ -7,7 +7,7 @@ Template.mdArchivePayment.helpers({
   },
   selected: function (plan) {
     var subscription = MdArchive.subscription.findOne({owner: Meteor.userId()});
-    selectedPlan = subscription.subscriptionPlan;
+    selectedPlan = subscription && subscription.subscriptionPlan;
     if (plan == selectedPlan) return true;
     return false;
   }  

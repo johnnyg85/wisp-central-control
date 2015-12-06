@@ -7,10 +7,10 @@
     <li><a data-scroll href="{{pathFor 'home'}}#how">How it works</a></li>
     <li><a data-scroll href="{{pathFor 'home'}}#testimonials">Testimonials</a></li>
     <li><a data-scroll href="{{pathFor 'home'}}#pricing">Pricing</a></li>
-    <li><a href="{{pathFor 'home'}}#">Contact</a></li>
-    <li><a href="">|</a></li>
+    <li><a href="http://www.mdisc.com/contact-us/">Contact</a></li>
+    <li class='divider'>|</li>
     {{#unless currentUser}}
-      <li><a href="" id="at-nav-button">Sign In</a></li>
+      <li><a href="" id="at-nav-sign-in">Sign In</a></li>
     {{/unless}}
     {{#if currentUser}}
       <li><a href="{{pathFor 'mdMyAccount'}}">Account</a></li>

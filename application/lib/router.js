@@ -19,4 +19,4 @@ var requireLogin = function() {
   }
 }
 Router.onBeforeAction('dataNotFound', {only: 'interactionPage'});
-Router.onBeforeAction(requireLogin, {except: ['stripeWebHook', 'home']});
+Router.onBeforeAction(requireLogin, {except: ['home', 'mdCloudGoogleConnectAccount', 'mdCloudGoogleConnectCheckLogin','mdAccountLogin']});

@@ -1,6 +1,14 @@
+/*
 Router.plugin('ensureSignedIn', {
   except: _.pluck(AccountsTemplates.routes, 'name').concat(['home'])
 });
+*/
+
+Router.route('/login/', {
+  name: 'mdAccountLogin', 
+  template: 'mdAccountLogin'
+});
+
 
 /*
 //Routes

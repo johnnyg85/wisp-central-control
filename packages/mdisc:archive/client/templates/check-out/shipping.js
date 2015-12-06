@@ -1,3 +1,23 @@
+
+Template.mdArchiveShipping.onRendered(function() {
+  Meteor.call('getFullName', function(err, res) {
+    if (err) return;
+    Session.set('fullName', res);
+  });
+});
+
+Template.mdArchiveShipping.helpers({
+  shipTo: function () {
+    return Meteor.user().profile.shipTo;    
+  },
+  shipToName: function () {
+    var user = Meteor.user().profile.shipTo
+    if (user && user.profile && user.profile.shipTo && user.profile.shipTo.name)
+      return user.profile.shipTo.name;
+    return Session.get('fullName');
+  }
+});
+
 Template.mdArchiveShipping.events({
   'submit': function(e, t) {
     e.preventDefault();
@@ -48,12 +68,5 @@ Template.mdArchiveShipping.events({
     // Update the account address
     Meteor.users.update({_id: Meteor.userId()}, { $set:{"profile.shipTo": shipTo}}, function (err, res) {});
 
-  }
-});
-
-
-Template.mdArchiveShipping.helpers({
-  shipTo: function () {
-    return Meteor.user().profile.shipTo;    
   }
 });

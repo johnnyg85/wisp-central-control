@@ -3,10 +3,10 @@
 mdArchiveName = function(name) {
   lastchar = name[name.length - 1];
   if (lastchar == 's' || lastchar == 'S') {
-    name = name + "' Photos";
+    name = name + "' Archive";
   }
   else {
-    name = name + "'s Photos";
+    name = name + "'s Archive";
   }
   return name;
 };

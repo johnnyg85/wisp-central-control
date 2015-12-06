@@ -1,8 +1,10 @@
 googlePhotos = [];
 
-googlePhotos.requestCredential = function (callback) {
-  Google.requestCredential({
+googlePhotos.requestCredential = function (redirectUrl) {
+  Meteor.loginWithGoogle({
     requestPermissions: ['https://picasaweb.google.com/data/'],
-    requestOfflineToken: 'true'
-  }, callback);
+    requestOfflineToken: 'true',
+    loginStyle: 'redirect',
+    redirectUrl: redirectUrl
+  });
 };

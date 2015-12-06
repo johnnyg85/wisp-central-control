@@ -1,4 +1,4 @@
-MdAccounts = {
+Meteor.methods({
   getFirstname: function () {
     var user = Meteor.user();
     // Logged in?
@@ -12,6 +12,21 @@ MdAccounts = {
       }
     }
     return firstname;
+
+  },
+  getFullName: function () {
+    var user = Meteor.user();
+    // Logged in?
+    if (!user) { return null; }
+
+    var name = '';
+    if (user.hasOwnProperty('services')) {
+      // Google
+      if (user.services.hasOwnProperty('google')) {
+        name = user.services.google.name;
+      }
+    }
+    return name;
 
   },
   getEmail: function () {
@@ -32,8 +47,5 @@ MdAccounts = {
     }
     return email;
 
-  },
-  initAddress: function () {
-    
   }
-};
+});

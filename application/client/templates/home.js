@@ -40,3 +40,10 @@ Template.home.onRendered(function() {
   });
 
 });
+
+Template.home.events({
+  'mouseenter .pricing-option': function(e, t) {
+    $('.pricing-option').removeClass('active');
+    $(e.toElement).addClass('active');
+  }
+});
