@@ -1,0 +1,27 @@
+<template name="mdMyAccountYourSubscription">
+  {{#if checking}}
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    {{> spinner}}
+  {{else}}
+    {{#if hasSubscription}}
+      {{#each getSubscriptions}}
+        <table class="table">
+          <tr>
+            <td>Started: </td><td>{{formatDate subscription.created_at}}</td>
+            <td><a href="" class="subCancelBtn" data-toggle="modal" data-target="#confSubCancelModal">Cancel</a></td>
+          </tr>
+          <tr><td>Type: </td><td>{{planName subscription.plan_id}}</td></tr>
+          <tr><td>Amount: </td><td>{{planAmount subscription.plan_id}}</td></tr>
+        </table>
+      {{/each}}
+      {{> mdMyAccountCancelSubModal}}
+    {{else}}
+      You are currently not archiving your data.<br><br>
+      {{> mdCloudGoogleConnectAccountStart text='Get started'}}
+    {{/if}}
+  {{/if}}
+</template>

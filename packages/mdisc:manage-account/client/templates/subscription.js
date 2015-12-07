@@ -1,4 +1,4 @@
-Template.mdChargeBeeCheckSubscription.helpers({
+Template.mdMyAccountYourSubscription.helpers({
   checking: function () {
     return Session.get('cb_fetching_subscription');
   },
@@ -10,22 +10,32 @@ Template.mdChargeBeeCheckSubscription.helpers({
   },
   formatDate: function (timestamp) {
     var d = new Date(timestamp*1000);
-    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+    return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear().toString().substr(2);
+  },
+  planName: function (planId) {
+    return MdChargeBee.planIdToName(planId);
+  },
+  planAmount: function (planId) {
+    return MdChargeBee.planIdToAmount(planId);
   }
 });
 
-Template.mdChargeBeeCheckSubscription.events({
-  'click .accountBtn': function () {
-    Router.go('mdMyAccount');
+Template.mdMyAccountYourSubscription.events({
+  'click .subCancelBtn': function (e) {
+    e.preventDefault();
+    Session.set('cancel_subscription', this.subscription);
+    Session.set('cancel_subscription_confirmation', false);
+    $('#confText').val('');
   }
 });
 
-Template.mdChargeBeeCheckSubscription.onRendered(function () {
+Template.mdMyAccountYourSubscription.onRendered(function () {
   Session.set('cb_has_subscription', false);
   Session.set('cb_fetching_subscription', false);
   Session.set('cb_subscriptions', 'false');
   get_subscriptions();
 });
+
 
 function get_subscriptions() {
   Session.set('cb_fetching_subscription', true);

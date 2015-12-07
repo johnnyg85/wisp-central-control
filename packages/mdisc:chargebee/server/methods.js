@@ -134,6 +134,23 @@ Meteor.methods({
     }
     return result.data;
   },
+
+  mdChargeBeeHasSubscription: function () {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
+
+    // Check if user already has subscription
+    var res = Meteor.call('mdChargeBeeListSubscriptions');
+    var hasActiveSubscription = false;
+    if (res && res.length>0) {
+      for (var i=0; i<res.length; i++) {
+        if (res[i].subscription.status && res[i].subscription.status == 'active') {
+          hasActiveSubscription = true;
+        }
+      }
+    }
+    return hasActiveSubscription;
+  },
+
   
   mdChargeBeeCancelSubscription: function (subscriptionId) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.

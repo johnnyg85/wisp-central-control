@@ -22,21 +22,15 @@ var checkGoogleCredentials = function () {
   }
   
   // Check if user already has subscription
-  Meteor.call('mdChargeBeeListSubscriptions', function (err, res) {
+  Meteor.call('mdChargeBeeHasSubscription', function (err, res) {
     if (err) {
       WtGrowl.fail("An error has occurred. Please try again later.");
       return;
     }
-    var hasActiveSubscription = false;
-    if (res && res.length>0) {
-      for (var i=0; i<res.length; i++) {
-        if (res[i].subscription.status && res[i].subscription.status == 'active') {
-          hasActiveSubscription = true;
-        }
-      }
-    }
-    if (hasActiveSubscription) {
-      Router.go('mdChargeBeeCheckSubscription');
+
+    if (res) {
+      // has an active subscription
+      Router.go('mdChargeBeeHaveSubscription');
     } else {
       // Simulate some connecting time
       Session.set('mdCloudAuhenticating', true);

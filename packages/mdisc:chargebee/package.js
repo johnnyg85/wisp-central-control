@@ -23,11 +23,15 @@ Package.onUse(function (api) {
   
   api.export('ChargeBeeAPI');
   api.export('MdChargeBee');
+
+  api.addFiles([
+    'lib/collections.js',
+    'lib/router.js'
+  ], ['server', 'client']);
   
   api.addFiles([
-    'client/subscriptions.js',
-    'client/templates/check-subscription.html',
-    'client/templates/check-subscription.js'
+    'client/templates/already-have.html',
+    'client/functions.js'
   ], 'client');
 
   api.addFiles([
@@ -36,8 +40,4 @@ Package.onUse(function (api) {
     'server/methods.js'
   ], 'server');
 
-  api.addFiles([
-    'lib/collections.js',
-    'lib/router.js'
-  ], ['server', 'client']);
 });

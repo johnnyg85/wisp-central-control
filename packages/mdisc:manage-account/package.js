@@ -25,13 +25,18 @@ Package.onUse(function(api) {
     'mdisc:cloud-services',
     'mdisc:easypost',
     'wisptools:date-format',
-    'mdisc:archive'
+    'mdisc:archive',
+    'mdisc:chargebee'
   ]);
   
   api.addFiles([
     'client/templates/my-account.css',
     'client/templates/my-account.html',
-    'client/templates/my-account.js'
+    'client/templates/my-account.js',
+    'client/templates/subscription.html',
+    'client/templates/subscription.js',
+    'client/templates/cancel.html',
+    'client/templates/cancel.js'
     ], 'client');
 
   api.addFiles([

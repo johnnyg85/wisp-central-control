@@ -1,4 +1,5 @@
-Router.route('/check-subscription/', {
-  name: 'mdChargeBeeCheckSubscription', 
-  template: 'mdChargeBeeCheckSubscription'
+Router.route('/have-subscription/', {
+  name: 'mdChargeBeeHaveSubscription', 
+  template: 'mdChargeBeeHaveSubscription'
 });
+

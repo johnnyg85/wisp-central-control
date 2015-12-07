@@ -43,48 +43,6 @@
   {{> mdTrack}}
 </template>
 
-<template name="mdMyAccountYourSubscription">
-  {{#if checking}}
-    {{> spinner}}
-  {{else}}
-    {{#if hasSubscription}}
-      {{#each getSubscriptions}}
-        Started: {{formatDate subscription.created_at}}<br>
-        Type: {{planName subscription.plan_id}}<br>
-        Amount: {{planAmount subscription.plan_id}}<br>
-        <a href="" class="subCancelBtn" data-toggle="modal" data-target="#confSubCancelModal">Cancel</a><br><br>
-      {{/each}}
-      {{> mdMyAccountCancelSubModal}}
-    {{else}}
-      You are currently not archiving your data.<br><br>
-      {{> mdCloudGoogleConnectAccountStart text='Get started'}}
-    {{/if}}
-  {{/if}}
-</template>
-
-<template name="mdMyAccountCancelSubModal">
-  <div class="modal fade" id="confSubCancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h5 class="modal-title" id="myModalLabel">Cancel Subscription</h5>
-        </div>
-        <div class="modal-body">
-          {{#with getSubscription}}
-            To cancel your subscription "{{planName plan_id}}", enter CANCEL in the box below and press confirm.
-            <input type="text" class="form-control" id="confText">
-          {{/with}}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="confBtn">Confirm</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <template name="mdMyAccountOrder">
   {{#if show status}}
     <tr>
