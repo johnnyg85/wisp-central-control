@@ -38,7 +38,6 @@ function cancel_subscription() {
       Session.set('cancel_subscription', false);
       Session.set('cancel_subscription_confirmation', false);
       $('#confText').val('');
-      get_subscriptions();
     });
   }
 }
