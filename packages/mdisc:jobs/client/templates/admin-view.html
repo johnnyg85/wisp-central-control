@@ -21,8 +21,12 @@
       <tr>
         <th>Job ID</th>
         <th>Type</th>
-        <th>Completed</th>
+        <th>Ready To Run</th>
+        <th>Updated</th>
+        <th>Attempts</th>
+        <th>Repeats</th>
         <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -30,8 +34,15 @@
         <tr>
           <td>{{_id}}</td>
           <td>{{type}}</td>
-          <td>{{progress.percent}}%</td>
-          <td>{{status}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{{progress.percent}}%<br>{{status}}</td>
+          <td>
+            <button class="btn btn-primary btn-xs"><i class="fa fa-refresh"></i></button>&nbsp;&nbsp;
+            <button class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>
+          </td>
         </tr>
       {{/each}}
     </tbody>
