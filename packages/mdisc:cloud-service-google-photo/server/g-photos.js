@@ -2,15 +2,23 @@ Future = Npm.require('fibers/future');
 
 gPhotos = (function () {
 
-  function gPhotos(serviceData) {
-    this.accessToken = serviceData.accessToken;
-    this.idToken = serviceData.idToken;
-    this.expiresAt = serviceData.expiresAt;
-    this.refreshToken = serviceData.refreshToken;
+  // user = Accounts.users.findOne()
+  function gPhotos(user) {
+    this._id = user._id;
+    
+    // do we have the oauth data?
+    if (!user.services) throw new Meteor.Error('user', "no services"); 
+    if (!user.services.google) throw new Meteor.Error('google', "no google credential"); 
+
+    // initialize
+    this.accessToken = user.services.google.accessToken;
+    this.refreshToken = user.services.google.refreshToken;
+    this.expiresAt = user.services.google.expiresAt;
+    this.idToken = user.services.google.idToken;
+    this.isTesting = false;
   };
 
   gPhotos.prototype.refreshAccessToken = function () {
-
 
     /*
     FROM: https://developers.google.com/oauthplayground
@@ -37,24 +45,61 @@ gPhotos = (function () {
       throw new Meteor.Error(code, 'Unable to exchange google refresh token..', e.response)
     }
     
+
     if (result.statusCode === 200) {
-      return result.data;
+      this.accessToken = result.data.access_token;
+      this.idToken = result.data.id_token;
+      this.expiresAt = Date.now() + (result.data.expires_in * 1000);
+      Accounts.users.update(
+        {'_id': this._id},
+        {$set: {
+          'services.google.accessToken': this.accessToken,
+          'services.google.idToken': this.idToken,
+          'services.google.expiresAt': this.expiresAt
+        }}
+      );
+      return true;
     } else {
       throw new Meteor.Error(result.statusCode, 'Unable to exchange google refresh token.', result);
     }
 
   };
 
-  gPhotos.prototype.updateAccessToken = function (json) {
-    /*
-    console.log(json);
-    if (json.accessToken) {
-      setAccessToken(json.accessToken);
-    }
-    */
-  };
-
   gPhotos.prototype.getFeed = function (url, callback) {
+    /* Check and refresh token if required */
+    var require_refresh = false;
+    var testing = false;
+    if (this.isTesting) testing = true; // save for end callback
+
+    if (this.expiresAt < Date.now()) {
+      // expired, needs refresh
+      require_refresh = true;
+    }
+
+    if (this.expiresAt > Date.now() && testing) {
+      // We are testing the connection, so do extended texting before running real result.
+      var myFuture = new Future();
+      this.__getAlbums(Meteor.bindEnvironment(function (err, res) {
+        if (err) {
+          if (res.content == 'Unknown user.') {
+            // We are connected, but the user doesn't have any albumns
+            myFuture.return("true");
+          } else {
+            myFuture.return("false");
+          }
+        } else {
+          myFuture.return("true");
+        }
+      }));
+      var result = myFuture.wait();
+      if (result === "true") {
+        require_refresh = false;
+      }
+    }
+    if (require_refresh) {
+      this.refreshAccessToken();
+    }
+    
     console.log(url);
     var options = {
       headers: {
@@ -75,7 +120,12 @@ gPhotos = (function () {
     HTTP.get(url, options, function (err, res) {
       //console.log(err);
       if (err) {
-        callback(err, res);
+        if (res.content == 'Unknown user.' && testing) {
+          // We are connected, but the user doesn't have any albumns
+          callback(null, null);
+        } else {
+          callback(err, res);
+        }
         return;
       }
       callback(err, res.data);
@@ -125,7 +175,7 @@ gPhotos = (function () {
     var _callback = callback;
 
     // First check if the account has standard recent photos
-    _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&v=2&max-results=5&feilds=entry/content/src', function (err, res) {
+    _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=photo&v=2&max-results=15&feilds=entry/content/src', function (err, res) {
       if (!err) {
         // We have normal recent photos
         _callback(err, res);
@@ -139,7 +189,7 @@ gPhotos = (function () {
           _callback(err, res);
           return;
         }
-        if (typeof res == 'string') {
+        if (typeof res == 'string' || !res.feed || !res.feed.entry || !res.feed.entry.length) {
           // didn't get the expected JSON object.
           console.log('Error in gPhotos.prototype.getAllAlbums: ' + res);
           _callback(true, res);
@@ -151,7 +201,7 @@ gPhotos = (function () {
             albumId = res.feed.entry[x].gphoto$id.$t;
           }
         }
-        _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?kind=photo&v=2&max-results=5&feilds=entry/content/src', _callback);
+        _this.getFeed('https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId + '?kind=photo&v=2&max-results=15&feilds=entry/content/src', _callback);
       });
     });
 
@@ -174,6 +224,41 @@ gPhotos = (function () {
 
   gPhotos.prototype.getQuota = function (callback) {
     this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?v=2&feilds=feed/gphoto:quotacurrent', callback);
+  };
+  
+  gPhotos.prototype.testAccess = function (callback) {
+    this.isTesting = true;
+    this.getFeed('https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&max-results=1&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)', callback);
+    this.isTesting = false;
+  };
+
+  /* This functions works without refreshing the token to ensure the access token is still valid */
+  gPhotos.prototype.__getAlbums = function (callback) {
+    var url = 'https://picasaweb.google.com/data/feed/api/user/default?kind=album&v=2&max-results=1&fields=openSearch:totalResults,entry(gphoto:id,gphoto:albumType,gphoto:numphotos,gphoto:name)';
+    var options = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'GData-Version': '2',
+        'Authorization': 'Bearer ' + this.accessToken     
+      }
+    };
+
+    if(url.lastIndexOf('alt=json') == -1) {
+      if(url.lastIndexOf('?') > -1) {
+        url += '&alt=json';
+      } else {
+        url += '?alt=json';
+      }
+    }    
+
+    HTTP.get(url, options, function (err, res) {
+      //console.log(err);
+      if (err) {
+        callback(err, res);
+        return;
+      }
+      callback(err, res.data);
+    });
   };
 
   return gPhotos;

@@ -18,11 +18,15 @@ Package.onUse(function(api) {
     'http',
     'templating',
     'iron:router',
+    'oauth',
     'google',
-    'meteorhacks:async',
+    'meteorhacks:async@1.0.0',
+    'wisptools:accordion-page',
     'wisptools:menu',
     'mdisc:busy',
-    'mdisc:archive'
+    'mdisc:archive',
+    'mdisc:aes',
+    'wisptools:growl'
   ]);  
 
   // Server only files
@@ -32,8 +36,22 @@ Package.onUse(function(api) {
 
   // Client only files
   api.addFiles([
-    'client/templates/authorize.html',
-    'client/templates/authorize.js',
+    'client/templates/connect.css',
+    'client/templates/connect.html',
+    'client/templates/connect.js',
+    'client/templates/connect-check-login.html',
+    'client/templates/connect-check-login.js',
+    'client/templates/no-photos.css',
+    'client/templates/no-photos.html',
+    'client/templates/show-photos.css',
+    'client/templates/show-photos.html',
+    'client/templates/show-photos.js',
+    'client/templates/finalize-order.html',
+    'client/templates/finalize-order.js',
+    'client/templates/finalize-order.css',
+    'client/templates/order-placed.html',
+    'client/templates/order-placed.js',
+    'client/google-photos.js',
     'client/menu.js'
     ], 'client');
 
@@ -43,6 +61,7 @@ Package.onUse(function(api) {
     ], ['server', 'client']);
   
   api.export('gPhotos', 'server');  
+  api.export('googlePhotos', 'client');
 });
 
 Package.onTest(function(api) {

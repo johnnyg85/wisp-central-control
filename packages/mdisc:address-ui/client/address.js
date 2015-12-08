@@ -1,5 +1,6 @@
 Template.mdAddress.helpers({
   shipTo: function () {
+    if (!Meteor.user() || !Meteor.user().profile || !Meteor.user().profile.shipTo) return {};
     return Meteor.user().profile.shipTo;    
   },
   selected: function (a, b) {

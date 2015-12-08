@@ -2,13 +2,12 @@
   <div class="bg-secondary app-page">
     <div class="container">
       <div class="row">
-        <div class="col-md-10"><h4>Hi, {{user.profile.firstname}}!</h4></div>
+        <div class="col-md-10"><h4>Hi, {{firstname}}!</h4></div>
         <div class="col-md-2"><button id="btSignOut" class="btn btn-default">Sign out</button></div>
       </div>
       <div class="row">
-        <div class="col-xs-12"><h5>Your Orders</h5><hr /></div>
+        <div class="col-xs-12"><h5>Your Archives</h5><hr /></div>
       </div>
-
       <div class="row">
         <div class="col-xs-12">
           <div class="table-responsive">
@@ -25,37 +24,40 @@
       <br />
       <div class="row">
         <div class="col-sm-5">
-          <h5>Account Information</h5><hr />
-          {{> mdMyAccountUserForm}}
+          <h5>Your Subscription</h5><hr />
+          {{> mdMyAccountYourSubscription}}
         </div>
         <div class="col-sm-7">
           <h5>Shipping Information</h5><hr />
           {{> mdMyAccountShippingForm}}
         </div>
       </div>
-
       <div class="row">
         <div class="col-xs-12">
           <h5>Data Permissions</h5><hr />
           {{> mdMyAccountDataPermissions}}
         </div>
       </div>
-
     </div>
   </div>
+  {{> mdTrack}}
 </template>
 
 <template name="mdMyAccountOrder">
   {{#if show status}}
     <tr>
       <td>{{dateFormat createdAt format="MM/DD/YY"}}</td>
-      <td>Order {{orderNumber}}</td>
+      <td>Archive: {{orderNumber}}</td>
       <td>{{archiveType}}</td>
-      <td>${{price}}</td>
-      <td>{{status}}</td>
+      {{#if isEqual status "Shipped"}}
+        <td><a href="#" value="{{trackingId}}" >{{filter status}}</a></td>
+      {{else}}
+        <td>{{filter status}}</td>
+      {{/if}}
     </tr>
   {{/if}}
 </template>
+
 
 <template name="mdMyAccountUserForm">
   {{#with userdet}}
@@ -88,7 +90,6 @@
             <strong>Warning!</strong> Password must contain one character and one number.
           </div>
         {{/if}}
-
         <div class="form-group">
           <label for="txtEmail" class="col-md-5 control-label">Email</label>   
           <div class="col-md-7">
@@ -124,10 +125,8 @@
           </div>
         </div>
       </form>
-
     {{/if}}
   {{/with}}
-
 </template>
 
 <template name="mdMyAccountShippingForm">
@@ -169,8 +168,77 @@
       {{#if isConnected}}
         <a href="https://security.google.com/settings/security/permissions" target="_blank">Revoke Permissions</a>
       {{else}}
-        <a href="#" id="connectNow">Connect Now</a>
+        <a href="#" id="connectNowGoogle">Connect Now</a>
       {{/if}}
     </div>
   </div>
 </template>
+
+<template name="mdTrack">
+  <div class="modal fade" id="mdTrack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="myModalLabel">Shipping Status</h5>
+        </div>
+        <div class="modal-body">
+          {{#if showspinner}}
+            <br />{{> spinner}}<br />
+          {{/if}}
+          {{#if trackerror}}
+            <div id="passmatch" class="alert alert-danger ">
+              <strong>Warning!</strong>{{tracking_code}} Tracking Code Not Found.
+            </div>
+          {{/if}}
+          {{#if trackdata}}
+            {{#with trackdata}}
+              <div class="track">
+                <table class="table">
+                  <tr>
+                    <td><strong>Carrier</strong></td>
+                    <td>{{carrier}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tracking Number</strong></td>
+                    <td>{{tracking_code}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Estimated Delivery</strong></td>
+                    <td>{{formatdeliverydate est_delivery_date}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Current Status</strong></td>
+                    <td>{{statusFormat status}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Last Update</strong></td>
+                    <td>{{formatlastupdate updated_at}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">Details</div>
+                <div class="panel-body">
+                  <table class="table table-striped">
+                    <tbody>
+                      {{#each tracking_details}}
+                        <tr>
+                          <td>{{message}}</td>
+                        </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            {{/with}} 
+          {{/if}} 
+        </div>
+        <div id="footer" class="modal-footer" >
+           <button type="button"  class=" btn btn-filled" data-dismiss="modal">Close</button>
+        </div>
+      </div> 
+    </div> 
+  </div>
+</template>
+

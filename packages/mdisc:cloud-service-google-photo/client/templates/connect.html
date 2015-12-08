@@ -1,0 +1,31 @@
+<template name="mdCloudGoogleConnectAccount">
+  <div class="bg-secondary app-page">
+    <div class="container" style="min-height: 600px; padding-top: 60px;">
+      <div class="row">
+        <div class="col-sm-offset-2 col-sm-8">
+          <center>
+            {{#unless showAuthenticating}}
+              <h4>Welcome. Take the first step to preserve your memories — forever.</h4>
+              <div style="margin: 40px 0; text-align: left;">
+                First things first, we need to securely connect to your photos. Using your Google account credentials, login to give M-Disc permission to access your photos. Know that your privacy and data security is our top priority.
+              </div>
+              <button type="button" id="authorizeGooglePhotoAccount" class="btn btn-filled">
+                Connect to Google Photos <i class="fa fa-angle-double-right"></i>
+              </button>
+            {{/unless}}
+            {{#if showAuthenticating}}
+              <h4>Authenticating with Google Photos...</h4>
+              <div style="height: 175px;">{{> spinner}}</div>
+            {{/if}}
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="mdCloudGoogleConnectAccountStart">
+  <button type="button" id="startGooglePhoto" class="btn {{#if blue}}bluebtn{{/if}} btn-filled" disabled="{{disabled}}">
+      {{text}} <i class="fa fa-angle-double-right"></i>
+  </button>
+</template>

@@ -32,6 +32,10 @@ Package.onUse(function(api) {
     'lib/jobs.js',
     'lib/router.js'
     ], ['server','client']);
+
+  api.addFiles([
+    'server/methods.js'
+    ], ['server']);
   
   api.export('Jobs');
   api.export('JobCollection');

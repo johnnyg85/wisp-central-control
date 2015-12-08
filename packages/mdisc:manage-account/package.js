@@ -21,22 +21,28 @@ Package.onUse(function(api) {
     'mdisc:accounts',
     'mdisc:address-ui',
     'wisptools:growl',
-    'google'
+    'mdisc:cloud-service-google-photo',
+    'mdisc:cloud-services',
+    'mdisc:easypost',
+    'wisptools:date-format',
+    'mdisc:archive',
+    'mdisc:chargebee'
   ]);
   
   api.addFiles([
-    
     'client/templates/my-account.css',
     'client/templates/my-account.html',
-    'client/templates/my-account.js'
-    
-  ], 'client'),
-  api.addFiles([
-    'server/publication.js'    
-  ],'server'),  
+    'client/templates/my-account.js',
+    'client/templates/subscription.html',
+    'client/templates/subscription.js',
+    'client/templates/cancel.html',
+    'client/templates/cancel.js'
+    ], 'client');
+
   api.addFiles([
     'lib/router.js'
-  ], ['client', 'server']);
+    ], ['client', 'server']);
+
 });
 
 Package.onTest(function(api) {

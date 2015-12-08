@@ -1,28 +1,88 @@
-
+Template.mdMyAccount.onRendered(function() {
+  Session.set('isCloudConnecting', false);
+  Meteor.call('getFirstname', function(err, res) {
+    if (!err) Session.set('firstname', res);
+  });
+});
 
 Template.mdMyAccount.helpers({
   orders: function() {
     return MdArchive.collection.find().fetch();
   },
-  user: function() {
-    return Meteor.user();
+  firstname: function() {
+    return Session.get('firstname');
   },
+  showTrack: function() {
+    if(Session.get('showTrack'))
+      return true;
+    else
+      return false;
+  }
 });
 
 Template.mdMyAccount.events({
   'click #btSignOut':function(event){
-     event.preventDefault();
-     Meteor.logout();
+      event.preventDefault();
+      Meteor.logout(function (e) {
+        Router.go('home');
+      });
   }
 });
 
 Template.mdMyAccountOrder.helpers({
-  show: function(status) {
+  show: function(status) { 
     if (status == 'Open') {
       return false;
     } else {
       return true;
     }
+  },
+  shipStatus: function(status) {
+    var stats=MdArchive.collection.find().fetch();
+      if(stats[0].status=="Shipped") {
+        console.log(stats[0].status);
+        return true;
+      } else {
+       return false
+      } 
+  },
+  isEqual: function(status,checkstat){
+    if(status==checkstat)
+      return true;
+    else
+      return false;
+  },
+  filter: function(status) {
+    if (status == 'Ordered' || status == 'Shipped') return status;
+    return "Processing";
+  }
+});
+
+Template.mdMyAccountOrder.events({
+  'click a': function(e,t){
+     Session.set('Spinner',true);
+     Session.set('track',false);
+     Session.set('showTrack',true);
+     Session.set('trackerr',false);
+     trackCode = $(e.target).attr("value");
+     Meteor.call('mdEasypostTrackShipment',trackCode,function(err,response)
+       {
+        if(response) {
+           Session.set('Spinner',false);
+           Session.set('trackerr',false);
+           Session.set('track',response);
+         }
+         else
+         {
+           Session.set('Spinner',false);
+           Session.set('trackerr',true);
+         }
+                
+       });
+   
+    
+     $('#mdTrack').modal('show');
+     
   }
 });
 
@@ -65,7 +125,14 @@ Template.mdMyAccountShippingForm.events({
       else
         WtGrowl.success("Shipping Information updated");
     });
-
+    // Update subscription shipping address
+    var subscription = MdArchive.subscription.findOne({});
+    if (subscription) {
+      MdArchive.subscription.update({_id: subscription._id}, {$set:{shipTo: shipTo}}, function (err, res) {
+        if (err)
+          WtGrowl.fail("Could not update Shipping Information on Subscription");
+      });
+    }
     // Update the first name
     var name = shipTo.name.trim();
     if (name.indexOf(' ') > 0)
@@ -86,9 +153,7 @@ Template.mdMyAccountUserForm.rendered=function()
 Template.mdMyAccountUserForm.helpers({
   userdet:function()
   {
-    Meteor.subscribe('userlog',Meteor.userId());
-    var data = Meteor.users.findOne({_id: Meteor.userId()});
-    return data;
+    // TODO: make method call and set session var to tell how account logs in.
   },
   showcurrerror:function()
   {    
@@ -152,34 +217,22 @@ Template.mdMyAccountUserForm.events({
   }
 });
 
+Template.mdMyAccountDataPermissions.onRendered(function() {
+  Session.set('googleChecking', true);
+  Meteor.call('mdCloudServiceIsConnected', 'Google Photos', function (err, res) {
+    if (!err) {
+      Session.set('googleConnected', true);
+    } else {
+      Session.set('googleConnected', false);
+    }
+    Session.set('googleChecking', false);
+  });
+});
+
 Template.mdMyAccountDataPermissions.helpers({
   isConnected: function() {
-    var credential = MdCloudServices.credentials.findOne();
-    if (credential) {
-      if (credential.credential.serviceData.expiresAt <= Date.now()) {
-        if (Session.get('googleTokenRefreshStatus') != 'Started') {
-          Session.set('googleTokenRefreshRequired', true);
-        }
-      } else {
-        if (Session.get('googleTokenRefreshRequired') || Session.get('googleTokenRefreshStatus') == 'Started') {
-          Session.set('googleTokenRefreshResult', false);
-        } else {
-          Session.set('googleTokenRefreshResult', true);
-        }
-      }
-      if (Session.get('googleTokenRefreshRequired')) {
-        Session.set('googleTokenRefreshStatus', 'Started');
-        Session.set('googleTokenRefreshRequired', false);
-        Meteor.call('refreshCredential', 'Google Photos', function (err, res) {
-          Session.set('googleTokenRefreshStatus', 'Completed');
-          if(res) {
-            Session.set('googleTokenRefreshResult', true);
-          } else {
-            Session.set('googleTokenRefreshResult', false);
-          }
-        });
-      }
-      return Session.get('googleTokenRefreshResult');
+    if (Session.get('googleConnected')===true) {
+      return true;
     } else {
       return false;
     }
@@ -187,17 +240,50 @@ Template.mdMyAccountDataPermissions.helpers({
 });
 
 Template.mdMyAccountDataPermissions.events({
-  'click #connectNow': function (e) {
+  'click #connectNowGoogle': function (e) {
     e.preventDefault();
-    
-    Google.requestCredential({
-      requestPermissions: ['https://picasaweb.google.com/data/'],
-      requestOfflineToken: 'true'
-    }, function (credentialToken) {
-      var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken);
-      if (credentialToken && credentialSecret) {
-        Meteor.call('addCredential', 'Google Photos', credentialToken, credentialSecret);
-      }
-    });
+    var url = Router.url('mdMyAccount');
+    MdCloudServices.askCredential('Google Photos', url);
   }
 });
+
+
+
+Template.mdTrack.rendered=function(){
+  Session.set('trackerr',false);
+  Session.set('track',false);
+  Session.set('Spinner',true);
+};
+
+Template.mdTrack.helpers({
+  trackerror: function() {
+    return Session.get('trackerr');
+  },
+  trackdata: function() {
+    trackdata = Session.get('track');
+    return trackdata;
+  },
+  showspinner: function() {
+    if(Session.get('Spinner')) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  },
+  statusFormat: function(status){
+    if(status=="in_transit")
+      return "Dispatched";
+    else
+      return status;
+  },
+  formatdeliverydate: function(est_delivery_date) {
+    var deliverydate = WtDateFormat(est_delivery_date, "shortDate");
+    return deliverydate;
+  },
+  formatlastupdate: function(updated_at) {
+    var lastupdate = WtDateFormat(updated_at, "shortDate");
+    return lastupdate;
+  }
+});
+

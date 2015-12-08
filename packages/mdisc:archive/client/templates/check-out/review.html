@@ -1,0 +1,43 @@
+<template name="mdArchiveReview">
+  <div class='order-sub-page'>
+    <div class='row'>
+      <div class='col-sm-5'>
+        <h4>ORDER INFO</h4>
+        {{#if isAnnual subscription.subscriptionPlan}}
+          <table class="table">
+            <tr><td>Annual MDISC subscription</td><td>$99</td></tr>
+            <tr><td>Setup</td><td><s>$25</s></td></tr>
+            <tr><td>Shipping</td><td>Free</td></tr>
+            <tr><td colspan="2"><hr /></td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>$99</strong></td></tr>
+          </table>
+        {{/if}}        
+        {{#if isMonthly subscription.subscriptionPlan}}
+          <table class="table">
+            <tr><td>Monthly MDISC subscription</td><td>$9</td></tr>
+            <tr><td>Setup</td><td>$25</td></tr>
+            <tr><td>Shipping</td><td>Free</td></tr>
+            <tr><td colspan="2"><hr /></td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>$34</strong></td></tr>
+          </table>
+        {{/if}}        
+      </div>
+      <div class='col-sm-offset-2 col-sm-5'>
+        <h5>SHIPPING</h5>
+        <p>
+          {{subscription.shipTo.address}}<br />
+          {{subscription.shipTo.city}}, {{subscription.shipTo.state}} {{subscription.shipTo.zip}} <br />
+        </p>
+        <h5>BILLING</h5>
+        <p>
+          Card ending in {{subscription.payment.last}} <br />
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4">
+        <button class="btn btn-filled btn-block submit-order-btn">Submit Order <i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </div>   
+  </div>
+</template>

@@ -11,7 +11,7 @@
             <div class="col-md-6">
               <h3 class="text-white">Hold onto your digital memories forever.</h3>
               <h5 class="text-white">This is where a sub-headline goes something something blah.</h5>
-              <div class='btn-clear'>{{> mdCloudGoogleAuthorizeNavButton text='Get started'}}</div>
+              <div class='btn-clear'>{{> mdCloudGoogleConnectAccountStart text='Get started'}}</div>
             </div>
             <div class="col-md-6">
               <video id="main_video" class="video-js vjs-default-skin" controls preload="auto" data-setup='{ "asdf": true }' poster="/img/mdisc-large.jpg" >
@@ -62,11 +62,13 @@
               <h5 class="text-white">
                 At mydisc's score is a stone-like, carbon compound that lasts for 1,000 years. Your memories and prcious data are literally engraved in stone.
               </h5>
-              <div class='btn-clear'>{{> mdCloudGoogleAuthorizeNavButton text='Archive my memories'}}</div>
+              <div class='btn-clear'>{{> mdCloudGoogleConnectAccountStart text='Archive my memories'}}</div>
             </div>
           </div>
         </div>
-        <img alt="Macbook" class="pull-right" src="img/stone_texture.jpg">
+        <div class="background-image-holder">
+          <img alt="Macbook" class="pull-right" src="img/stone_texture.jpg">
+        </div>
       </section>
       
       <span id="testimonials"></span>
@@ -93,57 +95,61 @@
       </section>
       
       <span id="pricing"></span>
-      <section class="pricing pricing-5">
+
+      <section class="pricing pricing-2">
+    
+        <div class="background-image-holder">
+          <img alt="Background Image" class="background-image" src="img/pexels-photo.jpg">
+        </div>
+    
         <div class="container">
-          <div class="row v-align-children">
-            <div class="col-md-4 text-center">
-              <div class="pricing-option">
-              <h6>One Price</h6>
-              <div class="price-container">
-                <span class="dollar">$</span>
-                <span class="price">29</span>
-                <span class="terms"> </span>
-              </div>
-              <h5>up to 40GB archive</h5>
-              {{> mdCloudGoogleAuthorizeNavButton text='Archive now'}}
-              </div>
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <h3 class="text-white">Two simple plans — no fuss.</h3>
             </div>
-            
-            <div class="col-md-8">
-              <div class="feature">
-                <i class="icon-file-psd"></i>
-                <div class="inner">
-                  <h6>Feature #1</h6>
-                  <p>This is where more information about this feature will go. Or something.</p>
+          </div>
+        
+          <div class="row">
+            <a href="{{pathFor 'mdCloudGoogleConnectAccount'}}">
+              <div class="col-md-4 col-sm-6 col-md-offset-2 pricing-option text-center">
+                <h6>ANNUAL</h6>
+                <div class="price-container">
+                  <span class="dollar">$</span>
+                  <span class="price">99</span>
+                  <span class="terms">/yr</span>
                 </div>
+                <h5>Peace of mind for the whole year</h5>
+                <ul>
+                  <li>Complete archive + monthly updates</li>
+                  <li>No initial setup fee </li>
+                  <li> </li>
+                </ul>
               </div>
-            
-              <div class="feature">
-                <i class="icon-browser-full"></i>
-                <div class="inner">
-                  <h6>Feature #2</h6>
-                  <p>This is where more information about this feature will go. Or something.</p>
+            </a>
+
+            <a href="{{pathFor 'mdCloudGoogleConnectAccount'}}">
+              <div class="col-md-4 col-sm-6 pricing-option text-center active">
+                <h6>MONTHLY</h6>
+                <div class="price-container">
+                  <span class="dollar">$</span>
+                  <span class="price">9</span>
+                  <span class="terms">/mo</span>
                 </div>
+                <h5>Flexible, pay-as-you-go</h5>
+                <ul>
+                  <li>Includes $25 one-time setup fee</li>
+                  <li>Complete archive + month-to-month updates</li>
+                  <li> </li>
+                </ul>
               </div>
-            
-              <div class="feature">
-                <i class="icon-graph"></i>
-                <div class="inner">
-                  <h6>Feature #3</h6>
-                  <p>This is where more information about this feature will go. Or something.</p>
-                </div>
-              </div>
-            
-              <div class="feature">
-                <i class="icon-imac"></i>
-                <div class="inner">
-                  <h6>Feature #4</h6>
-                  <p>This is where more information about this feature will go. Or something.</p>
-                </div>
-              </div>
+            </a>
+          </div>
+        
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <div class='btn-clear'>{{> mdCloudGoogleConnectAccountStart text='Archive now'}}</div>
             </div>
           </div>
         </div>
-      </section>
-      
+      </section>      
 </template>

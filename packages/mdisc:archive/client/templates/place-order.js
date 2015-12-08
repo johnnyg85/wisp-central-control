@@ -47,7 +47,8 @@ Template.mdArchiveAddress.events({
       if (name.indexOf(' ') > 0)
         name = name.slice(0, name.indexOf(' '));
 
-      MdArchive.collection.update({_id: archiveId}, {$set: {archiveName: name + "'s Photos"}});
+      name = mdArchiveName(name);
+      MdArchive.collection.update({_id: archiveId}, {$set: {archiveName: name}});
 
     }
   },

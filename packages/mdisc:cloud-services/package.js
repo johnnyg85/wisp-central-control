@@ -16,31 +16,27 @@ Package.onUse(function(api) {
   api.use([
     'meteor',
     'templating',
-    'oauth',
+    'meteorhacks:async@1.0.0',
     'mdisc:cloud-service-google-photo',
     'mdisc:cloud-service-dropbox',
     'wisptools:collection',
-    'meteorhacks:async',
-    'mdisc:archive'
+    'wisptools:roles',
+    'mdisc:archive',
+    'mdisc:aes'
   ]);  
 
   api.addFiles([
-    'lib/collections.js'
-    ], ['server','client']);
-
-  api.addFiles([
-    'client/templates/show-few-photos.html',
-    'client/templates/show-few-photos.js'
+    'client/templates/connecting-menu.css',
+    'client/templates/connecting-menu.html',
+    'client/templates/connecting-menu.js',
+    'client/cloud-services.js'
     ], ['client']);
 
-
   api.addFiles([
-    'server/methods.js',
-    'server/functions.js'
+    'server/methods.js'
     ], ['server']);
 
-  api.export('MdCloudServices');
-  api.export('OAuth');
+  api.export('MdCloudServices', 'client');
 });
 
 Package.onTest(function(api) {
