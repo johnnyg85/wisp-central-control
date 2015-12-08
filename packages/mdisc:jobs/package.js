@@ -19,7 +19,8 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'wisptools:collection',
     'wisptools:roles',
-    'vsivsi:job-collection@1.2.3'
+    'vsivsi:job-collection@1.2.3',
+    'reactive-var'
   ]);    
 
   api.addFiles([
