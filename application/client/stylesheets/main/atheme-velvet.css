@@ -151,7 +151,7 @@ section .container {
   position: relative;
   z-index: 2;
 }
-section span {
+section #how,#testimonials,#tech,#pricing {
   position:absolute; 
   top:-80px;
 }
