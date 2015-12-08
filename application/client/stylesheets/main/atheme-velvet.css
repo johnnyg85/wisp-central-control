@@ -151,6 +151,10 @@ section .container {
   position: relative;
   z-index: 2;
 }
+section span {
+  position:absolute; 
+  top:-80px;
+}
 @media all and (max-width: 767px) {
   section {
     padding: 40px 0;
