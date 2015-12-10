@@ -12,11 +12,13 @@
         <table class="table">
           <tr>
             <td>Started: </td><td>{{formatDate subscription.created_at}}</td>
-            <td><a href="" class="subCancelBtn" data-toggle="modal" data-target="#confSubCancelModal">Cancel</a></td>
+            <td><a href="" class="subCancelBtn" data-toggle="modal" data-target="#confSubCancelModal" style="color:#444;">Cancel</a></td>
           </tr>
           <tr><td>Type: </td><td>{{planName subscription.plan_id}}</td></tr>
           <tr><td>Amount: </td><td>{{planAmount subscription.plan_id}}</td></tr>
-          <tr><td>Card ending in: </td><td>{{card.last4}} (<a href="" data-toggle="modal" data-target="#changeCardModal">Update Card</a>)</td></tr>
+          <tr>
+            <td>Payment: </td><td>****{{card.last4}}</td>
+            <td><a href="" data-toggle="modal" data-target="#changeCardModal" style="color:#444;">Update</a></td></tr>
         </table>
       {{/each}}
       {{> mdMyAccountCancelSubModal}}
