@@ -8,32 +8,9 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          {{> mdJobsWorkingAll}}
+          {{> mdJobsJobTable}}
         </div>
       </div>
     </div>
   </div>
-</template>
-
-<template name="mdJobsWorkingAll">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Job ID</th>
-        <th>Type</th>
-        <th>Completed</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each jobs}}
-        <tr>
-          <td>{{_id}}</td>
-          <td>{{type}}</td>
-          <td>{{progress.percent}}%</td>
-          <td>{{status}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
 </template>

@@ -19,12 +19,16 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'wisptools:collection',
     'wisptools:roles',
-    'vsivsi:job-collection@1.2.3'
+    'vsivsi:job-collection@1.2.3',
+    'reactive-var',
+    'wisptools:growl'
   ]);    
 
   api.addFiles([
     'client/templates/admin-view.html',
     'client/templates/admin-view.js',
+    'client/templates/job-table.html',
+    'client/templates/job-table.js',
     'client/menu.js',
     ], ['client']);
 
