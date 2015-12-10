@@ -26,7 +26,8 @@ Package.onUse(function(api) {
     'mdisc:easypost',
     'wisptools:date-format',
     'mdisc:archive',
-    'mdisc:chargebee'
+    'mdisc:chargebee',
+    'mdisc:dates'
   ]);
   
   api.addFiles([
@@ -36,7 +37,9 @@ Package.onUse(function(api) {
     'client/templates/subscription.html',
     'client/templates/subscription.js',
     'client/templates/cancel.html',
-    'client/templates/cancel.js'
+    'client/templates/cancel.js',
+    'client/templates/change-card.html',
+    'client/templates/change-card.js'
     ], 'client');
 
   api.addFiles([
