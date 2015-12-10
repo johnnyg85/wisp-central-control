@@ -1,4 +1,4 @@
-Template.mdArchivePayment.helpers({
+Template.mdMyAccountChangeCardModal.helpers({
   getMonths: function() {
     return MdDates.getMonths();
   },
@@ -7,41 +7,26 @@ Template.mdArchivePayment.helpers({
   },
   defaultDisplayYear: function(year) {
     return MdDates.nextYear()===year;
-  },
-  selected: function (plan) {
-    var subscription = MdArchive.subscription.findOne({owner: Meteor.userId()});
-    selectedPlan = subscription && subscription.subscriptionPlan;
-    if (plan == selectedPlan) return true;
-    return false;
-  }  
+  }
 });
 
-Template.mdArchivePayment.events({
-  'submit': function(e, t) {
+Template.mdMyAccountChangeCardModal.events({
+  'click #updateBtn': function (e) {
     e.preventDefault();
     e.stopPropagation();
-    var subBtn = $(e.target).find('button');
-    subBtn.prop('disabled', true);
-
+    var updateBtn = $('#updateBtn');
+    updateBtn.prop('disabled', true);
+    
     var subscription = MdArchive.subscription.findOne({owner: Meteor.userId()});
-    var formData = {};
-    var payment;
-
-    // Build object of form data
-    for (var x = 0; x < e.target.length; x++) {
-      if (e.target[x].name) {
-        formData[e.target[x].name] = e.target[x].value;
-      }
-    }
-
+    
     payment = {
-      last: formData.cardnumber.substr(formData.cardnumber.length - 4),
-      card: formData.cardnumber,
-      cvc: formData.cvc,
-      expYear: formData.expYear,
-      expMonth: formData.expMonth
+      last: $('#cardnumber').val().substr($('#cardnumber').val().length - 4),
+      card: $('#cardnumber').val(),
+      cvc: $('#cvc').val(),
+      expYear: $('#expYear').val(),
+      expMonth: $('#expMonth').val()
     };
-
+    
     Meteor.call('mdEncrypt', payment.card, function (e, r) {
       if (e) {
         WtGrowl.fail("Failed saving payment info.");
@@ -67,7 +52,7 @@ Template.mdArchivePayment.events({
             }
             payment.expMonth = r;
             MdArchive.subscription.update({_id: subscription._id}, {$set: {payment: payment}});
-            
+
             var cbCustomer = MdChargeBee.customers.findOne({owner: Meteor.userId()});
             var cardDetails = {
               number: payment.card,
@@ -76,16 +61,16 @@ Template.mdArchivePayment.events({
               cvv: payment.cvc
             };
             Meteor.call('mdChargeBeeUpdateCardInfo', cbCustomer.customerId, cardDetails, function (err, res) {
-              subBtn.prop('disabled', false);
+              updateBtn.prop('disabled', false);
+              $('#changeCardModal').modal('hide');
               if (err) {
-                WtGrowl.fail("Card Failed");
+                WtGrowl.fail("Failed to update card.");
                 console.log(err.reason);
               } else {
-                WtAccordionPage.enable('arch_review');
-                WtAccordionPage.show('arch_review');
+                WtGrowl.success('Card updated.');
               }
             });
-            
+
           });
         });
       });

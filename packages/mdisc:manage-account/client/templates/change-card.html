@@ -1,0 +1,56 @@
+<template name="mdMyAccountChangeCardModal">
+  <div class="modal fade" id="changeCardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="myModalLabel">Change Card</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <form action="" method="POST" id="update-card-form" class="form-horizontal col-md-11 col-sm-10 col-xs-12">
+              <div class="alert alert-danger payment-errors" role="alert" style="display: none;"></div>
+              <div class="form-group">
+                <label for="cardnumber" class="col-sm-3 control-label">Card Number</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="cardnumber" name="cardnumber" placeholder="Card Number" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cvc" class="col-sm-3 control-label">CVC</label>
+                <div class="col-sm-3 col-xs-6">
+                  <input type="text" class="form-control" id="cvc" name="cvc" placeholder="CVC" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="expiration" class="col-sm-3 control-label">Expiration</label>
+                <div class="col-sm-9">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <select class="form-control" id="expMonth" name="expMonth">
+                        {{#each getMonths}}
+                        <option value="{{val}}">{{name}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                    <div class="col-xs-6">
+                      <select class="form-control" id="expYear" name="expYear">
+                        {{#each getYears}}
+                        <option value="{{year}}" selected="{{#if defaultDisplayYear year}}selected{{/if}}">{{year}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="updateBtn">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
