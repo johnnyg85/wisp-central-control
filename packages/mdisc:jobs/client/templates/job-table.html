@@ -22,6 +22,7 @@
 
 <template name="mdJobsJobEntry">
   <tr>
+    {{#with doc}}
     <td>{{_id}}</td>
     <td>{{type}}</td>
     <td>{{relativeTime after}}</td>
@@ -59,5 +60,6 @@
         <button class="btn btn-danger btn-xs removeBtn" data-toggle="tooltip" title="Remove"><i class="fa fa-remove"></i></button>
       {{/if}}
     </td>
+    {{/with}}
   </tr>
 </template>

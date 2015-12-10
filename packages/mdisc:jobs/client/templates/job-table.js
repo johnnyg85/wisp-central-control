@@ -8,7 +8,7 @@ var indexOf = [].indexOf || function (item) {
 
 Template.mdJobsJobTable.helpers({
   jobs: function () {
-    return MdJobs.jc.find({status: {$ne:'completed'}}).fetch();
+    return MdJobs.jc.find({}, {sort: {after: -1}});
   }
 });
 
@@ -41,75 +41,93 @@ Template.mdJobsJobEntry.helpers({
 
 Template.mdJobsJobEntry.events({
   'click .pauseBtn': function () {
-    MdJobs.jc.getJob(this._id, function (err, res) {
-      if (res) {
-        res.pause(function (e, r) {
+    job = Template.currentData();
+    if (job) {
+      job.pause(function (e, r) {
+        if (r) {
           WtGrowl.success('Job has been paused.');
-        });
-      } else {
-        console.log(err);
-        WtGrowl.fail('An error has occurred.');
-      }
-    })
+        } else {
+          console.log(e);
+          WtGrowl.fail('An error has occurred.');
+        }
+      });
+    } else {
+      WtGrowl.fail('An error has occurred.');
+    }
   },
   'click .resumeBtn': function () {
-    MdJobs.jc.getJob(this._id, function (err, res) {
-      if (res) {
-        res.resume(function (e, r) {
+    job = Template.currentData();
+    if (job) {
+      job.resume(function (e, r) {
+        if (r) {
           WtGrowl.success('Job has been resumed.');
-        });
-      } else {
-        console.log(err);
-        WtGrowl.fail('An error has occurred.');
-      }
-    })
+        } else {
+          console.log(e);
+          WtGrowl.fail('An error has occurred.');
+        }
+      });
+    } else {
+      WtGrowl.fail('An error has occurred.');
+    }
   },
   'click .restartBtn': function () {
-    MdJobs.jc.getJob(this._id, function (err, res) {
-      if (res) {
-        res.restart(function (e, r) {
+    job = Template.currentData();
+    if (job) {
+      job.restart(function (e, r) {
+        if (r) {
           WtGrowl.success('Job has been restarted.');
-        });
-      } else {
-        console.log(err);
-        WtGrowl.fail('An error has occurred.');
-      }
-    })
+        } else {
+          console.log(e);
+          WtGrowl.fail('An error has occurred.');
+        }
+      });
+    } else {
+      WtGrowl.fail('An error has occurred.');
+    }
   },
   'click .rerunBtn': function () {
-    MdJobs.jc.getJob(this._id, function (err, res) {
-      if (res) {
-        res.rerun(function (e, r) {
+    job = Template.currentData();
+    if (job) {
+      job.rerun(function (e, r) {
+        if (r) {
           WtGrowl.success('Job has been rerun.');
-        });
-      } else {
-        console.log(err);
-        WtGrowl.fail('An error has occurred.');
-      }
-    })
+        } else {
+          console.log(e);
+          WtGrowl.fail('An error has occurred.');
+        }
+      });
+    } else {
+      WtGrowl.fail('An error has occurred.');
+    }
   },
   'click .cancelBtn': function () {
-    MdJobs.jc.getJob(this._id, function (err, res) {
-      if (res) {
-        res.cancel(function (e, r) {
+    job = Template.currentData();
+    if (job) {
+      job.cancel(function (e, r) {
+        if (r) {
           WtGrowl.success('Job has been canceled.');
-        });
-      } else {
-        console.log(err);
-        WtGrowl.fail('An error has occurred.');
-      }
-    })
+        } else {
+          console.log(e);
+          WtGrowl.fail('An error has occurred.');
+        }
+      });
+    } else {
+      WtGrowl.fail('An error has occurred.');
+    }
   },
   'click .removeBtn': function () {
-    MdJobs.jc.getJob(this._id, function (err, res) {
-      if (res) {
-        res.remove(function (e, r) {
+    job = Template.currentData();
+    if (job) {
+      job.remove(function (e, r) {
+        if (r) {
           WtGrowl.success('Job has been removed.');
-        });
-      } else {
-        console.log(err);
-        WtGrowl.fail('An error has occurred.');
-      }
-    })
+        } else {
+          console.log(e);
+          WtGrowl.fail('An error has occurred.');
+        }
+      });
+    } else {
+      WtGrowl.fail('An error has occurred.');
+    }
   }
 });
