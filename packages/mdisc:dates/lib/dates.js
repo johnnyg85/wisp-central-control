@@ -25,3 +25,8 @@ MdDates.getYears = function () {
     }
     return years;
 };
+
+MdDates.nextYear = function () {
+  var d = new Date();
+  return d.getFullYear()+1;
+};

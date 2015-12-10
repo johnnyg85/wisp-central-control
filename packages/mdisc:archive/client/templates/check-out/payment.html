@@ -28,7 +28,7 @@
             <div class="col-xs-6">
               <select class="form-control" id="expYear" name="expYear">
                 {{#each getYears}}
-                  <option value="{{year}}">{{year}}</option>
+                  <option value="{{year}}" selected="{{#if defaultDisplayYear year}}selected{{/if}}">{{year}}</option>
                 {{/each}}
               </select>
             </div>
